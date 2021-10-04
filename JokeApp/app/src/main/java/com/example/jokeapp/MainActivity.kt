@@ -9,19 +9,22 @@ import android.widget.Toast
 class MainActivity : AppCompatActivity() {
     lateinit var myJokeBook : JokeBook
 
+    lateinit var myButton: Button
+    lateinit var jokeText: TextView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         myJokeBook = JokeBook()
-        val myButton : Button = findViewById(R.id.nextjoke_button)
+        myButton = findViewById(R.id.nextjoke_button)
+        jokeText = findViewById(R.id.joke_textview)
+
         myButton.setOnClickListener{
             changeJoke()
         }
     }
 
     private fun changeJoke() {
-        val jokeText: TextView = findViewById(R.id.joke_textview)
         jokeText.text = myJokeBook.getRandomJoke()
     }
 
