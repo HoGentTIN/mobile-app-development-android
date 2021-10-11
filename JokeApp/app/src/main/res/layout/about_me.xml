@@ -13,17 +13,19 @@
         android:layout_marginTop="16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/avatar"
         tools:ignore="ImageContrastCheck"
-        tools:srcCompat="@drawable/avatar"
-        app:srcCompat="@drawable/avatar"/>
+        tools:srcCompat="@drawable/avatar" />
 
     <TextView
         android:id="@+id/name_textView"
         style="@style/joke_text"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
         android:text="@string/your_name"
+        app:layout_constraintHorizontal_weight="2"
         app:layout_constraintStart_toEndOf="@+id/profilepicture_imageview"
         app:layout_constraintTop_toTopOf="@+id/profilepicture_imageview" />
 
@@ -49,4 +51,5 @@
             android:textSize="14sp" />
 
     </ScrollView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
