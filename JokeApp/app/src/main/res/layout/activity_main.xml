@@ -10,44 +10,68 @@
             type="com.example.jokeapp.JokeBook" />
     </data>
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:context=".MainActivity"
-        android:layout_gravity="center_vertical"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
+
 
         <ImageView
             android:id="@+id/happy_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+            android:contentDescription="@string/smiley_that_indicates_a_funny_joke"
+            app:layout_constraintBottom_toTopOf="@+id/joke_textview"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed"
             app:srcCompat="@drawable/empty_vector"
-            tools:src="@drawable/ic_iconmonstr_smiley_1"
-            android:contentDescription="@string/smiley_that_indicates_a_funny_joke" />
+            />
 
         <TextView
             android:id="@+id/joke_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=""
             android:layout_gravity="center_horizontal"
-            tools:text="@{jokes.currentJoke}"
+            android:text="@{jokes.currentJoke}"
+            android:textColorHint="@color/teal_200"
             android:textSize="20sp"
-            />
+            app:layout_constraintBottom_toTopOf="@+id/nextjoke_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/happy_image"
+            tools:text="Here comes a joke" />
+
         <Button
             android:id="@+id/nextjoke_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:text="@string/next_joke"
-            android:layout_gravity="center_horizontal"/>
+            app:layout_constraintBottom_toTopOf="@+id/happy_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/joke_textview" />
+
         <Button
             android:id="@+id/happy_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:text="@string/good_one"
-            android:layout_gravity="center_horizontal"/>
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/nextjoke_button" />
 
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
 
 </layout>
