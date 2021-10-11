@@ -2,11 +2,6 @@ package com.example.jokeapp
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import com.example.jokeapp.databinding.ActivityMainBinding
 import kotlin.random.Random
@@ -34,9 +29,9 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    //set clicklistener for each element in the list
+    //set click listener for each element in the list
     private fun setOnClickListeners() {
-        var clickableElements = listOf(
+        val clickableElements = listOf(
             binding.happyButton,
             binding.nextjokeButton
         )
