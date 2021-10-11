@@ -12,7 +12,9 @@ import com.example.jokeapp.databinding.ActivityMainBinding
 import kotlin.random.Random
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var myJokeBook : JokeBook
+    //private lateinit var myJokeBook : JokeBook
+
+    private val myJokeBook = JokeBook("")
 
     /*private lateinit var myButton: Button
     private lateinit var happyButton: Button
@@ -26,7 +28,7 @@ class MainActivity : AppCompatActivity() {
         //setContentView(R.layout.activity_main)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
-        myJokeBook = JokeBook()
+        binding.jokes = myJokeBook
 
         setOnClickListeners()
 
@@ -57,7 +59,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun changeJoke() {
-        binding.jokeTextview.text = myJokeBook.getRandomJoke()
+        //binding.jokeTextview.text = myJokeBook.getRandomJoke()
+        myJokeBook.changeCurrentJoke()
+        binding.invalidateAll() //important! this binds the new data.
     }
 
 }

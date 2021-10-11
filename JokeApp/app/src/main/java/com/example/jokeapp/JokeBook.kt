@@ -1,8 +1,11 @@
 package com.example.jokeapp
 
+import android.util.Log
 import kotlin.random.Random
 
-class JokeBook {
+data class JokeBook (var currentJoke: String = ""){
+
+
     val jokes = listOf(
         "My wife said I should do lunges to stay in shape. That would be a big step forward.",
         "I thought the dryer was shrinking my clothes. Turns out it was the refrigerator all along",
@@ -16,5 +19,12 @@ class JokeBook {
     fun getRandomJoke() : String {
         var randomListNumber = Random.nextInt(jokes.size)
         return jokes[randomListNumber]
+    }
+
+    fun changeCurrentJoke() {
+        var randomListNumber = Random.nextInt(jokes.size)
+        if(currentJoke == jokes[randomListNumber]) randomListNumber = randomListNumber.plus(1).mod(jokes.size)
+        //use mod to stay in the correct range
+        currentJoke = jokes[randomListNumber]
     }
 }
