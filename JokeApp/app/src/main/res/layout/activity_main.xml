@@ -1,42 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    tools:context=".MainActivity"
-    android:layout_gravity="center_vertical"
-    android:orientation="vertical">
-
-    <ImageView
-        android:id="@+id/happy_image"
-        android:layout_width="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        app:srcCompat="@drawable/empty_vector"
-        tools:src="@drawable/ic_iconmonstr_smiley_1"/>
+        tools:context=".MainActivity"
+        android:layout_gravity="center_vertical"
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/joke_textview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text=""
-        android:layout_gravity="center_horizontal"
-        tools:text="Here comes a Joke"
-        android:textSize="20sp"
-        />
-    <Button
-        android:id="@+id/nextjoke_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Next Joke"
-        android:layout_gravity="center_horizontal"/>
-    <Button
-        android:id="@+id/happy_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Good one!"
-        android:layout_gravity="center_horizontal"/>
+        <ImageView
+            android:id="@+id/happy_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            app:srcCompat="@drawable/empty_vector"
+            tools:src="@drawable/ic_iconmonstr_smiley_1"
+            android:contentDescription="@string/smiley_that_indicates_a_funny_joke" />
 
+        <TextView
+            android:id="@+id/joke_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:layout_gravity="center_horizontal"
+            tools:text="@string/joke_placeholder"
+            android:textSize="20sp"
+            />
+        <Button
+            android:id="@+id/nextjoke_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/next_joke"
+            android:layout_gravity="center_horizontal"/>
+        <Button
+            android:id="@+id/happy_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/good_one"
+            android:layout_gravity="center_horizontal"/>
 
-</LinearLayout>
+    </LinearLayout>
+
+</layout>

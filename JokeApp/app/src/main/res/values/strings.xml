@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">JokeApp</string>
+    <string name="joke_placeholder">Here comes a Joke</string>
+    <string name="smiley_that_indicates_a_funny_joke">Smiley that indicates a funny joke</string>
+    <string name="next_joke">Next Joke</string>
+    <string name="good_one">Good one!</string>
 </resources>
