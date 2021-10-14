@@ -18,7 +18,7 @@ data class JokeBook (var currentJoke: String = ""){
 
     fun getRandomJoke() : String {
         var randomListNumber = Random.nextInt(jokes.size)
-        return jokes[randomListNumber]
+        return jokes[randomListNumber];
     }
 
     fun changeCurrentJoke() {
