@@ -19,5 +19,33 @@
         android:id="@+id/jokeFragment"
         android:name="com.example.jokeapp.JokeFragment"
         android:label="JokeFragment"
-        tools:layout="@layout/fragment_joke"/>
+        tools:layout="@layout/fragment_joke">
+        <action
+            android:id="@+id/action_jokeFragment_to_happyComedian"
+            app:destination="@id/happyComedian" />
+        <action
+            android:id="@+id/action_jokeFragment_to_sadComedian"
+            app:destination="@id/sadComedian" />
+    </fragment>
+    <fragment
+        android:id="@+id/happyComedian"
+        android:name="com.example.jokeapp.HappyComedian"
+        android:label="HappyComedian"
+        tools:layout="@layout/fragment_happy_comedian">
+        <action
+            android:id="@+id/action_happyComedian_to_homeFragment2"
+            app:destination="@id/homeFragment2"
+            app:popUpTo="@id/jokeFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_happyComedian_to_jokeFragment"
+            app:destination="@id/jokeFragment"
+            app:popUpTo="@id/jokeFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/sadComedian"
+        android:name="com.example.jokeapp.SadComedian"
+        android:label="SadComedian"
+        tools:layout="@layout/fragment_sad_comedian"/>
 </navigation>

@@ -7,6 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.Navigation
+import androidx.navigation.findNavController
 import com.example.jokeapp.databinding.FragmentHomeBinding
 import com.example.jokeapp.databinding.FragmentJokeBinding
 import kotlin.random.Random
@@ -69,11 +71,13 @@ class JokeFragment : Fragment() {
         if(myComedian.shouldEvaluate()){
             if(myComedian.isHappy()){
                 //navigate to happy fragment
-                Toast.makeText(activity, "Comedian is Happy!", Toast.LENGTH_SHORT).show()
+                //Toast.makeText(activity, "Comedian is Happy!", Toast.LENGTH_SHORT).show()
+                view?.findNavController()?.navigate(R.id.action_jokeFragment_to_happyComedian)
             }
             else{
                 //navigate to unhappy fragment
-                Toast.makeText(activity, "Comedian is Unhappy", Toast.LENGTH_SHORT).show()
+                //Toast.makeText(activity, "Comedian is Unhappy", Toast.LENGTH_SHORT).show()
+                view?.findNavController()?.navigate(R.id.action_jokeFragment_to_sadComedian)
             }
             myComedian.startOver()
         }
