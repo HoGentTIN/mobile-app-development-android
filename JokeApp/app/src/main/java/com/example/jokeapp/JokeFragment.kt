@@ -10,11 +10,6 @@ import com.example.jokeapp.databinding.FragmentHomeBinding
 import com.example.jokeapp.databinding.FragmentJokeBinding
 import kotlin.random.Random
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
 /**
  * A simple [Fragment] subclass.
  * Use the [JokeFragment.newInstance] factory method to
@@ -26,9 +21,6 @@ class JokeFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
-
-
-
 
     lateinit var binding: FragmentJokeBinding
 

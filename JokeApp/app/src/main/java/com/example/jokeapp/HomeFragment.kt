@@ -7,6 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.Navigation
+import androidx.navigation.findNavController
 import com.example.jokeapp.databinding.FragmentHomeBinding
 import kotlin.random.Random
 
@@ -38,9 +40,17 @@ class HomeFragment : Fragment() {
     }
 
     private fun setOnClickListeners() {
+        /*
         binding.startjokesButton.setOnClickListener {
-            Toast.makeText(activity, "Let's navigate!", Toast.LENGTH_SHORT).show()
-        }
+            //Toast.makeText(activity, "Let's navigate!", Toast.LENGTH_SHORT).show()
+            view -> view.findNavController().navigate(R.id.action_homeFragment2_to_jokeFragment)
+         }
+         */
+
+        //alternatively
+        binding.startjokesButton.setOnClickListener (
+            Navigation.createNavigateOnClickListener(R.id.action_homeFragment2_to_jokeFragment)
+        )
     }
 
 
