@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import com.example.jokeapp.databinding.FragmentHomeBinding
 import com.example.jokeapp.databinding.FragmentJokeBinding
@@ -26,6 +27,7 @@ class JokeFragment : Fragment() {
 
 
     private val myJokeBook = JokeBook("")
+    private val myComedian = Comedian()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,6 +39,7 @@ class JokeFragment : Fragment() {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_joke, container, false)
 
         binding.jokes = myJokeBook
+        changeJoke() //setting an initial joke
 
         setOnClickListeners()
 
@@ -51,10 +54,33 @@ class JokeFragment : Fragment() {
         )
         for (item in clickableElements){
             when(item.id){
-                R.id.nextjoke_button -> item.setOnClickListener { changeJoke() }
-                R.id.happy_button -> item.setOnClickListener { happy() }
+                R.id.nextjoke_button -> item.setOnClickListener { countUnhappy(); next() }
+                R.id.happy_button -> item.setOnClickListener { happy(); next() }
             }
         }
+    }
+
+    private fun next() {
+        //Condional navigation
+        /**
+         * If no evaluation is needed, go to next joke
+         * If evaluation needed, go to next screen depending on score.
+         */
+        if(myComedian.shouldEvaluate()){
+            if(myComedian.isHappy()){
+                //navigate to happy fragment
+                Toast.makeText(activity, "Comedian is Happy!", Toast.LENGTH_SHORT).show()
+            }
+            else{
+                //navigate to unhappy fragment
+                Toast.makeText(activity, "Comedian is Unhappy", Toast.LENGTH_SHORT).show()
+            }
+            myComedian.startOver()
+        }
+        else{
+            changeJoke()
+        }
+
     }
 
     private fun happy() {
@@ -65,6 +91,8 @@ class JokeFragment : Fragment() {
 
         }
         binding.happyImage.setImageResource(drawableResource)
+
+        myComedian.goodJoke()
     }
 
     private fun changeJoke() {
@@ -72,4 +100,10 @@ class JokeFragment : Fragment() {
         myJokeBook.changeCurrentJoke()
         binding.invalidateAll() //important! this binds the new data.
     }
+
+    private fun countUnhappy(){
+        myComedian.badJoke()
+    }
+
+
 }
