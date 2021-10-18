@@ -4,6 +4,10 @@ plugins {
 }
 
 apply from: '../ktlint.gradle'
+// Adding the apply plugin statement for safeargs
+apply plugin: 'kotlin-kapt'
+apply plugin: 'androidx.navigation.safeargs'
+
 
 android {
     compileSdk 31
@@ -50,6 +54,8 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
     implementation "android.arch.navigation:navigation-fragment-ktx:$version_navigation"
     implementation "android.arch.navigation:navigation-ui-ktx:$version_navigation"
+
+
 
 }
 

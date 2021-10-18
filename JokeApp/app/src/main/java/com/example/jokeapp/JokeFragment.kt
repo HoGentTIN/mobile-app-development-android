@@ -72,12 +72,12 @@ class JokeFragment : Fragment() {
             if(myComedian.isHappy()){
                 //navigate to happy fragment
                 //Toast.makeText(activity, "Comedian is Happy!", Toast.LENGTH_SHORT).show()
-                view?.findNavController()?.navigate(R.id.action_jokeFragment_to_happyComedian)
+                view?.findNavController()?.navigate(JokeFragmentDirections.actionJokeFragmentToHappyComedian(myComedian.happyJokes, myComedian.badJokes))
             }
             else{
                 //navigate to unhappy fragment
                 //Toast.makeText(activity, "Comedian is Unhappy", Toast.LENGTH_SHORT).show()
-                view?.findNavController()?.navigate(R.id.action_jokeFragment_to_sadComedian)
+                view?.findNavController()?.navigate(JokeFragmentDirections.actionJokeFragmentToSadComedian())
             }
             myComedian.startOver()
         }
