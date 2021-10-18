@@ -48,4 +48,8 @@
         android:name="com.example.jokeapp.SadComedian"
         android:label="SadComedian"
         tools:layout="@layout/fragment_sad_comedian"/>
+    <fragment
+        android:id="@+id/aboutFragment"
+        android:name="com.example.jokeapp.AboutFragment"
+        android:label="AboutFragment" />
 </navigation>

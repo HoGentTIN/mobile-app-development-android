@@ -48,7 +48,7 @@
             android:id="@+id/textView2"
             style="@style/joke_text"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:text="@string/lorem"
             android:textSize="14sp" />
 
