@@ -5,7 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
+import android.widget.TextView
 
 
 /**
@@ -26,7 +26,12 @@ class AboutFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_about, container, false)
+        val aboutFragment: View = inflater.inflate(R.layout.fragment_about, container, false)
+
+        var titletext : TextView? = aboutFragment.findViewById(R.id.title_text_view)
+        titletext?.text = "My title text for About"
+
+        return aboutFragment
     }
 
 
