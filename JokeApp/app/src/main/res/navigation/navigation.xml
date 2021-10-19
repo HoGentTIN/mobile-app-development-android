@@ -29,7 +29,7 @@
     </fragment>
     <fragment
         android:id="@+id/happyComedian"
-        android:name="com.example.jokeapp.HappyComedian"
+        android:name="com.example.jokeapp.HappyComedianFragment"
         android:label="HappyComedian"
         tools:layout="@layout/fragment_happy_comedian">
         <action
@@ -52,7 +52,7 @@
     </fragment>
     <fragment
         android:id="@+id/sadComedian"
-        android:name="com.example.jokeapp.SadComedian"
+        android:name="com.example.jokeapp.SadComedianFragment"
         android:label="SadComedian"
         tools:layout="@layout/fragment_sad_comedian"/>
     <fragment

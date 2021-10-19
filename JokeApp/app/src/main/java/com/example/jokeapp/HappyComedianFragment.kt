@@ -13,10 +13,10 @@ import com.example.jokeapp.databinding.FragmentHappyComedianBinding
 
 /**
  * A simple [Fragment] subclass.
- * Use the [HappyComedian.newInstance] factory method to
+ * Use the [HappyComedianFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class HappyComedian : Fragment() {
+class HappyComedianFragment : Fragment() {
 
     lateinit var binding: FragmentHappyComedianBinding
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,7 +32,7 @@ class HappyComedian : Fragment() {
 
         setClickListeners()
 
-        val args = HappyComedianArgs.fromBundle(requireArguments())
+        val args = HappyComedianFragmentArgs.fromBundle(requireArguments())
         Toast.makeText(context, "There were ${args.numHappyJokes} happy jokes and ${args.numUnhappyJokes} bad jokes", Toast.LENGTH_SHORT).show()
 
         return binding.root

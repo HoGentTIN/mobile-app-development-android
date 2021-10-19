@@ -11,10 +11,10 @@ import com.example.jokeapp.databinding.FragmentSadComedianBinding
 
 /**
  * A simple [Fragment] subclass.
- * Use the [SadComedian.newInstance] factory method to
+ * Use the [SadComedianFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class SadComedian : Fragment() {
+class SadComedianFragment : Fragment() {
     lateinit var binding: FragmentSadComedianBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
