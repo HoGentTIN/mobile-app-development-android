@@ -54,7 +54,14 @@
         android:id="@+id/sadComedian"
         android:name="com.example.jokeapp.SadComedianFragment"
         android:label="SadComedian"
-        tools:layout="@layout/fragment_sad_comedian"/>
+        tools:layout="@layout/fragment_sad_comedian">
+        <action
+            android:id="@+id/action_sadComedian_to_jokeFragment"
+            app:destination="@id/jokeFragment" />
+        <action
+            android:id="@+id/action_sadComedian_to_homeFragment2"
+            app:destination="@id/homeFragment2" />
+    </fragment>
     <fragment
         android:id="@+id/aboutFragment"
         android:name="com.example.jokeapp.AboutFragment"

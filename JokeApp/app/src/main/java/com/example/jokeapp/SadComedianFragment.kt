@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.Navigation
 import com.example.jokeapp.databinding.FragmentSadComedianBinding
 
 
@@ -28,7 +29,17 @@ class SadComedianFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_sad_comedian, container, false)
+        setClickListeners()
         return binding.root
     }
 
+    private fun setClickListeners() {
+        binding.homeButton.setOnClickListener(
+            Navigation.createNavigateOnClickListener(R.id.action_sadComedian_to_homeFragment2)
+        )
+
+        binding.startAgainButton.setOnClickListener (
+            Navigation.createNavigateOnClickListener(R.id.action_sadComedian_to_jokeFragment)
+        )
+    }
 }
