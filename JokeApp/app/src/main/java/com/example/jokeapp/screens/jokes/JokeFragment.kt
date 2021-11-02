@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import com.example.jokeapp.R
 import com.example.jokeapp.databinding.FragmentJokeBinding
@@ -39,9 +40,11 @@ class JokeFragment : Fragment() {
 
         binding.jokes = viewModel
 
+        viewModel.currentJoke.observe(viewLifecycleOwner, Observer {
+            newJoke -> binding.jokeTextview.text = newJoke
+        })
 
-
-        changeJoke() //setting an initial joke
+        viewModel.changeCurrentJoke() //setting an initial joke
 
         setOnClickListeners()
         return binding.root
@@ -86,7 +89,7 @@ class JokeFragment : Fragment() {
             viewModel.startOver()
         }
         else{
-            changeJoke()
+            viewModel.changeCurrentJoke()
         }
 
     }
@@ -103,11 +106,7 @@ class JokeFragment : Fragment() {
         viewModel.goodJoke()
     }
 
-    private fun changeJoke() {
-        //binding.jokeTextview.text = myJokeBook.getRandomJoke()
-        viewModel.changeCurrentJoke()
-        binding.invalidateAll() //important! this binds the new data.
-    }
+
 
     private fun countUnhappy(){
         viewModel.badJoke()

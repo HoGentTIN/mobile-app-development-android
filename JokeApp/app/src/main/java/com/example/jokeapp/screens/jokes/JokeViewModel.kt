@@ -1,10 +1,12 @@
 package com.example.jokeapp.screens.jokes
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import kotlin.random.Random
 
 class JokeViewModel: ViewModel() {
-    var currentJoke = ""
+
     var happyJokes = 0
     var badJokes = 0
 
@@ -18,16 +20,16 @@ class JokeViewModel: ViewModel() {
         "I used to be addicted to soap, but I'm clean now."
     )
 
-    fun getRandomJoke() : String {
-        var randomListNumber = Random.nextInt(jokes.size)
-        return jokes[randomListNumber];
-    }
+    private val _currentJoke = MutableLiveData<String>()
+    val currentJoke: LiveData<String>
+        get() = _currentJoke
+
 
     fun changeCurrentJoke() {
         var randomListNumber = Random.nextInt(jokes.size)
-        if(currentJoke == jokes[randomListNumber]) randomListNumber = randomListNumber.plus(1).mod(jokes.size)
+        if(_currentJoke.value == jokes[randomListNumber]) randomListNumber = randomListNumber.plus(1).mod(jokes.size)
         //use mod to stay in the correct range
-        currentJoke = jokes[randomListNumber]
+        _currentJoke.value = jokes[randomListNumber]
     }
 
     fun isHappy() = happyJokes > 2
