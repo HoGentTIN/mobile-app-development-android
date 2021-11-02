@@ -1,15 +1,13 @@
-package com.example.jokeapp
+package com.example.jokeapp.screens.jokes
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
-import androidx.navigation.Navigation
 import androidx.navigation.findNavController
-import com.example.jokeapp.databinding.FragmentHomeBinding
+import com.example.jokeapp.R
 import com.example.jokeapp.databinding.FragmentJokeBinding
 import kotlin.random.Random
 
@@ -26,10 +24,7 @@ class JokeFragment : Fragment() {
     }
 
     lateinit var binding: FragmentJokeBinding
-
-
-    private val myJokeBook = JokeBook("")
-    private val myComedian = Comedian()
+    lateinit var viewModel : JokeViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,7 +35,12 @@ class JokeFragment : Fragment() {
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_joke, container, false)
 
-        binding.jokes = myJokeBook
+        viewModel = JokeViewModel()
+
+        binding.jokes = viewModel
+
+
+
         changeJoke() //setting an initial joke
 
         setOnClickListeners()
@@ -67,18 +67,23 @@ class JokeFragment : Fragment() {
          * If no evaluation is needed, go to next joke
          * If evaluation needed, go to next screen depending on score.
          */
-        if(myComedian.shouldEvaluate()){
-            if(myComedian.isHappy()){
+        if(viewModel.shouldEvaluate()){
+            if(viewModel.isHappy()){
                 //navigate to happy fragment
                 //Toast.makeText(activity, "Comedian is Happy!", Toast.LENGTH_SHORT).show()
-                view?.findNavController()?.navigate(JokeFragmentDirections.actionJokeFragmentToHappyComedian(myComedian.happyJokes, myComedian.badJokes))
+                view?.findNavController()?.navigate(
+                    JokeFragmentDirections.actionJokeFragmentToHappyComedian(
+                        viewModel.happyJokes,
+                        viewModel.badJokes
+                    )
+                )
             }
             else{
                 //navigate to unhappy fragment
                 //Toast.makeText(activity, "Comedian is Unhappy", Toast.LENGTH_SHORT).show()
                 view?.findNavController()?.navigate(JokeFragmentDirections.actionJokeFragmentToSadComedian())
             }
-            myComedian.startOver()
+            viewModel.startOver()
         }
         else{
             changeJoke()
@@ -95,17 +100,17 @@ class JokeFragment : Fragment() {
         }
         binding.happyImage.setImageResource(drawableResource)
 
-        myComedian.goodJoke()
+        viewModel.goodJoke()
     }
 
     private fun changeJoke() {
         //binding.jokeTextview.text = myJokeBook.getRandomJoke()
-        myJokeBook.changeCurrentJoke()
+        viewModel.changeCurrentJoke()
         binding.invalidateAll() //important! this binds the new data.
     }
 
     private fun countUnhappy(){
-        myComedian.badJoke()
+        viewModel.badJoke()
     }
 
 

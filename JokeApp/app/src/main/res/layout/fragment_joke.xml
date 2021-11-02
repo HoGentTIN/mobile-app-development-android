@@ -6,7 +6,7 @@
     <data>
         <variable
             name="jokes"
-            type="com.example.jokeapp.JokeBook" />
+            type="com.example.jokeapp.screens.jokes.JokeViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

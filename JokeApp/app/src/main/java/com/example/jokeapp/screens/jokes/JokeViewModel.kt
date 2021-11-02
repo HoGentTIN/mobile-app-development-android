@@ -1,12 +1,14 @@
-package com.example.jokeapp
+package com.example.jokeapp.screens.jokes
 
-import android.util.Log
+import androidx.lifecycle.ViewModel
 import kotlin.random.Random
 
-data class JokeBook (var currentJoke: String = ""){
+class JokeViewModel: ViewModel() {
+    var currentJoke = ""
+    var happyJokes = 0
+    var badJokes = 0
 
-
-    val jokes = listOf(
+    private val jokes = listOf(
         "My wife said I should do lunges to stay in shape. That would be a big step forward.",
         "I thought the dryer was shrinking my clothes. Turns out it was the refrigerator all along",
         "I only know 25 letters of the alphabet. I don't know y.",
@@ -27,4 +29,24 @@ data class JokeBook (var currentJoke: String = ""){
         //use mod to stay in the correct range
         currentJoke = jokes[randomListNumber]
     }
+
+    fun isHappy() = happyJokes > 2
+    fun shouldEvaluate() = happyJokes+badJokes > 2
+
+    var totalJokesTold = 0
+
+    fun startOver() {
+        happyJokes = 0
+        badJokes = 0
+
+    }
+
+    fun goodJoke() {
+        happyJokes++
+    }
+
+    fun badJoke() {
+        badJokes++
+    }
+
 }
