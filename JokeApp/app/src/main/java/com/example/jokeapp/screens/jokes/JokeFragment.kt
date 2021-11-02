@@ -35,7 +35,6 @@ class JokeFragment : Fragment() {
         //Step 1, use databinding to inflate the xml
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_joke, container, false)
-
         viewModel = JokeViewModel()
 
         binding.jokes = viewModel
@@ -44,9 +43,24 @@ class JokeFragment : Fragment() {
             newJoke -> binding.jokeTextview.text = newJoke
         })
 
-        viewModel.changeCurrentJoke() //setting an initial joke
+
+        viewModel.shouldEvaluate.observe(viewLifecycleOwner, Observer { shouldEveluate ->
+            if(shouldEveluate){
+                if(viewModel.isHappy()){
+                    //navigate to happy fragment
+                    view?.findNavController()?.navigate(JokeFragmentDirections.actionJokeFragmentToHappyComedian(viewModel.happyJokes, viewModel.badJokes))
+                }
+                else{
+                    //navigate to unhappy fragment
+                    view?.findNavController()?.navigate(JokeFragmentDirections.actionJokeFragmentToSadComedian())
+                }
+                viewModel.evaluationComplete()
+            }
+        })
+
 
         setOnClickListeners()
+
         return binding.root
     }
 
@@ -58,63 +72,20 @@ class JokeFragment : Fragment() {
         )
         for (item in clickableElements){
             when(item.id){
-                R.id.nextjoke_button -> item.setOnClickListener { countUnhappy(); next() }
-                R.id.happy_button -> item.setOnClickListener { happy(); next() }
+                R.id.nextjoke_button -> item.setOnClickListener { viewModel.badJoke(); viewModel.changeCurrentJoke()}
+                R.id.happy_button -> item.setOnClickListener { showHappySmiley(); viewModel.goodJoke(); viewModel.changeCurrentJoke()}
             }
         }
     }
 
-    private fun next() {
-        //Condional navigation
-        /**
-         * If no evaluation is needed, go to next joke
-         * If evaluation needed, go to next screen depending on score.
-         */
-        if(viewModel.shouldEvaluate()){
-            if(viewModel.isHappy()){
-                //navigate to happy fragment
-                //Toast.makeText(activity, "Comedian is Happy!", Toast.LENGTH_SHORT).show()
-                view?.findNavController()?.navigate(
-                    JokeFragmentDirections.actionJokeFragmentToHappyComedian(
-                        viewModel.happyJokes,
-                        viewModel.badJokes
-                    )
-                )
-            }
-            else{
-                //navigate to unhappy fragment
-                //Toast.makeText(activity, "Comedian is Unhappy", Toast.LENGTH_SHORT).show()
-                view?.findNavController()?.navigate(JokeFragmentDirections.actionJokeFragmentToSadComedian())
-            }
-            viewModel.startOver()
-        }
-        else{
-            viewModel.changeCurrentJoke()
-        }
 
-    }
-
-    private fun happy() {
+    private fun showHappySmiley() {
         val drawableResource = when (Random.nextInt(3)) {
             0 -> R.drawable.ic_iconmonstr_smiley_1
             1 -> R.drawable.ic_iconmonstr_smiley_13
             else -> R.drawable.ic_iconmonstr_smiley_2
-
         }
         binding.happyImage.setImageResource(drawableResource)
-
-        viewModel.goodJoke()
     }
 
-
-
-    private fun countUnhappy(){
-        viewModel.badJoke()
-    }
-
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-
-    }
 }

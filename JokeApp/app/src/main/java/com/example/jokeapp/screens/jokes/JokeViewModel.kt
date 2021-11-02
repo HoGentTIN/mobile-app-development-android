@@ -24,16 +24,35 @@ class JokeViewModel: ViewModel() {
     val currentJoke: LiveData<String>
         get() = _currentJoke
 
+    private val _shouldEvaluate = MutableLiveData<Boolean>()
+    val shouldEvaluate : LiveData<Boolean>
+        get() = _shouldEvaluate
+
+
+    init {
+        changeCurrentJoke()
+    }
 
     fun changeCurrentJoke() {
+        //Check for evaluation:
+        if (happyJokes + badJokes == 3){
+            _shouldEvaluate.value = true
+            startOver()
+            return
+        }
+
         var randomListNumber = Random.nextInt(jokes.size)
         if(_currentJoke.value == jokes[randomListNumber]) randomListNumber = randomListNumber.plus(1).mod(jokes.size)
         //use mod to stay in the correct range
         _currentJoke.value = jokes[randomListNumber]
     }
 
+    fun evaluationComplete(){
+        _shouldEvaluate.value = false
+    }
+
     fun isHappy() = happyJokes > 2
-    fun shouldEvaluate() = happyJokes+badJokes > 2
+    //fun shouldEvaluate() = happyJokes+badJokes > 2
 
     var totalJokesTold = 0
 
