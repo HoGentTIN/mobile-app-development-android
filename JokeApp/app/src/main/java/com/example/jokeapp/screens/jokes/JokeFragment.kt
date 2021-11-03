@@ -39,6 +39,8 @@ class JokeFragment : Fragment() {
 
         binding.jokes = viewModel
 
+        binding.setLifecycleOwner (this)
+
         viewModel.currentJoke.observe(viewLifecycleOwner, Observer {
             newJoke -> binding.jokeTextview.text = newJoke
         })
@@ -53,24 +55,14 @@ class JokeFragment : Fragment() {
             }
         })
 
-
-        setOnClickListeners()
+        viewModel.showSmileyEvent.observe(viewLifecycleOwner, Observer {
+            show -> if(show){
+                showHappySmiley()
+                viewModel.showImageComplete()
+            }
+        })
 
         return binding.root
-    }
-
-    //set click listener for each element in the list
-    private fun setOnClickListeners() {
-        val clickableElements = listOf(
-            binding.happyButton,
-            binding.nextjokeButton
-        )
-        for (item in clickableElements){
-            when(item.id){
-                R.id.nextjoke_button -> item.setOnClickListener { viewModel.badJoke(); viewModel.changeCurrentJoke()}
-                R.id.happy_button -> item.setOnClickListener { showHappySmiley(); viewModel.goodJoke(); viewModel.changeCurrentJoke()}
-            }
-        }
     }
 
 

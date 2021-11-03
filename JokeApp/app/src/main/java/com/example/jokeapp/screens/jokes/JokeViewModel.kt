@@ -28,6 +28,9 @@ class JokeViewModel: ViewModel() {
     val shouldEvaluate : LiveData<Boolean>
         get() = _shouldEvaluate
 
+    private val _showSmileyEvent = MutableLiveData<Boolean>()
+    val showSmileyEvent : LiveData<Boolean>
+        get() = _showSmileyEvent
 
     init {
         changeCurrentJoke()
@@ -51,6 +54,10 @@ class JokeViewModel: ViewModel() {
         _shouldEvaluate.value = false
     }
 
+    fun showImageComplete(){
+        _showSmileyEvent.value = false
+    }
+
     fun isHappy() = happyJokes > 2
     //fun shouldEvaluate() = happyJokes+badJokes > 2
 
@@ -64,10 +71,15 @@ class JokeViewModel: ViewModel() {
 
     fun goodJoke() {
         happyJokes++
+        changeCurrentJoke()
+        _showSmileyEvent.value = true
     }
 
     fun badJoke() {
         badJokes++
+        changeCurrentJoke()
     }
+
+
 
 }
