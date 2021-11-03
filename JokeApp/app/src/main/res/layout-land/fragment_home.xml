@@ -67,7 +67,7 @@
 
         <fragment
             android:id="@+id/fragment"
-            android:name="com.example.jokeapp.ButtonNavigationFragment"
+            android:name="com.example.jokeapp.screens.utils.ButtonNavigationFragment"
             android:layout_width="0dp"
             android:layout_height="match_parent"
 

@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/homeFragment2"
-        android:name="com.example.jokeapp.HomeFragment"
+        android:name="com.example.jokeapp.screens.home.HomeFragment"
         android:label="HomeFragment"
         tools:layout="@layout/fragment_home">
 
@@ -49,6 +49,6 @@
     </fragment>
     <fragment
         android:id="@+id/aboutFragment"
-        android:name="com.example.jokeapp.AboutFragment"
+        android:name="com.example.jokeapp.screens.utils.AboutFragment"
         android:label="AboutFragment" />
 </navigation>
