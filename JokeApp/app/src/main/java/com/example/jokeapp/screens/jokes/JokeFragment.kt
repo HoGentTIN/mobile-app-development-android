@@ -46,14 +46,9 @@ class JokeFragment : Fragment() {
 
         viewModel.shouldEvaluate.observe(viewLifecycleOwner, Observer { shouldEveluate ->
             if(shouldEveluate){
-                if(viewModel.isHappy()){
-                    //navigate to happy fragment
-                    view?.findNavController()?.navigate(JokeFragmentDirections.actionJokeFragmentToHappyComedian(viewModel.happyJokes, viewModel.badJokes))
-                }
-                else{
-                    //navigate to unhappy fragment
-                    view?.findNavController()?.navigate(JokeFragmentDirections.actionJokeFragmentToSadComedian())
-                }
+
+                view?.findNavController()?.navigate(JokeFragmentDirections.actionJokeFragmentToHappyComedian(viewModel.happyJokes, viewModel.badJokes))
+
                 viewModel.evaluationComplete()
             }
         })
