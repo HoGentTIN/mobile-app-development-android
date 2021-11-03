@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import com.example.jokeapp.R
 import com.example.jokeapp.databinding.FragmentJokeBinding
@@ -35,15 +36,23 @@ class JokeFragment : Fragment() {
         //Step 1, use databinding to inflate the xml
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_joke, container, false)
-        viewModel = JokeViewModel()
+
+        //Not OK: don't call the viewModel like a normal class.
+        //It needs to be special to survive e.g. config changes
+        //viewModel = JokeViewModel()
+
+        viewModel = ViewModelProvider(this).get(JokeViewModel::class.java)
 
         binding.jokes = viewModel
 
+        //this call allows to automatically update the livedata
+        //Meaning: no more resets or whatsoever
         binding.setLifecycleOwner (this)
 
-        viewModel.currentJoke.observe(viewLifecycleOwner, Observer {
+        //This is now no longer needed --> you can just call it from the XML
+        /*viewModel.currentJoke.observe(viewLifecycleOwner, Observer {
             newJoke -> binding.jokeTextview.text = newJoke
-        })
+        })*/
 
 
         viewModel.shouldEvaluate.observe(viewLifecycleOwner, Observer { shouldEveluate ->

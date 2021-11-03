@@ -3,6 +3,7 @@ package com.example.jokeapp.screens.jokes
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import timber.log.Timber
 import kotlin.random.Random
 
 class JokeViewModel: ViewModel() {
@@ -33,6 +34,7 @@ class JokeViewModel: ViewModel() {
         get() = _showSmileyEvent
 
     init {
+        Timber.i("init is called")
         changeCurrentJoke()
     }
 
