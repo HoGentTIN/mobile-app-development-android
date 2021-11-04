@@ -5,9 +5,10 @@ import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.jokeapp.getOrAwaitValue
 import org.hamcrest.CoreMatchers.nullValue
+import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.core.Is.`is`
 import org.hamcrest.core.IsNot.not
-import org.junit.Assert.*
+
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
