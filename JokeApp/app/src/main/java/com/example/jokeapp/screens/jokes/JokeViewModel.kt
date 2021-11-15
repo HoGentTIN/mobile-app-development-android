@@ -34,6 +34,9 @@ class JokeViewModel(val database: JokeDatabaseDao, application: Application): An
         number -> number.toString()
     }
 
+    val buttonVisible = Transformations.map(numberOfJokes){
+        it > 0
+    }
 
     private val _currentJoke = MutableLiveData<String>()
     val currentJoke: LiveData<String>

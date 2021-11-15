@@ -54,11 +54,13 @@
             android:layout_marginBottom="@dimen/margin_bottom"
             android:text="@string/next_joke"
             android:onClick="@{()-> jokes.badJoke()}"
+            android:enabled="@{jokes.buttonVisible}"
             app:layout_constraintBottom_toTopOf="@+id/happy_button"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/joke_textview" />
+            app:layout_constraintTop_toBottomOf="@+id/joke_textview"
+            />
 
         <Button
             android:id="@+id/happy_button"
@@ -67,6 +69,7 @@
             android:layout_gravity="center_horizontal"
             android:text="@string/good_one"
             android:onClick="@{()->jokes.goodJoke()}"
+            android:enabled="@{jokes.buttonVisible}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
