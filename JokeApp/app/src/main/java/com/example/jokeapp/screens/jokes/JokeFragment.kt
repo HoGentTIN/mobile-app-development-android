@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import com.example.jokeapp.R
 import com.example.jokeapp.database.jokes.JokeDatabase
@@ -29,7 +30,6 @@ class JokeFragment : Fragment() {
 
     lateinit var binding: FragmentJokeBinding
     lateinit var viewModel : JokeViewModel
-
 
 
 
@@ -81,6 +81,10 @@ class JokeFragment : Fragment() {
                 viewModel.showImageComplete()
             }
         })
+
+        binding.addJokeButton.setOnClickListener(
+            Navigation.createNavigateOnClickListener(R.id.addJokeFragment)
+        )
 
         return binding.root
     }

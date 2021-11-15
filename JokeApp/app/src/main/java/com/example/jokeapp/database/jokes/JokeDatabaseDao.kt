@@ -26,7 +26,7 @@ interface JokeDatabaseDao {
     suspend fun clear()
 
     @Query("SELECT * FROM custom_joke_table ORDER BY jokeId DESC")
-    fun getAllJokes(): LiveData<List<Joke>>
+    suspend fun getAllJokes(): List<Joke>
 
     @Query("SELECT * FROM custom_joke_table ORDER BY jokeId DESC LIMIT 1")
     suspend fun getLastJoke(): Joke?

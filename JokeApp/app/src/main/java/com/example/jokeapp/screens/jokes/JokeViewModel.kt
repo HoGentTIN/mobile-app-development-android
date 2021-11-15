@@ -3,6 +3,7 @@ package com.example.jokeapp.screens.jokes
 import android.app.Activity
 import android.app.Application
 import androidx.lifecycle.*
+import com.example.jokeapp.database.jokes.Joke
 import com.example.jokeapp.database.jokes.JokeDatabase
 import com.example.jokeapp.database.jokes.JokeDatabaseDao
 import kotlinx.coroutines.launch
@@ -25,13 +26,14 @@ class JokeViewModel(val database: JokeDatabaseDao, application: Application): An
     )*/
 
     //Jokes will be a livedata field because the db returns it as livedata
-    private val jokes = database.getAllJokes()
+    private lateinit var jokes: List<Joke>
     //numberOfJokes is no livedata yet --> wrap it in livedata here.
     private val numberOfJokes = MutableLiveData<Int>()
 
     val numberOfJokesString = Transformations.map(numberOfJokes){
         number -> number.toString()
     }
+
 
     private val _currentJoke = MutableLiveData<String>()
     val currentJoke: LiveData<String>
@@ -47,11 +49,17 @@ class JokeViewModel(val database: JokeDatabaseDao, application: Application): An
 
     init {
         Timber.i("init is called")
-        initializeLiveDataFields()
-        changeCurrentJoke()
+        initializeLiveData()
+
+        viewModelScope.launch{
+            jokes = getAllJokes()
+            changeCurrentJoke()
+        }
+
+
     }
 
-    private fun initializeLiveDataFields(){
+    private fun initializeLiveData(){
         viewModelScope.launch{
             numberOfJokes.value = getNumberOfJokesFromDatabase()
         }
@@ -64,18 +72,24 @@ class JokeViewModel(val database: JokeDatabaseDao, application: Application): An
             startOver()
             return
         }
-
+        viewModelScope.launch {
+            getAllJokes()
+        }
+        _currentJoke.value = "Create some jokes first"
         if(numberOfJokes.value == null) return
 
         //don't change the joke if there are no jokes
         if(numberOfJokes.value!! == 0) return
 
         var randomListNumber = Random.nextInt(numberOfJokes.value!!)
+
         //use the livedata joke list to get a random joke
-        if(_currentJoke.value == jokes.value?.get(randomListNumber)?.punchline) randomListNumber = randomListNumber.plus(1).mod(numberOfJokes.value!!)
+        if(_currentJoke.value == jokes.get(randomListNumber).punchline) randomListNumber = randomListNumber.plus(1).mod(numberOfJokes.value!!)
         //use mod to stay in the correct range
-        _currentJoke.value = jokes.value?.get(randomListNumber)?.punchline
+        _currentJoke.value = jokes.get(randomListNumber).punchline
+
     }
+
 
     fun evaluationComplete(){
         _shouldEvaluate.value = false
@@ -112,5 +126,9 @@ class JokeViewModel(val database: JokeDatabaseDao, application: Application): An
     //Suspend functions
     private suspend fun getNumberOfJokesFromDatabase(): Int{
         return database.numberOfJokes()
+    }
+
+    private suspend fun getAllJokes(): List<Joke>{
+        return database.getAllJokes()
     }
 }
