@@ -62,4 +62,8 @@
             android:id="@+id/action_addJokeFragment_to_jokeFragment"
             app:destination="@id/jokeFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/loginFragment2"
+        android:name="com.example.jokeapp.login.LoginFragment"
+        android:label="LoginFragment" />
 </navigation>
