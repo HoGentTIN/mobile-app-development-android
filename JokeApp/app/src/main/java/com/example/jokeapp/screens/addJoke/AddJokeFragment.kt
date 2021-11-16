@@ -28,10 +28,6 @@ class AddJokeFragment : Fragment()  {
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_add_joke, container, false)
 
-        //Not OK: don't call the viewModel like a normal class.
-        //It needs to be special to survive e.g. config changes
-        //viewModel = JokeViewModel()
-
         //Get an instance of the appContext to setup the database
         val appContext = requireNotNull(this.activity).application
         val dataSource = JokeDatabase.getInstance(appContext).jokeDatabaseDao
@@ -51,7 +47,6 @@ class AddJokeFragment : Fragment()  {
                 viewModel.saveJoke(binding.editTextTextPersonName.text.toString())
                 //navigate back to the joke screen
                view?.findNavController()?.navigate(AddJokeFragmentDirections.actionAddJokeFragmentToJokeFragment())
-
                 viewModel.saveEventDone()
             }
         })

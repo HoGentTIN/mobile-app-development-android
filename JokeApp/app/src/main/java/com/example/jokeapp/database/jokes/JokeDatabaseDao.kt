@@ -28,9 +28,11 @@ interface JokeDatabaseDao {
     @Query("SELECT * FROM custom_joke_table ORDER BY jokeId DESC")
     suspend fun getAllJokes(): List<Joke>
 
+    //get the joke with the highest ID (last joke added)
     @Query("SELECT * FROM custom_joke_table ORDER BY jokeId DESC LIMIT 1")
     suspend fun getLastJoke(): Joke?
 
+    //get the number of jokes present
     @Query("SELECT COUNT(*) FROM custom_joke_table")
     suspend fun numberOfJokes(): Int
 }

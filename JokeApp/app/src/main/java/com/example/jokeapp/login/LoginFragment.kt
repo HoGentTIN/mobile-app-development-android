@@ -33,7 +33,6 @@ class LoginFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
     }
 
     override fun onCreateView(
@@ -45,29 +44,27 @@ class LoginFragment : Fragment() {
 
         //OAUTH
         account = Auth0(
-            "ZGxJU5DHPQcOyGlyRAz7K6eDFvuxcIfX",
-            "dev-18w6525q.us.auth0.com"
+            getString(R.string.auth_client_id),
+            getString(R.string.auth_domain)
         )
 
 
         val button = view.findViewById<Button>(R.id.loginbutton)
         button?.setOnClickListener {
             loginWithBrowser()
-            Timber.i("LoginWithBrowser...")
         }
 
         val logoutbutton = view.findViewById<Button>(R.id.logout_button)
         logoutbutton?.setOnClickListener {
             logout()
-
         }
         loggedInText = view.findViewById(R.id.logged_in_textview)
+
         checkIfToken()
         setLoggedInText()
 
         return view
     }
-
 
     private fun checkIfToken(){
         val token = CredentialsManager.getAccessToken(requireContext())
@@ -79,11 +76,10 @@ class LoginFragment : Fragment() {
             Toast.makeText(context, "Token doesn't exist", Toast.LENGTH_SHORT).show()
         }
     }
-    private fun setLoggedInText() {
 
+    private fun setLoggedInText() {
         if(loggedIn) {loggedInText.text = "you're logged in"}
         else {loggedInText.text = "not logged in"}
-
     }
 
 
@@ -97,7 +93,7 @@ class LoginFragment : Fragment() {
             .start(requireContext(), object : Callback<Credentials, AuthenticationException> {
                 // Called when there is an authentication failure
                 override fun onFailure(exception: AuthenticationException) {
-                    // Something went wrong!
+                    loggedIn = false
                 }
 
                 // Called when authentication completed successfully

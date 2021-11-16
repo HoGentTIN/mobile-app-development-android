@@ -23,15 +23,12 @@ import kotlin.random.Random
  */
 class JokeFragment : Fragment() {
 
+    private lateinit var binding: FragmentJokeBinding
+    private lateinit var viewModel : JokeViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
     }
-
-    lateinit var binding: FragmentJokeBinding
-    lateinit var viewModel : JokeViewModel
-
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -60,17 +57,9 @@ class JokeFragment : Fragment() {
         //Meaning: no more resets or whatsoever
         binding.setLifecycleOwner (this)
 
-        //This is now no longer needed --> you can just call it from the XML
-        /*viewModel.currentJoke.observe(viewLifecycleOwner, Observer {
-            newJoke -> binding.jokeTextview.text = newJoke
-        })*/
-
-
         viewModel.shouldEvaluate.observe(viewLifecycleOwner, Observer { shouldEveluate ->
             if(shouldEveluate){
-
                 view?.findNavController()?.navigate(JokeFragmentDirections.actionJokeFragmentToHappyComedian(viewModel.happyJokes, viewModel.badJokes))
-
                 viewModel.evaluationComplete()
             }
         })
