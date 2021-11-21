@@ -1,14 +1,12 @@
 package com.example.jokeapp.screens.jokeOverview
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.jokeapp.R
 import com.example.jokeapp.database.jokes.Joke
+import com.example.jokeapp.databinding.JokeListItemBinding
 
 class JokeAdapter : ListAdapter<Joke, ViewHolder>(JokeDiffCallback()){
     //taken care of by ListAdapter
@@ -37,13 +35,11 @@ class JokeAdapter : ListAdapter<Joke, ViewHolder>(JokeDiffCallback()){
 
 //class TextItemViewHolder(val textView: TextView): RecyclerView.ViewHolder(textView)
 
-class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
-    val jokeSetup: TextView = itemView.findViewById(R.id.joke_setup_textview)
-    val jokePunchline : TextView = itemView.findViewById(R.id.joke_punchline_textview)
+class ViewHolder(val binding: JokeListItemBinding): RecyclerView.ViewHolder(binding.root){
 
     fun bind(item: Joke) {
-        jokePunchline.text = item.punchline
-        jokeSetup.text = item.jokeSetup
+        binding.jokePunchlineTextview.text = item.punchline
+        binding.jokeSetupTextview.text = item.jokeSetup
     }
 
     //this way the viewHolder knows how to inflate.
@@ -51,8 +47,8 @@ class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
     companion object {
         fun from(parent: ViewGroup): ViewHolder {
             val layoutInflater = LayoutInflater.from(parent.context)
-            val view = layoutInflater.inflate(R.layout.joke_list_item, parent, false)
-            return ViewHolder(view)
+            val binding = JokeListItemBinding.inflate(layoutInflater, parent, false)
+            return ViewHolder(binding)
         }
     }
 }
