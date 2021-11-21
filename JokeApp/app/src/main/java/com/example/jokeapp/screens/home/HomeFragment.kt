@@ -81,6 +81,9 @@ class HomeFragment : Fragment() {
         binding.startjokesButton.setOnClickListener (
             Navigation.createNavigateOnClickListener(R.id.action_homeFragment2_to_jokeFragment)
         )
+        binding.toOverview.setOnClickListener(
+            Navigation.createNavigateOnClickListener(R.id.action_homeFragment2_to_jokeOverviewFragment)
+        )
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

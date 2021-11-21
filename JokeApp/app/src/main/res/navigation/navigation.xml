@@ -14,6 +14,9 @@
         <action
             android:id="@+id/action_homeFragment2_to_jokeFragment"
             app:destination="@id/jokeFragment" />
+        <action
+            android:id="@+id/action_homeFragment2_to_jokeOverviewFragment"
+            app:destination="@id/jokeOverviewFragment" />
     </fragment>
     <fragment
         android:id="@+id/jokeFragment"
@@ -66,4 +69,8 @@
         android:id="@+id/loginFragment2"
         android:name="com.example.jokeapp.login.LoginFragment"
         android:label="LoginFragment" />
+    <fragment
+        android:id="@+id/jokeOverviewFragment"
+        android:name="com.example.jokeapp.screens.jokeOverview.JokeOverviewFragment"
+        android:label="JokeOverviewFragment" />
 </navigation>
