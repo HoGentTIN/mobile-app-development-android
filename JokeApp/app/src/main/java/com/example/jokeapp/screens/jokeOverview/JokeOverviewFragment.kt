@@ -51,12 +51,12 @@ class JokeOverviewFragment : Fragment() {
 
         //watch the data:
         viewModel.jokes.observe(viewLifecycleOwner, Observer{
-            it?.let {
+            /*it?.let {
                 adapter.data = it
-            }
+            }*/
+            //don't change the adapters data, use the ListAdapter feature:
+            adapter.submitList(it)
         })
-
-
 
 
         return binding.root
