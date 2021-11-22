@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
@@ -14,6 +15,7 @@ import androidx.navigation.findNavController
 import com.example.jokeapp.R
 import com.example.jokeapp.database.jokes.JokeDatabase
 import com.example.jokeapp.databinding.FragmentJokeBinding
+
 import kotlin.random.Random
 
 /**
@@ -24,7 +26,7 @@ import kotlin.random.Random
 class JokeFragment : Fragment() {
 
     private lateinit var binding: FragmentJokeBinding
-    private lateinit var viewModel : JokeViewModel
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,7 +51,11 @@ class JokeFragment : Fragment() {
 
         //use a factory to pass the database reference to the viewModel
         val viewModelFactory = JokeViewModelFactory(dataSource, appContext)
-        viewModel = ViewModelProvider(this, viewModelFactory).get(JokeViewModel::class.java)
+        /*viewModel = ViewModelProvider(this, viewModelFactory).get(JokeViewModel::class.java)*/
+        //use a delegate instead
+        val viewModel : JokeViewModel by viewModels{viewModelFactory}
+
+
 
         binding.jokes = viewModel
 

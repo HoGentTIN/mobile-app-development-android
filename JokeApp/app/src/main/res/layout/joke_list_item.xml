@@ -8,11 +8,16 @@
         <variable
             name="joke"
             type="com.example.jokeapp.database.jokes.Joke" />
+        <variable
+            name="clickListener"
+            type="com.example.jokeapp.screens.jokeOverview.JokesListener" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:onClick="@{()->clickListener.onClick(joke)}">
 
         <ImageView
             android:id="@+id/imageView"
@@ -24,7 +29,10 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_iconmonstr_smiley_1" />
+            tools:srcCompat="@drawable/ic_iconmonstr_smiley_1"
+            app:jokeImage="@{joke}"/>
+        <!--The benefit is that no matter what the ID is of this imageView, it will be filled in
+        if e.g you remove the imageview, everything will still work (because no refs are made in the adapter or viewmodel-->
 
         <TextView
             android:id="@+id/joke_setup_textview"

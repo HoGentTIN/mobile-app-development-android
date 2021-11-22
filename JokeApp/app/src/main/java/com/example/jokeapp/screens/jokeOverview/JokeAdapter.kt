@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.jokeapp.database.jokes.Joke
 import com.example.jokeapp.databinding.JokeListItemBinding
 
-class JokeAdapter : ListAdapter<Joke, ViewHolder>(JokeDiffCallback()){
+class JokeAdapter(val clickListener: JokesListener) : ListAdapter<Joke, ViewHolder>(JokeDiffCallback()){
     //taken care of by ListAdapter
     /*var data = listOf<Joke>()
     set(value) {
@@ -24,7 +24,7 @@ class JokeAdapter : ListAdapter<Joke, ViewHolder>(JokeDiffCallback()){
     //fill up the item you need (e.g. set texts and images)
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = getItem(position)
-        holder.bind(item)
+        holder.bind(clickListener, item)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -37,9 +37,15 @@ class JokeAdapter : ListAdapter<Joke, ViewHolder>(JokeDiffCallback()){
 
 class ViewHolder(val binding: JokeListItemBinding): RecyclerView.ViewHolder(binding.root){
 
-    fun bind(item: Joke) {
+    fun bind(clickListener: JokesListener, item: Joke) {
         binding.jokePunchlineTextview.text = item.punchline
         binding.jokeSetupTextview.text = item.jokeSetup
+
+        binding.joke = item
+        binding.clickListener = clickListener
+        binding.executePendingBindings()
+
+
     }
 
     //this way the viewHolder knows how to inflate.
@@ -63,4 +69,8 @@ class JokeDiffCallback: DiffUtil.ItemCallback<Joke>(){
         return oldItem == newItem
         //works perfectly because it's a dataclass.
     }
+}
+
+class JokesListener(val clickListener: (jokeID: Long)->Unit){
+    fun onClick(joke: Joke) = clickListener(joke.jokeId)
 }

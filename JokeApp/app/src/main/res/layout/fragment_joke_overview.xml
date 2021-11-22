@@ -6,7 +6,6 @@
         <variable
             name="viewModel"
             type="com.example.jokeapp.screens.jokeOverview.JokeOverviewViewModel" />
-
     </data>
 
 
