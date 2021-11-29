@@ -3,9 +3,12 @@ package com.example.jokeapp.screens.jokeOverviewFromAPI
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.jokeapp.database.jokes.Joke
 import com.example.jokeapp.network.ApiJoke
 import com.example.jokeapp.network.JokeApi
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -20,23 +23,24 @@ class FromAPIViewModel: ViewModel() {
     init {
         _apiResponse.value = "add API response here"
         Timber.i("getting jokes")
-        getJokesFromAPI()
+        viewModelScope.launch {
+            getJokesFromAPI()
+        }
+
     }
 
-    private fun getJokesFromAPI() {
-        JokeApi.retrofitService.getJokes().enqueue(object: Callback<ApiJoke> {
-            override fun onResponse(call: Call<ApiJoke>, response: Response<ApiJoke>) {
-                _apiResponse.value = response.body()?.toString()
-                //Timber.i(response.body())
-
-            }
-
-            override fun onFailure(call: Call<ApiJoke>, t: Throwable) {
-                _apiResponse.value = "Failure: " + t.message
-                Timber.i(t.message)
-            }
-
-        })
+    private suspend fun getJokesFromAPI() {
+        var getJokesDeferred = JokeApi.retrofitService.getJokes()
+        try {
+            var res = getJokesDeferred.await()
+            _apiResponse.value = res.body.get(0).punchline
+        } catch (e: Exception){
+            _apiResponse.value = "Failed to get jokes"
+        }
     }
 
+    override fun onCleared() {
+        super.onCleared()
+        viewModelScope.cancel()
+    }
 }

@@ -1,7 +1,9 @@
 package com.example.jokeapp.network
 
+import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import kotlinx.coroutines.Deferred
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
@@ -21,6 +23,7 @@ private val moshi = Moshi.Builder()
 //Scalars Converter = converter for strings to plain text bodies
 private val retrofit = Retrofit.Builder()
     .addConverterFactory(MoshiConverterFactory.create(moshi))
+    .addCallAdapterFactory(CoroutineCallAdapterFactory())
     .baseUrl(BASE_URL)
     .build()
 
@@ -34,7 +37,7 @@ interface JokeApiService{
 
     @Headers("x-rapidapi-key: 08f9dd6646msh683da6dc2cdc06fp1fee21jsn7fb6de1479aa")
     @GET("random/joke")
-    fun getJokes(): Call<ApiJoke>
+    fun getJokes(): Deferred<ApiJoke>
 
 }
 
