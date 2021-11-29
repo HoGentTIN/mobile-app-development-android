@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/homeFragment2"
+        android:enabled="true"
+        android:icon="@drawable/ic_iconmonstr_smiley_1"
+        android:title="home"/>
+    <item
+        android:id="@+id/jokeOverviewFragment"
+        android:enabled="true"
+        android:icon="@drawable/ic_iconmonstr_smiley_13"
+        android:title="DB"/>
+    <item
+        android:id="@+id/jokeOverviewFromAPIFragment"
+        android:enabled="true"
+        android:icon="@drawable/ic_iconmonstr_smiley_2"
+        android:title="API"/>
+
+</menu>

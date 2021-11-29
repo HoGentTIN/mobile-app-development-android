@@ -73,4 +73,8 @@
         android:id="@+id/jokeOverviewFragment"
         android:name="com.example.jokeapp.screens.jokeOverview.JokeOverviewFragment"
         android:label="JokeOverviewFragment" />
+    <fragment
+        android:id="@+id/jokeOverviewFromAPIFragment"
+        android:name="com.example.jokeapp.screens.jokeOverviewFromAPI.JokeOverviewFromAPIFragment"
+        android:label="JokeOverviewFromAPIFragment" />
 </navigation>
