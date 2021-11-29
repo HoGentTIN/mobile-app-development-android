@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity() {
         NavigationUI.setupWithNavController(navView, navController)
 
         val titleString = "<font color=\"black\">" + getString(R.string.app_name) + "</font>"
-        supportActionBar?.setTitle(HtmlCompat.fromHtml(titleString, HtmlCompat.FROM_HTML_MODE_LEGACY))
+        supportActionBar?.title = HtmlCompat.fromHtml(titleString, HtmlCompat.FROM_HTML_MODE_LEGACY)
     }
 
     override fun onSupportNavigateUp(): Boolean {
