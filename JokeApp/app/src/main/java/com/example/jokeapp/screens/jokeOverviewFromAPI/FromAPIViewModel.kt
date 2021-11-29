@@ -16,12 +16,13 @@ import timber.log.Timber
 
 class FromAPIViewModel: ViewModel() {
 
-    private var _apiResponse = MutableLiveData<String>()
-    val apiResponse: LiveData<String>
+    private var _apiResponse = MutableLiveData<ApiJoke>()
+    val apiResponse: LiveData<ApiJoke>
         get() = _apiResponse
 
+
     init {
-        _apiResponse.value = "add API response here"
+
         Timber.i("getting jokes")
         viewModelScope.launch {
             getJokesFromAPI()
@@ -33,9 +34,9 @@ class FromAPIViewModel: ViewModel() {
         var getJokesDeferred = JokeApi.retrofitService.getJokes()
         try {
             var res = getJokesDeferred.await()
-            _apiResponse.value = res.body.get(0).punchline
+            _apiResponse.value = res
         } catch (e: Exception){
-            _apiResponse.value = "Failed to get jokes"
+            //...
         }
     }
 

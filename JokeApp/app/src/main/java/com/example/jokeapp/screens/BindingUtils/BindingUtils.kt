@@ -1,8 +1,9 @@
-package com.example.jokeapp.screens.jokeOverview.BindingUtils
+package com.example.jokeapp.screens.BindingUtils
 
 import android.widget.ImageView
-import android.widget.TextView
+import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
+import com.bumptech.glide.Glide
 import com.example.jokeapp.R
 import com.example.jokeapp.database.jokes.Joke
 
@@ -14,4 +15,15 @@ fun ImageView.setJokeImage(item: Joke){
         1 -> R.drawable.ic_iconmonstr_smiley_13
         else -> R.drawable.ic_iconmonstr_smiley_1
     })
+}
+
+//Adapter for imageURI
+@BindingAdapter("imageUrl")
+fun ImageView.setImage(imgUrl: String?){
+    imgUrl?.let{
+        val imgUri = it.toUri().buildUpon().scheme("https").build()
+        Glide.with(context)
+            .load(imgUri)
+            .into(this)
+    }
 }
