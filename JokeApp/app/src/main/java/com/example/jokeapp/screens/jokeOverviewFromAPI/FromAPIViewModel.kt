@@ -14,11 +14,17 @@ import retrofit2.Callback
 import retrofit2.Response
 import timber.log.Timber
 
+enum class JokeApiStatus { LOADING, ERROR, DONE }
+
 class FromAPIViewModel: ViewModel() {
 
     private var _apiResponse = MutableLiveData<ApiJoke>()
     val apiResponse: LiveData<ApiJoke>
         get() = _apiResponse
+
+    private val _status = MutableLiveData<JokeApiStatus>()
+    val status: LiveData<JokeApiStatus>
+        get() = _status
 
 
     init {
@@ -31,12 +37,15 @@ class FromAPIViewModel: ViewModel() {
     }
 
     private suspend fun getJokesFromAPI() {
+        _status.value = JokeApiStatus.LOADING
         var getJokesDeferred = JokeApi.retrofitService.getJokes()
+
         try {
             var res = getJokesDeferred.await()
+            _status.value = JokeApiStatus.DONE
             _apiResponse.value = res
         } catch (e: Exception){
-            //...
+            _status.value = JokeApiStatus.ERROR
         }
     }
 
