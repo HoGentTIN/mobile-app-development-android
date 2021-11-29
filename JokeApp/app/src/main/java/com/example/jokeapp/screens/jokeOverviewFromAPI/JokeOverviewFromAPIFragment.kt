@@ -23,6 +23,7 @@ class JokeOverviewFromAPIFragment: Fragment() {
         val viewModel = FromAPIViewModel()
 
         binding.viewModel = viewModel
+        binding.lifecycleOwner = viewLifecycleOwner
 
         return binding.root
     }
