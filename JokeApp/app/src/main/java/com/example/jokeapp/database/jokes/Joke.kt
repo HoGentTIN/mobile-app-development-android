@@ -3,6 +3,7 @@ package com.example.jokeapp.database.jokes
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.squareup.moshi.Json
 
 @Entity(tableName = "custom_joke_table")
 data class Joke(
@@ -10,12 +11,12 @@ data class Joke(
     var jokeId: Long = 0L,
 
     @ColumnInfo(name = "joke_setup")
-    var jokeSetup: String = "",
+    @Json(name = "setup") var jokeSetup: String = "",
 
     @ColumnInfo(name = "joke_type")
-    var jokeType: String = "",
+    @Json(name = "type") var jokeType: String = "",
 
     @ColumnInfo(name = "joke_punchline")
     var punchline: String = "",
 
-)
+    )
