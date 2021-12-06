@@ -7,7 +7,7 @@
     <data>
         <variable
             name="joke"
-            type="com.example.jokeapp.database.jokes.Joke" />
+            type="com.example.jokeapp.database.jokes.DatabaseJoke" />
         <variable
             name="clickListener"
             type="com.example.jokeapp.screens.jokeOverview.JokesListener" />

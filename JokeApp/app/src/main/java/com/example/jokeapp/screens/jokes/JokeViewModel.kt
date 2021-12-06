@@ -3,7 +3,7 @@ package com.example.jokeapp.screens.jokes
 import android.app.Activity
 import android.app.Application
 import androidx.lifecycle.*
-import com.example.jokeapp.database.jokes.Joke
+import com.example.jokeapp.database.jokes.DatabaseJoke
 import com.example.jokeapp.database.jokes.JokeDatabase
 import com.example.jokeapp.database.jokes.JokeDatabaseDao
 import kotlinx.coroutines.launch
@@ -19,7 +19,7 @@ class JokeViewModel(val database: JokeDatabaseDao, application: Application): An
         "My wife said I should do lunges to stay in shape. That would be a big step forward...."
     )*/
 
-    private lateinit var jokes: List<Joke>
+    private lateinit var jokes: List<DatabaseJoke>
     private val numberOfJokes = MutableLiveData<Int>()
 
     val numberOfJokesString = Transformations.map(numberOfJokes){
@@ -117,7 +117,7 @@ class JokeViewModel(val database: JokeDatabaseDao, application: Application): An
         return database.numberOfJokes()
     }
 
-    private suspend fun getAllJokes(): List<Joke>{
+    private suspend fun getAllJokes(): List<DatabaseJoke>{
         return database.getAllJokes()
     }
 }

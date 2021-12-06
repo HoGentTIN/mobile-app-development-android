@@ -2,10 +2,7 @@ package com.example.jokeapp.database.jokes
 
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.Query
-import androidx.room.Update
+import androidx.room.*
 
 /**
  * Defines methods for using the SleepNight class with Room.
@@ -14,26 +11,31 @@ import androidx.room.Update
 interface JokeDatabaseDao {
 
     @Insert
-    suspend fun insert(joke: Joke)
+    suspend fun insert(joke: DatabaseJoke)
+
+    //adding insert all with vararg
+    //replace strategy: upsert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAll(vararg jokes : DatabaseJoke)
 
     @Update
-    suspend fun update(joke: Joke)
+    suspend fun update(joke: DatabaseJoke)
 
     @Query("SELECT * from custom_joke_table WHERE jokeId = :key")
-    suspend fun get(key: Long): Joke?
+    suspend fun get(key: Long): DatabaseJoke?
 
     @Query("DELETE FROM custom_joke_table")
     suspend fun clear()
 
     @Query("SELECT * FROM custom_joke_table ORDER BY jokeId DESC")
-    suspend fun getAllJokes(): List<Joke>
+    suspend fun getAllJokes(): List<DatabaseJoke>
 
     @Query("SELECT * FROM custom_joke_table ORDER BY jokeId DESC")
-    fun getAllJokesLive(): LiveData<List<Joke>>
+    fun getAllJokesLive(): LiveData<List<DatabaseJoke>>
 
     //get the joke with the highest ID (last joke added)
     @Query("SELECT * FROM custom_joke_table ORDER BY jokeId DESC LIMIT 1")
-    suspend fun getLastJoke(): Joke?
+    suspend fun getLastJoke(): DatabaseJoke?
 
     //get the number of jokes present
     @Query("SELECT COUNT(*) FROM custom_joke_table")

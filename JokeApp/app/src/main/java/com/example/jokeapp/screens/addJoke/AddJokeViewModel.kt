@@ -2,7 +2,7 @@ package com.example.jokeapp.screens.addJoke
 
 import android.app.Application
 import androidx.lifecycle.*
-import com.example.jokeapp.database.jokes.Joke
+import com.example.jokeapp.database.jokes.DatabaseJoke
 import com.example.jokeapp.database.jokes.JokeDatabaseDao
 import kotlinx.coroutines.launch
 
@@ -26,14 +26,14 @@ class AddJokeViewModel(val database: JokeDatabaseDao, application: Application):
 
     fun saveJoke(newJoke : String){
         viewModelScope.launch{
-            val joke = Joke()
+            val joke = DatabaseJoke()
             joke.punchline = newJoke
             saveJokeToDatabase(joke)
         }
     }
 
     //suspend methods
-    suspend fun saveJokeToDatabase(newJoke: Joke){
+    suspend fun saveJokeToDatabase(newJoke: DatabaseJoke){
         database.insert(newJoke)
     }
 }

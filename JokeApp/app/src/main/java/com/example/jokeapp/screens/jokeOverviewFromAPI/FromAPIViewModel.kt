@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.jokeapp.database.jokes.Joke
 import com.example.jokeapp.network.ApiJoke
 import com.example.jokeapp.network.JokeApi
 import kotlinx.coroutines.cancel

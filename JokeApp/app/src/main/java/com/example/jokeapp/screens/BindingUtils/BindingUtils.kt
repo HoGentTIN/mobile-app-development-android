@@ -6,12 +6,12 @@ import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 import com.example.jokeapp.R
-import com.example.jokeapp.database.jokes.Joke
+import com.example.jokeapp.database.jokes.DatabaseJoke
 import com.example.jokeapp.screens.jokeOverviewFromAPI.JokeApiStatus
 
 //The adapter will adapt the joke to get the data we need
 @BindingAdapter("jokeImage")
-fun ImageView.setJokeImage(item: Joke){
+fun ImageView.setJokeImage(item: DatabaseJoke){
     setImageResource(when (item.jokeId.mod(2)){
         0 -> R.drawable.ic_iconmonstr_smiley_2
         1 -> R.drawable.ic_iconmonstr_smiley_13
