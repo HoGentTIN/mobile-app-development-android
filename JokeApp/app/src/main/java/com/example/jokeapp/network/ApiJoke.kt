@@ -1,13 +1,50 @@
 package com.example.jokeapp.network
 
-import com.example.jokeapp.database.jokes.Joke
+import com.example.jokeapp.database.jokes.DatabaseJoke
+import com.example.jokeapp.domain.Joke
 import com.squareup.moshi.Json
 
-data class ApiJoke (
+/*ApiJoke: this is a DataTransferObject
+* it's goal is to get network data into our model data, the Joke
+*/
 
-    val body: List<Joke>
-){
-    //Hardcoded image url to demo Glide
-    val smileyUri = "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/apple/285/grinning-face-with-big-eyes_1f603.png"
+/*Container helps us parse the body into multiple jokes*/
+data class ApiJokeContainer (
+    @Json(name = "body")
+    val apiJokes: List<ApiJoke>
+)
 
+/*ApiJoke, representing a joke from the network*/
+data class ApiJoke(
+    @Json(name = "setup")
+    var jokeSetup: String = "",
+
+    @Json(name = "type")
+    var jokeType: String = "",
+
+    var punchline: String = "",
+)
+
+/*
+* Convert network results into Domain jokes
+* */
+fun ApiJokeContainer.asDomainModel(): List<Joke>{
+    return apiJokes.map{
+        Joke(jokeSetup = it.jokeSetup,
+        jokeType = it.jokeType,
+        punchline = it.punchline)
+    }
+}
+
+/*
+* Convert network result into Database jokes
+*
+* returns an array that can be used in the insert call as vararg
+* */
+fun ApiJokeContainer.asDatabaseModel(): Array<DatabaseJoke>{
+    return apiJokes.map{
+        DatabaseJoke(jokeSetup = it.jokeSetup,
+            jokeType = it.jokeType,
+            punchline = it.punchline)
+    }.toTypedArray()
 }

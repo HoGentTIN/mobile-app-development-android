@@ -44,7 +44,7 @@ interface JokeApiService{
 
     @Headers("x-rapidapi-key: 08f9dd6646msh683da6dc2cdc06fp1fee21jsn7fb6de1479aa")
     @GET("random/joke")
-    fun getJokes(): Deferred<ApiJoke>
+    fun getJokes(): Deferred<ApiJokeContainer>
 
 }
 

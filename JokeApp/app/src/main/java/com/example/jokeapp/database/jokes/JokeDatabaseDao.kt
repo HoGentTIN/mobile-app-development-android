@@ -4,9 +4,14 @@ package com.example.jokeapp.database.jokes
 import androidx.lifecycle.LiveData
 import androidx.room.*
 
-/**
- * Defines methods for using the SleepNight class with Room.
- */
+/*
+* Contains functions to insert and get jokes
+* note: getJokesLive --> live data with a list of jokes
+* note 2: insertAll --> takes a vararg jokes to update all jokes
+*/
+
+/*the Dao only knows about DatabaseJokes*/
+
 @Dao
 interface JokeDatabaseDao {
 

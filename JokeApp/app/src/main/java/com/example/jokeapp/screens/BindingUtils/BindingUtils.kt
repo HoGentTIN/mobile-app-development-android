@@ -2,11 +2,13 @@ package com.example.jokeapp.screens.BindingUtils
 
 import android.view.View
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 import com.example.jokeapp.R
 import com.example.jokeapp.database.jokes.DatabaseJoke
+import com.example.jokeapp.domain.Joke
 import com.example.jokeapp.screens.jokeOverviewFromAPI.JokeApiStatus
 
 //The adapter will adapt the joke to get the data we need
@@ -50,5 +52,20 @@ fun ImageView.bindStatus( status: JokeApiStatus?) {
         JokeApiStatus.DONE -> {
             visibility = View.GONE
         }
+    }
+}
+
+
+@BindingAdapter("jokePunchline")
+fun TextView.bindPunchline(jokes: List<Joke>?){
+    jokes?.let{
+        text = jokes[0].punchline
+    }
+}
+
+@BindingAdapter("jokeSetup")
+fun TextView.bindSetup(jokes: List<Joke>?){
+    jokes?.let{
+        text = jokes[0].jokeSetup
     }
 }

@@ -3,8 +3,17 @@ package com.example.jokeapp.database.jokes
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.example.jokeapp.domain.Joke
 import com.example.jokeapp.network.ApiJoke
 import com.squareup.moshi.Json
+
+/*
+* Database entity DatabaseJoke
+* This represents a Joke in the database
+* it also has a function to transform a list of database jokes
+* to the jokes used in the rest of the app: model jokes
+* */
+
 
 @Entity(tableName = "custom_joke_table")
 data class DatabaseJoke(
@@ -22,14 +31,15 @@ data class DatabaseJoke(
 
     )
 
-{
-    //convert Joke to ApiJoke
-    fun List<DatabaseJoke>.asDomainModel() : List<ApiJoke>{
-        return map {
-            ApiJoke(
-                body = listOf(it)
-            )
-        }
-    }
 
+//convert Joke to ApiJoke
+fun List<DatabaseJoke>.asDomainModel() : List<Joke>{
+    return map {
+        Joke(
+            punchline = it.punchline,
+            jokeSetup = it.jokeSetup,
+            jokeType = it.jokeType
+        )
+    }
 }
+
