@@ -6,11 +6,13 @@ import androidx.lifecycle.*
 import com.example.jokeapp.database.jokes.DatabaseJoke
 import com.example.jokeapp.database.jokes.JokeDatabase
 import com.example.jokeapp.database.jokes.JokeDatabaseDao
+import com.example.jokeapp.repository.JokeRepository
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import kotlin.random.Random
 
-class JokeViewModel(val database: JokeDatabaseDao, application: Application): AndroidViewModel(application) {
+class JokeViewModel(application: Application): AndroidViewModel(application) {
 
     var happyJokes = 0
     var badJokes = 0
@@ -19,7 +21,6 @@ class JokeViewModel(val database: JokeDatabaseDao, application: Application): An
         "My wife said I should do lunges to stay in shape. That would be a big step forward...."
     )*/
 
-    private lateinit var jokes: List<DatabaseJoke>
     private val numberOfJokes = MutableLiveData<Int>()
 
     val numberOfJokesString = Transformations.map(numberOfJokes){
@@ -42,16 +43,28 @@ class JokeViewModel(val database: JokeDatabaseDao, application: Application): An
     val showSmileyEvent : LiveData<Boolean>
         get() = _showSmileyEvent
 
+    private val repository = JokeRepository(JokeDatabase.getInstance(application.applicationContext))
+
+    val jokes = repository.jokes
+
     init {
-        initializeLiveData()
+        //initializeLiveData()
+        viewModelScope.launch {
+            repository.refreshJokes() //fetches new jokes from the API
+            //numberOfJokes.value = jokes.value.orEmpty().size
+            //Timber.i(numberOfJokesString.value)
+            //changeCurrentJoke() //fetches new joke from the repository
+        }
+
     }
 
+    /*
     private fun initializeLiveData(){
         viewModelScope.launch{
             numberOfJokes.value = getNumberOfJokesFromDatabase()
             changeCurrentJoke()
         }
-    }
+    }*/
 
     fun changeCurrentJoke() {
         //Check for evaluation:
@@ -61,21 +74,24 @@ class JokeViewModel(val database: JokeDatabaseDao, application: Application): An
             return
         }
         viewModelScope.launch {
-            jokes = getAllJokes()
-
+            //jokes = getAllJokes()
+            /*
             _currentJoke.value = "Create some jokes first"
-            if (numberOfJokes.value == null) return@launch
+            if (jokes.value == null) return@launch
 
             //don't change the joke if there are no jokes
-            if (numberOfJokes.value!! == 0) return@launch
-
+            if (jokes.value!!.size!! == 0) return@launch
+            numberOfJokes.value = jokes.value!!.size
             var randomListNumber = Random.nextInt(numberOfJokes.value!!)
 
             //use the livedata joke list to get a random joke
-            if (_currentJoke.value == jokes.get(randomListNumber).punchline) randomListNumber =
+            if (_currentJoke.value == jokes.value?.get(randomListNumber)?.punchline) randomListNumber =
                 randomListNumber.plus(1).mod(numberOfJokes.value!!)
             //use mod to stay in the correct range
-            _currentJoke.value = jokes.get(randomListNumber).punchline
+            _currentJoke.value = jokes.value?.get(randomListNumber)?.punchline*/
+
+            _currentJoke.value = repository.getRandomJoke()
+            Timber.i(_currentJoke.value)
         }
     }
 
@@ -113,11 +129,11 @@ class JokeViewModel(val database: JokeDatabaseDao, application: Application): An
 
 
     //Suspend functions
-    private suspend fun getNumberOfJokesFromDatabase(): Int{
+    /*private suspend fun getNumberOfJokesFromDatabase(): Int{
         return database.numberOfJokes()
-    }
+    }*/
 
-    private suspend fun getAllJokes(): List<DatabaseJoke>{
+    /*private suspend fun getAllJokes(): List<DatabaseJoke>{
         return database.getAllJokes()
-    }
+    }*/
 }

@@ -10,8 +10,10 @@ import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
+import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Headers
+import retrofit2.http.POST
 
 private const val BASE_URL = "https://dad-jokes.p.rapidapi.com/"
 
@@ -46,6 +48,13 @@ interface JokeApiService{
     @GET("random/joke")
     fun getJokes(): Deferred<ApiJokeContainer>
 
+    /*
+    * Note: the joke api doesn't have a POST endpoint
+    * This is just an example
+    * */
+    @POST("joke")
+    fun putJoke(@Body joke: ApiJoke): Deferred<ApiJoke>
+
 }
 
 object JokeApi{
@@ -53,5 +62,9 @@ object JokeApi{
     //adds extra safety to our 1 instance we need.
     val retrofitService : JokeApiService by lazy {
         retrofit.create(JokeApiService::class.java)
+    }
+
+    fun JokeApiService.mockPutJoke(joke: ApiJoke):ApiJoke{
+        return joke
     }
 }

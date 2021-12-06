@@ -6,6 +6,7 @@ import androidx.room.PrimaryKey
 import com.example.jokeapp.domain.Joke
 import com.example.jokeapp.network.ApiJoke
 import com.squareup.moshi.Json
+import kotlin.random.Random
 
 /*
 * Database entity DatabaseJoke
@@ -42,4 +43,5 @@ fun List<DatabaseJoke>.asDomainModel() : List<Joke>{
         )
     }
 }
+
 

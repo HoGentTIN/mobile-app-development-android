@@ -47,10 +47,10 @@ class JokeFragment : Fragment() {
 
         //Get an instance of the appContext to setup the database
         val appContext = requireNotNull(this.activity).application
-        val dataSource = JokeDatabase.getInstance(appContext).jokeDatabaseDao
+        //val dataSource = JokeDatabase.getInstance(appContext).jokeDatabaseDao
 
-        //use a factory to pass the database reference to the viewModel
-        val viewModelFactory = JokeViewModelFactory(dataSource, appContext)
+
+        val viewModelFactory = JokeViewModelFactory(appContext)
         /*viewModel = ViewModelProvider(this, viewModelFactory).get(JokeViewModel::class.java)*/
         //use a delegate instead
         val viewModel : JokeViewModel by viewModels{viewModelFactory}
@@ -61,7 +61,7 @@ class JokeFragment : Fragment() {
 
         //this call allows to automatically update the livedata
         //Meaning: no more resets or whatsoever
-        binding.setLifecycleOwner (this)
+        binding.lifecycleOwner = this
 
         viewModel.shouldEvaluate.observe(viewLifecycleOwner, Observer { shouldEveluate ->
             if(shouldEveluate){

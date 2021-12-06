@@ -10,6 +10,7 @@ import com.example.jokeapp.R
 import com.example.jokeapp.database.jokes.DatabaseJoke
 import com.example.jokeapp.domain.Joke
 import com.example.jokeapp.screens.jokeOverviewFromAPI.JokeApiStatus
+import kotlin.random.Random
 
 //The adapter will adapt the joke to get the data we need
 @BindingAdapter("jokeImage")
@@ -69,3 +70,13 @@ fun TextView.bindSetup(jokes: List<Joke>?){
         text = jokes[0].jokeSetup
     }
 }
+
+@BindingAdapter("randomJoke")
+fun TextView.bindRandom(jokes: List<Joke>?){
+    jokes?.let{
+
+        var randomListNumber = Random.nextInt(it.size)
+        text = jokes[randomListNumber].punchline
+    }
+}
+

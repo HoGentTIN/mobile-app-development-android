@@ -3,7 +3,10 @@ package com.example.jokeapp.screens.addJoke
 import android.app.Application
 import androidx.lifecycle.*
 import com.example.jokeapp.database.jokes.DatabaseJoke
+import com.example.jokeapp.database.jokes.JokeDatabase
 import com.example.jokeapp.database.jokes.JokeDatabaseDao
+import com.example.jokeapp.domain.Joke
+import com.example.jokeapp.repository.JokeRepository
 import kotlinx.coroutines.launch
 
 class AddJokeViewModel(val database: JokeDatabaseDao, application: Application): AndroidViewModel(application) {
@@ -11,6 +14,8 @@ class AddJokeViewModel(val database: JokeDatabaseDao, application: Application):
     private val _saveEvent = MutableLiveData<Boolean>()
     val saveEvent: LiveData<Boolean>
         get() = _saveEvent
+    private val db = JokeDatabase.getInstance(application.applicationContext)
+    private val repository = JokeRepository(db)
 
     init {
         _saveEvent.value = false
@@ -26,9 +31,10 @@ class AddJokeViewModel(val database: JokeDatabaseDao, application: Application):
 
     fun saveJoke(newJoke : String){
         viewModelScope.launch{
-            val joke = DatabaseJoke()
+            val joke = Joke()
             joke.punchline = newJoke
-            saveJokeToDatabase(joke)
+            //saveJokeToDatabase(joke)
+            saveJokeWithRepository(joke)
         }
     }
 
@@ -36,4 +42,11 @@ class AddJokeViewModel(val database: JokeDatabaseDao, application: Application):
     suspend fun saveJokeToDatabase(newJoke: DatabaseJoke){
         database.insert(newJoke)
     }
+
+    suspend fun saveJokeWithRepository(newJoke: Joke){
+        repository.createJoke(newJoke)
+    }
+
+
+
 }

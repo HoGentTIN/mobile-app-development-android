@@ -1,8 +1,11 @@
 package com.example.jokeapp.network
 
+import android.provider.ContactsContract
+import androidx.room.Database
 import com.example.jokeapp.database.jokes.DatabaseJoke
 import com.example.jokeapp.domain.Joke
 import com.squareup.moshi.Json
+import kotlinx.coroutines.Deferred
 
 /*ApiJoke: this is a DataTransferObject
 * it's goal is to get network data into our model data, the Joke
@@ -47,4 +50,15 @@ fun ApiJokeContainer.asDatabaseModel(): Array<DatabaseJoke>{
             jokeType = it.jokeType,
             punchline = it.punchline)
     }.toTypedArray()
+}
+
+/*
+* Convert a single api joke to a database joke
+* */
+fun ApiJoke.asDatabaseJoke(): DatabaseJoke{
+    return DatabaseJoke(
+        jokeSetup = jokeSetup,
+        jokeType = jokeType,
+        punchline = punchline
+    )
 }
