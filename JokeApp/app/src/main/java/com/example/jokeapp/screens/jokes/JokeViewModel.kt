@@ -90,7 +90,7 @@ class JokeViewModel(application: Application): AndroidViewModel(application) {
             //use mod to stay in the correct range
             _currentJoke.value = jokes.value?.get(randomListNumber)?.punchline*/
 
-            _currentJoke.value = repository.getRandomJoke()
+            //_currentJoke.value = repository.getRandomJoke()
             Timber.i(_currentJoke.value)
         }
     }

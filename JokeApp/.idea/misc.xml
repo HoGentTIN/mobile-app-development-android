@@ -11,9 +11,24 @@
         <entry key="..\:/Users/gbos562/Documents/android_general_exercise/mobile-app-development-android/JokeApp/app/src/main/res/drawable/ic_iconmonstr_smiley_13.xml" value="0.17239583333333333" />
         <entry key="..\:/Users/gbos562/Documents/android_general_exercise/mobile-app-development-android/JokeApp/app/src/main/res/drawable/ic_iconmonstr_smiley_2.xml" value="0.17239583333333333" />
         <entry key="..\:/Users/gbos562/Documents/android_general_exercise/mobile-app-development-android/JokeApp/app/src/main/res/drawable/ic_launcher_background.xml" value="0.17239583333333333" />
+        <entry key="..\:/Users/gbos562/Documents/android_general_exercise/mobile-app-development-android/JokeApp/app/src/main/res/layout-land/fragment_about.xml" value="0.13580246913580246" />
+        <entry key="..\:/Users/gbos562/Documents/android_general_exercise/mobile-app-development-android/JokeApp/app/src/main/res/layout-land/fragment_home.xml" value="0.10520833333333333" />
         <entry key="..\:/Users/gbos562/Documents/android_general_exercise/mobile-app-development-android/JokeApp/app/src/main/res/layout/about.xml" value="0.23052536231884058" />
         <entry key="..\:/Users/gbos562/Documents/android_general_exercise/mobile-app-development-android/JokeApp/app/src/main/res/layout/about_me.xml" value="0.22" />
-        <entry key="..\:/Users/gbos562/Documents/android_general_exercise/mobile-app-development-android/JokeApp/app/src/main/res/layout/activity_main.xml" value="0.22" />
+        <entry key="..\:/Users/gbos562/Documents/android_general_exercise/mobile-app-development-android/JokeApp/app/src/main/res/layout/activity_main.xml" value="0.33" />
+        <entry key="..\:/Users/gbos562/Documents/android_general_exercise/mobile-app-development-android/JokeApp/app/src/main/res/layout/empty_jokedb_layout.xml" value="0.160081053698075" />
+        <entry key="..\:/Users/gbos562/Documents/android_general_exercise/mobile-app-development-android/JokeApp/app/src/main/res/layout/fragment_about.xml" value="0.16041666666666668" />
+        <entry key="..\:/Users/gbos562/Documents/android_general_exercise/mobile-app-development-android/JokeApp/app/src/main/res/layout/fragment_add_joke.xml" value="0.18059777102330293" />
+        <entry key="..\:/Users/gbos562/Documents/android_general_exercise/mobile-app-development-android/JokeApp/app/src/main/res/layout/fragment_home.xml" value="0.17350557244174267" />
+        <entry key="..\:/Users/gbos562/Documents/android_general_exercise/mobile-app-development-android/JokeApp/app/src/main/res/layout/fragment_joke.xml" value="0.18" />
+        <entry key="..\:/Users/gbos562/Documents/android_general_exercise/mobile-app-development-android/JokeApp/app/src/main/res/layout/fragment_joke_overview.xml" value="0.17350557244174267" />
+        <entry key="..\:/Users/gbos562/Documents/android_general_exercise/mobile-app-development-android/JokeApp/app/src/main/res/layout/fragment_joke_overview_from_api.xml" value="0.22" />
+        <entry key="..\:/Users/gbos562/Documents/android_general_exercise/mobile-app-development-android/JokeApp/app/src/main/res/layout/fragment_login.xml" value="0.15628166160081053" />
+        <entry key="..\:/Users/gbos562/Documents/android_general_exercise/mobile-app-development-android/JokeApp/app/src/main/res/layout/header_fragment.xml" value="0.5359375" />
+        <entry key="..\:/Users/gbos562/Documents/android_general_exercise/mobile-app-development-android/JokeApp/app/src/main/res/layout/joke_list_item.xml" value="0.4428904428904429" />
+        <entry key="..\:/Users/gbos562/Documents/android_general_exercise/mobile-app-development-android/JokeApp/app/src/main/res/layout/text_item_view.xml" value="0.17350557244174267" />
+        <entry key="..\:/Users/gbos562/Documents/android_general_exercise/mobile-app-development-android/JokeApp/app/src/main/res/menu/bottom_navigation_menu.xml" value="0.17962962962962964" />
+        <entry key="..\:/Users/gbos562/Documents/android_general_exercise/mobile-app-development-android/JokeApp/app/src/main/res/xml/network_security_config.xml" value="0.19293478260869565" />
       </map>
     </option>
   </component>

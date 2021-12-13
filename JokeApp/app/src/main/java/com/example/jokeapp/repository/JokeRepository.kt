@@ -24,8 +24,9 @@ class JokeRepository(private val database: JokeDatabase) {
 
     //Network call
     //get jokes from the database, but transform them with map
-    val jokes: LiveData<List<Joke>> = Transformations.map(database.jokeDatabaseDao.getAllJokesLive()){
-        it.asDomainModel()
+    val jokes: LiveData<List<Joke>> =
+        Transformations.map(database.jokeDatabaseDao.getAllJokesLive()){
+            it.asDomainModel()
     }
 
     //Database call

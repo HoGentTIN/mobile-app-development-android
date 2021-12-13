@@ -18,7 +18,7 @@ interface JokeDatabaseDao {
     @Insert
     suspend fun insert(joke: DatabaseJoke)
 
-    //adding insert all with vararg
+    //adding insert all with varar
     //replace strategy: upsert
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(vararg jokes : DatabaseJoke)
