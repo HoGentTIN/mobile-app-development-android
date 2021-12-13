@@ -11,7 +11,6 @@
 
         <TextView
             android:id="@+id/joke_textview"
-            style="@style/joke_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"

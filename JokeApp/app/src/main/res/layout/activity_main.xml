@@ -12,6 +12,23 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="?colorPrimaryDark"
+                android:theme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <ImageView
+                    android:id="@+id/smile_image"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/app_name"
+                    app:tint="?colorOnPrimary"
+                    app:srcCompat="@drawable/ic_iconmonstr_smiley_1" />
+            </androidx.appcompat.widget.Toolbar>
 
             <fragment
                 android:id="@+id/navHostFragment"
@@ -23,7 +40,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/toolbar"
                 app:navGraph="@navigation/navigation" />
 
             <com.google.android.material.bottomnavigation.BottomNavigationView

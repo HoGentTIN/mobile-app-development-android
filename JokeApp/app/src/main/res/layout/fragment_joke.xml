@@ -34,7 +34,6 @@
 
             <TextView
                 android:id="@+id/joke_textview"
-                style="@style/joke_text"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -47,7 +46,8 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/happy_image"
                 tools:text="Here comes a joke"
-                android:gravity="center_horizontal"/>
+                android:gravity="center_horizontal"
+                android:textAppearance="@style/CustomHeadline6"/>
 
             <Button
                 android:id="@+id/nextjoke_button"
