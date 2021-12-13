@@ -11,6 +11,7 @@
         <item name="colorOnSecondary">@color/secondaryTextColor</item>
         <!--items here can overwrite existing items from Material design  -->
         <item name="textAppearanceHeadline6">@style/CustomHeadline6</item>
+
     </style>
 
 <!--    Overwriting an element from the Theme in this Style-->
@@ -18,5 +19,8 @@
         <item name = "android:textSize">18sp</item>
     </style>
 
+    <style name="customThemeOverlayBlack" parent="ThemeOverlay.MaterialComponents.Dark.ActionBar">
+        <item name="android:textColor">@color/black</item>"
+    </style>
 
 </resources>
