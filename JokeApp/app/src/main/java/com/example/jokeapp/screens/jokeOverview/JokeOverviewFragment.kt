@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.jokeapp.R
 import com.example.jokeapp.database.jokes.JokeDatabase
 import com.example.jokeapp.databinding.FragmentJokeOverviewBinding
+import com.google.android.material.chip.Chip
 
 
 /**
@@ -26,43 +27,84 @@ class JokeOverviewFragment : Fragment() {
         super.onCreate(savedInstanceState)
     }
 
+    lateinit var  binding : FragmentJokeOverviewBinding
+    lateinit var viewModel: JokeOverviewViewModel
+    lateinit var adapter: JokeAdapter
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val binding : FragmentJokeOverviewBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_joke_overview, container,false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_joke_overview, container,false)
 
         //setup the db connection
         val application = requireNotNull(this.activity).application
         val dataSource = JokeDatabase.getInstance(application).jokeDatabaseDao
 
-        val viewModelFactory = JokeOverviewViewModelFactory(dataSource, application)
-        val viewModel = ViewModelProvider(this, viewModelFactory).get(JokeOverviewViewModel::class.java)
+
+
+        //filling the list: joke adapter
+        adapter = JokeAdapter( JokesListener{
+                jokeID ->
+            Toast.makeText(context, "${jokeID}", Toast.LENGTH_SHORT).show()
+        })
+        binding.jokeList.adapter = adapter
+
+        //viewmodel
+        val viewModelFactory = JokeOverviewViewModelFactory(dataSource, application, adapter)
+        viewModel = ViewModelProvider(this, viewModelFactory).get(JokeOverviewViewModel::class.java)
+
 
         //databinding
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
 
 
-        //filling the list: joke adapter
-        val adapter = JokeAdapter( JokesListener{
-            jokeID ->
-            Toast.makeText(context, "${jokeID}", Toast.LENGTH_SHORT).show()
+        viewModel.jokesChanged.observe(viewLifecycleOwner, Observer{
+            //list changed
+            //reset data observer...
+            resetObserver()
         })
-        binding.jokeList.adapter = adapter
+
+        resetObserver()
 
 
+        createChips(listOf("<10", "10-20", ">20"))
+        return binding.root
+    }
+
+    private fun resetObserver() {
         //watch the data:
         viewModel.jokes.observe(viewLifecycleOwner, Observer{
-            /*it?.let {
-                adapter.data = it
-            }*/
-            //don't change the adapters data, use the ListAdapter feature:
-            adapter.submitList(it)
+           adapter.submitList(it)
         })
+    }
 
+    private fun createChips(data : List<String>) {
+        //take care: the example in the movies has dynamic chips
+        //these are hardcoded.
+        val chipGroup = binding.chipList
+        val inflator = LayoutInflater.from(chipGroup.context)
 
-        return binding.root
+        val children = data.map {
+            text ->
+            val chip = inflator.inflate(R.layout.chip, chipGroup, false) as Chip
+            chip.text = text
+            chip.tag = text
+            chip.setOnCheckedChangeListener {
+            button, isChecked ->
+                viewModel.filterChip(button.tag as String, isChecked)
+            }
+            chip
+        }
+
+        //remove existing children
+        chipGroup.removeAllViews()
+
+        //add the new children
+        for(chip in children){
+            chipGroup.addView(chip)
+        }
     }
 }

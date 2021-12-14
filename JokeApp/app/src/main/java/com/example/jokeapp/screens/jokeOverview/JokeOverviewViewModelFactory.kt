@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.jokeapp.database.jokes.JokeDatabaseDao
 import com.example.jokeapp.screens.jokes.JokeViewModel
 
-class JokeOverviewViewModelFactory(private val dataSource: JokeDatabaseDao, private val application: Application): ViewModelProvider.Factory {
+class JokeOverviewViewModelFactory(private val dataSource: JokeDatabaseDao, private val application: Application, private val adapter :JokeAdapter): ViewModelProvider.Factory {
     override fun <T: ViewModel?> create(modelClass: Class<T>): T {
         if(modelClass.isAssignableFrom(JokeOverviewViewModel::class.java)) {
             return JokeOverviewViewModel(dataSource, application) as T

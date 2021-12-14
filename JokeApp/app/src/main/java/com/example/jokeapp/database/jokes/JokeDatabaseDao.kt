@@ -38,6 +38,16 @@ interface JokeDatabaseDao {
     @Query("SELECT * FROM custom_joke_table ORDER BY jokeId DESC")
     fun getAllJokesLive(): LiveData<List<DatabaseJoke>>
 
+
+    @Query("SELECT * FROM custom_joke_table WHERE LENGTH(joke_punchline) < 10  ORDER BY jokeId DESC")
+    fun getUnder10JokesLive(): LiveData<List<DatabaseJoke>>
+
+    @Query("SELECT * FROM custom_joke_table WHERE LENGTH(joke_punchline) BETWEEN 10 AND 20  ORDER BY jokeId DESC")
+    fun getbetween1020JokesLive(): LiveData<List<DatabaseJoke>>
+
+    @Query("SELECT * FROM custom_joke_table WHERE LENGTH(joke_punchline) > 20  ORDER BY jokeId DESC")
+    fun getgreater20JokesLive(): LiveData<List<DatabaseJoke>>
+
     //get the joke with the highest ID (last joke added)
     @Query("SELECT * FROM custom_joke_table ORDER BY jokeId DESC LIMIT 1")
     suspend fun getLastJoke(): DatabaseJoke?
