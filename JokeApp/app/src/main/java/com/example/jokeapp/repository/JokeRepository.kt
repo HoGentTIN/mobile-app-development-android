@@ -1,6 +1,7 @@
 package com.example.jokeapp.repository
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.Transformations
 import com.example.jokeapp.database.jokes.JokeDatabase
 import com.example.jokeapp.database.jokes.asDomainModel
@@ -22,12 +23,58 @@ import kotlin.random.Random
 * */
 class JokeRepository(private val database: JokeDatabase) {
 
+    /*
+    * What if the jokes list depends on query params?
+    * --> The livedata source from the db will change!
+    * */
+
+    /* -- Solution 1 -- */
+    /*MediatorLiveData
+    * Hold a reference to the livedata instances, and switch them when needed
+    * */
+
+
     //Network call
     //get jokes from the database, but transform them with map
-    val jokes: LiveData<List<Joke>> =
-        Transformations.map(database.jokeDatabaseDao.getAllJokesLive()){
-            it.asDomainModel()
+    val jokes= MediatorLiveData<List<Joke>>()
+
+    //keep a reference to the original livedata
+    private var changeableLiveData = Transformations.map(database.jokeDatabaseDao.getAllJokesLive()){
+        it.asDomainModel()
     }
+
+    //add the data to the mediator
+    init {
+        jokes.addSource(
+            changeableLiveData
+        ){
+            jokes.setValue(it)
+        }
+    }
+
+    //Filter
+    fun addFilter(filter: String?){
+        //remove the original source
+        jokes.removeSource(changeableLiveData)
+        //change the livedata object + apply filter
+        changeableLiveData = when(filter){
+            "<10" -> Transformations.map(database.jokeDatabaseDao.getUnder10JokesLive()){
+                        it.asDomainModel()
+                    }
+            "10-20" -> Transformations.map(database.jokeDatabaseDao.getbetween1020JokesLive()){
+                        it.asDomainModel()
+                    }
+            ">20" -> Transformations.map(database.jokeDatabaseDao.getgreater20JokesLive()){
+                        it.asDomainModel()
+                    }
+            else -> Transformations.map(database.jokeDatabaseDao.getAllJokesLive()){
+                    it.asDomainModel()
+                }
+        }
+        //add the data to the mediator
+        jokes.addSource(changeableLiveData){jokes.setValue(it)}
+    }
+
 
     //Database call
     suspend fun refreshJokes(){
@@ -41,6 +88,7 @@ class JokeRepository(private val database: JokeDatabase) {
             Timber.i("end suspend")
         }
     }
+
 
     //create a new joke + return the resulting joke
     suspend fun createJoke(newJoke: Joke): Joke {

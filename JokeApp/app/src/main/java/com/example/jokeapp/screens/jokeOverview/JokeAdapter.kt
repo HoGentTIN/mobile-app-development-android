@@ -5,11 +5,11 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import androidx.room.Database
-import com.example.jokeapp.database.jokes.DatabaseJoke
-import com.example.jokeapp.databinding.JokeListItemBinding
 
-class JokeAdapter(val clickListener: JokesListener) : ListAdapter<DatabaseJoke, ViewHolder>(JokeDiffCallback()){
+import com.example.jokeapp.databinding.JokeListItemBinding
+import com.example.jokeapp.domain.Joke
+
+class JokeAdapter(val clickListener: JokesListener) : ListAdapter<Joke, ViewHolder>(JokeDiffCallback()){
     //taken care of by ListAdapter
     /*var data = listOf<Joke>()
     set(value) {
@@ -38,7 +38,7 @@ class JokeAdapter(val clickListener: JokesListener) : ListAdapter<DatabaseJoke, 
 
 class ViewHolder(val binding: JokeListItemBinding): RecyclerView.ViewHolder(binding.root){
 
-    fun bind(clickListener: JokesListener, item: DatabaseJoke) {
+    fun bind(clickListener: JokesListener, item: Joke) {
         binding.jokePunchlineTextview.text = item.punchline
         binding.jokeSetupTextview.text = item.jokeSetup
 
@@ -61,17 +61,17 @@ class ViewHolder(val binding: JokeListItemBinding): RecyclerView.ViewHolder(bind
 }
 
 
-class JokeDiffCallback: DiffUtil.ItemCallback<DatabaseJoke>(){
-    override fun areItemsTheSame(oldItem: DatabaseJoke, newItem: DatabaseJoke): Boolean {
+class JokeDiffCallback: DiffUtil.ItemCallback<Joke>(){
+    override fun areItemsTheSame(oldItem: Joke, newItem: Joke): Boolean {
         return oldItem.jokeId == newItem.jokeId
     }
 
-    override fun areContentsTheSame(oldItem: DatabaseJoke, newItem: DatabaseJoke): Boolean {
+    override fun areContentsTheSame(oldItem: Joke, newItem: Joke): Boolean {
         return oldItem == newItem
         //works perfectly because it's a dataclass.
     }
 }
 
 class JokesListener(val clickListener: (jokeID: Long)->Unit){
-    fun onClick(joke: DatabaseJoke) = clickListener(joke.jokeId)
+    fun onClick(joke: Joke) = clickListener(joke.jokeId)
 }

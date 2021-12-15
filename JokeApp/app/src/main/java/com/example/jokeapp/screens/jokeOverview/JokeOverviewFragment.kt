@@ -61,25 +61,16 @@ class JokeOverviewFragment : Fragment() {
         binding.lifecycleOwner = this
 
 
-        viewModel.jokesChanged.observe(viewLifecycleOwner, Observer{
-            //list changed
-            //reset data observer...
-            resetObserver()
+        //list changed
+        viewModel.jokes.observe(viewLifecycleOwner, Observer{
+            adapter.submitList(it)
         })
-
-        resetObserver()
 
 
         createChips(listOf("<10", "10-20", ">20"))
         return binding.root
     }
 
-    private fun resetObserver() {
-        //watch the data:
-        viewModel.jokes.observe(viewLifecycleOwner, Observer{
-           adapter.submitList(it)
-        })
-    }
 
     private fun createChips(data : List<String>) {
         //take care: the example in the movies has dynamic chips

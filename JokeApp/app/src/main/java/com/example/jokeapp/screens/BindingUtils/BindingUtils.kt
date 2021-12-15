@@ -14,7 +14,7 @@ import kotlin.random.Random
 
 //The adapter will adapt the joke to get the data we need
 @BindingAdapter("jokeImage")
-fun ImageView.setJokeImage(item: DatabaseJoke){
+fun ImageView.setJokeImage(item: Joke){
     setImageResource(when (item.jokeId.mod(2)){
         0 -> R.drawable.ic_iconmonstr_smiley_2
         1 -> R.drawable.ic_iconmonstr_smiley_13
