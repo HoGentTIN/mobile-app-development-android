@@ -17,7 +17,9 @@ class JokeOverviewViewModel(val database: JokeDatabaseDao, app: Application ): A
     val repository = JokeRepository(db)
 
     //var jokes = database.getAllJokesLive()
-    val jokes = repository.jokes
+    //val jokes = repository.jokes
+    val jokes = repository.jokesSolution2
+
 
     fun filterChip(changedFilter: String, isChecked: Boolean) {
         //set currentFilter
@@ -27,7 +29,8 @@ class JokeOverviewViewModel(val database: JokeDatabaseDao, app: Application ): A
             currentFilter = null
         }
 
-        repository.addFilter(currentFilter)
+        //repository.addFilter(currentFilter)
+        repository.addFilterSolution2(currentFilter)
     }
 
 }

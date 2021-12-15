@@ -2,6 +2,7 @@ package com.example.jokeapp.repository
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import com.example.jokeapp.database.jokes.JokeDatabase
 import com.example.jokeapp.database.jokes.asDomainModel
@@ -33,10 +34,31 @@ class JokeRepository(private val database: JokeDatabase) {
     * Hold a reference to the livedata instances, and switch them when needed
     * */
 
+    /* -- Solution 2 -- */
+    /*SwitchMap
+    * Helper function for livedata (uses a MediatorLiveData object in the background)
+    * */
 
     //Network call
     //get jokes from the database, but transform them with map
     val jokes= MediatorLiveData<List<Joke>>()
+    val filter = MutableLiveData<String>(null)
+    val jokesSolution2 = Transformations.switchMap(filter){
+        filter -> when(filter){
+            "<10" -> Transformations.map(database.jokeDatabaseDao.getUnder10JokesLive()){
+                it.asDomainModel()
+            }
+            "10-20" -> Transformations.map(database.jokeDatabaseDao.getbetween1020JokesLive()){
+                it.asDomainModel()
+            }
+            ">20" -> Transformations.map(database.jokeDatabaseDao.getgreater20JokesLive()){
+                it.asDomainModel()
+            }
+            else -> Transformations.map(database.jokeDatabaseDao.getAllJokesLive()){
+                it.asDomainModel()
+            }
+        }
+    }
 
     //keep a reference to the original livedata
     private var changeableLiveData = Transformations.map(database.jokeDatabaseDao.getAllJokesLive()){
@@ -73,6 +95,13 @@ class JokeRepository(private val database: JokeDatabase) {
         }
         //add the data to the mediator
         jokes.addSource(changeableLiveData){jokes.setValue(it)}
+    }
+
+
+    //filter is now less complex
+    fun addFilterSolution2(filter: String?){
+        //remove the original source
+        this.filter.value = filter
     }
 
 
