@@ -13,7 +13,7 @@ class JokeBook {
         "I used to be addicted to soap, but I'm clean now."
     )
 
-    fun getRandomJoke() : String {
+    fun getRandomJoke(): String {
         var randomListNumber = Random.nextInt(jokes.size)
         return jokes[randomListNumber]
     }
