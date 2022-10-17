@@ -5,16 +5,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <include
+        android:id="@+id/include"
+        layout="@layout/header_fragment"
+        app:layout_constraintBottom_toTopOf="@+id/profilepicture_imageview"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="-16dp" />
+
     <ImageView
         android:id="@+id/profilepicture_imageview"
         android:layout_width="100dp"
         android:layout_height="98dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/avatar"
         tools:ignore="ImageContrastCheck"
+        tools:layout_editor_absoluteY="16dp"
         tools:srcCompat="@drawable/avatar" />
 
     <TextView
@@ -23,11 +29,10 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
         android:text="@string/your_name"
         app:layout_constraintHorizontal_weight="2"
         app:layout_constraintStart_toEndOf="@+id/profilepicture_imageview"
-        app:layout_constraintTop_toTopOf="@+id/profilepicture_imageview" />
+        app:layout_constraintTop_toBottomOf="@+id/include" />
 
     <ScrollView
         android:layout_width="0dp"
@@ -48,7 +53,7 @@
             android:id="@+id/textView2"
             style="@style/joke_text"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:text="@string/lorem"
             android:textSize="14sp" />
 
