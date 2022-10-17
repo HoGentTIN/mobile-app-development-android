@@ -8,6 +8,8 @@ class Comedian (var happyJokes:Int = 0, var badJokes: Int = 0) {
     fun isHappy() = happyJokes > 2
     fun shouldEvaluate() = happyJokes+badJokes > 2
 
+    var totalJokesTold = 0
+
     fun startOver() {
         happyJokes = 0
         badJokes = 0

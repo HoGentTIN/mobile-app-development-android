@@ -7,6 +7,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import com.google.android.material.navigation.NavigationView
+import timber.log.Timber
 
 
 class MainActivity : AppCompatActivity() {
@@ -23,6 +24,7 @@ class MainActivity : AppCompatActivity() {
         var navView : NavigationView = findViewById(R.id.navView)
         //or use binding!
 
+        Timber.i("MainActivity is created")
 
 
         val navController = this.findNavController(R.id.navHostFragment)

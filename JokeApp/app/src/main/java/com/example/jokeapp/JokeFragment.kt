@@ -20,9 +20,9 @@ import kotlin.random.Random
  */
 class JokeFragment : Fragment() {
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
     }
 
     lateinit var binding: FragmentJokeBinding
@@ -44,7 +44,6 @@ class JokeFragment : Fragment() {
         changeJoke() //setting an initial joke
 
         setOnClickListeners()
-
         return binding.root
     }
 
@@ -110,4 +109,8 @@ class JokeFragment : Fragment() {
     }
 
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+
+    }
 }
