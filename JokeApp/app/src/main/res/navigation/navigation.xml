@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/homeFragment2"
-        android:name="com.example.jokeapp.HomeFragment"
+        android:name="com.example.jokeapp.screens.home.HomeFragment"
         android:label="HomeFragment"
         tools:layout="@layout/fragment_home">
 
@@ -17,19 +17,16 @@
     </fragment>
     <fragment
         android:id="@+id/jokeFragment"
-        android:name="com.example.jokeapp.JokeFragment"
+        android:name="com.example.jokeapp.screens.jokes.JokeFragment"
         android:label="JokeFragment"
         tools:layout="@layout/fragment_joke">
         <action
             android:id="@+id/action_jokeFragment_to_happyComedian"
             app:destination="@id/happyComedian" />
-        <action
-            android:id="@+id/action_jokeFragment_to_sadComedian"
-            app:destination="@id/sadComedian" />
     </fragment>
     <fragment
         android:id="@+id/happyComedian"
-        android:name="com.example.jokeapp.HappyComedianFragment"
+        android:name="com.example.jokeapp.screens.score.HappyComedianFragment"
         android:label="HappyComedian"
         tools:layout="@layout/fragment_happy_comedian">
         <action
@@ -51,19 +48,7 @@
             app:argType="integer" />
     </fragment>
     <fragment
-        android:id="@+id/sadComedian"
-        android:name="com.example.jokeapp.SadComedianFragment"
-        android:label="SadComedian"
-        tools:layout="@layout/fragment_sad_comedian">
-        <action
-            android:id="@+id/action_sadComedian_to_jokeFragment"
-            app:destination="@id/jokeFragment" />
-        <action
-            android:id="@+id/action_sadComedian_to_homeFragment2"
-            app:destination="@id/homeFragment2" />
-    </fragment>
-    <fragment
         android:id="@+id/aboutFragment"
-        android:name="com.example.jokeapp.AboutFragment"
+        android:name="com.example.jokeapp.screens.utils.AboutFragment"
         android:label="AboutFragment" />
 </navigation>

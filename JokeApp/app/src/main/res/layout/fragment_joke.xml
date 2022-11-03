@@ -6,7 +6,7 @@
     <data>
         <variable
             name="jokes"
-            type="com.example.jokeapp.JokeBook" />
+            type="com.example.jokeapp.screens.jokes.JokeViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -53,6 +53,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="@dimen/margin_bottom"
             android:text="@string/next_joke"
+            android:onClick="@{()-> jokes.badJoke()}"
             app:layout_constraintBottom_toTopOf="@+id/happy_button"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
@@ -65,6 +66,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:text="@string/good_one"
+            android:onClick="@{()->jokes.goodJoke()}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"

@@ -1,4 +1,4 @@
-package com.example.jokeapp
+package com.example.jokeapp.screens.home
 
 import android.os.Bundle
 import android.view.*
@@ -8,12 +8,8 @@ import androidx.databinding.DataBindingUtil
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
+import com.example.jokeapp.R
 import com.example.jokeapp.databinding.FragmentHomeBinding
-import kotlin.random.Random
-
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-
 
 /**
  * A simple [Fragment] subclass.
@@ -21,6 +17,12 @@ import kotlin.random.Random
  * create an instance of this fragment.
  */
 class HomeFragment : Fragment() {
+
+    /*
+    Note: the HomeFragment doesn't follow the MVVM architecture to demonstrate the alternatives
+    The Homefragment still uses savedInstanceState and clickListeners with DataBinding
+     */
+
     lateinit var binding: FragmentHomeBinding
     var numberOfOncreates = 0
     var numberOfOncreateViews = 0
