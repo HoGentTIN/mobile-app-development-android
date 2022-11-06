@@ -10,3 +10,4 @@ dependencyResolutionManagement {
 }
 rootProject.name = "JokeApp"
 include ':app'
+include ':exercise'
