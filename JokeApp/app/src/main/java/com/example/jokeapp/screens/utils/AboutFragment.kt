@@ -9,11 +9,6 @@ import android.widget.TextView
 import com.example.jokeapp.R
 
 
-/**
- * A simple [Fragment] subclass.
- * Use the [AboutFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class AboutFragment : Fragment() {
 
 
@@ -25,11 +20,11 @@ class AboutFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         val aboutFragment: View = inflater.inflate(R.layout.fragment_about, container, false)
 
-        var titletext : TextView? = aboutFragment.findViewById(R.id.title_text_view)
+        val titletext : TextView? = aboutFragment.findViewById(R.id.title_text_view)
         titletext?.text = "My title text for About"
 
         return aboutFragment

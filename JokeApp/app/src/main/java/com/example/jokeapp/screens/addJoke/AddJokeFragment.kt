@@ -6,14 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import com.example.jokeapp.R
 import com.example.jokeapp.database.jokes.JokeDatabase
 import com.example.jokeapp.databinding.FragmentAddJokeBinding
-import com.example.jokeapp.screens.jokes.JokeFragmentDirections
-import com.example.jokeapp.screens.jokes.JokeViewModelFactory
 
 class AddJokeFragment : Fragment()  {
 
@@ -24,7 +21,7 @@ class AddJokeFragment : Fragment()  {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_add_joke, container, false)
 
@@ -42,14 +39,15 @@ class AddJokeFragment : Fragment()  {
         //Meaning: no more resets or whatsoever
         binding.setLifecycleOwner (this)
 
-        viewModel.saveEvent.observe(viewLifecycleOwner, Observer {
-            saveEvent -> if(saveEvent){
+        viewModel.saveEvent.observe(viewLifecycleOwner) { saveEvent ->
+            if (saveEvent) {
                 viewModel.saveJoke(binding.editTextTextPersonName.text.toString())
                 //navigate back to the joke screen
-               view?.findNavController()?.navigate(AddJokeFragmentDirections.actionAddJokeFragmentToJokeFragment())
+                view?.findNavController()
+                    ?.navigate(AddJokeFragmentDirections.actionAddJokeFragmentToJokeFragment())
                 viewModel.saveEventDone()
             }
-        })
+        }
 
 
         return binding.root

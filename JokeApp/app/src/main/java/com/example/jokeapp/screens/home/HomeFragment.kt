@@ -2,20 +2,17 @@ package com.example.jokeapp.screens.home
 
 import android.os.Bundle
 import android.view.*
-import androidx.fragment.app.Fragment
 import android.widget.Toast
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
-import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.example.jokeapp.R
 import com.example.jokeapp.databinding.FragmentHomeBinding
 
-/**
- * A simple [Fragment] subclass.
- * Use the [HomeFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class HomeFragment : Fragment() {
 
     /*
@@ -43,7 +40,7 @@ class HomeFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         //Step 1, use databinding to inflate the xml
         numberOfOncreateViews+=1
@@ -51,22 +48,21 @@ class HomeFragment : Fragment() {
 
         setOnClickListeners()
 
-        setHasOptionsMenu(true)
+        val menuHost = requireActivity() as MenuHost
+        menuHost.addMenuProvider(object : MenuProvider {
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                menuInflater.inflate(R.menu.overflow_menu, menu)
+            }
+
+            override fun onMenuItemSelected(item: MenuItem): Boolean =
+                NavigationUI.onNavDestinationSelected(
+                    item,
+                    findNavController())
+        }, viewLifecycleOwner)
 
         Toast.makeText(context, "OnCreate: ${numberOfOncreates} - OCView: ${numberOfOncreateViews}", Toast.LENGTH_SHORT).show()
 
         return binding.root
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        inflater?.inflate(R.menu.overflow_menu, menu)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return NavigationUI.onNavDestinationSelected(item!!,
-            requireView().findNavController())
-                || super.onOptionsItemSelected(item)
     }
 
     private fun setOnClickListeners() {

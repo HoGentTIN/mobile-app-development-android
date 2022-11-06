@@ -1,25 +1,27 @@
 package com.example.jokeapp.login
 
 import android.content.Context
-import com.auth0.android.result.Credentials
 import android.content.SharedPreferences
 import androidx.security.crypto.EncryptedSharedPreferences
-import androidx.security.crypto.MasterKeys
+import androidx.security.crypto.MasterKey
+import androidx.security.crypto.MasterKey.KeyScheme
+import com.auth0.android.result.Credentials
 
 
 object CredentialsManager {
-    private val ACCESS_TOKEN = "access_token"
+    private const val ACCESS_TOKEN = "access_token"
 
     private lateinit var editor: SharedPreferences.Editor
 
     fun saveCredentials(context: Context, credentials: Credentials) {
 
-        val masterKeyAlias: String = MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC)
+        val masterKeyAlias: MasterKey = MasterKey.Builder(context)
+            .setKeyScheme(KeyScheme.AES256_GCM).build()
 
         val sp: SharedPreferences = EncryptedSharedPreferences.create(
+            context,
             "secret_shared_prefs",
             masterKeyAlias,
-            context,
             EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
             EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
         )
@@ -30,12 +32,13 @@ object CredentialsManager {
     }
 
     fun getAccessToken(context: Context): String? {
-        val masterKeyAlias: String = MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC)
+        val masterKeyAlias: MasterKey = MasterKey.Builder(context)
+            .setKeyScheme(KeyScheme.AES256_GCM).build()
 
         val sp: SharedPreferences = EncryptedSharedPreferences.create(
+            context,
             "secret_shared_prefs",
             masterKeyAlias,
-            context,
             EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
             EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
         )
