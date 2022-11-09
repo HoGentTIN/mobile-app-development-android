@@ -24,7 +24,7 @@ android {
 //        multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
-        manifestPlaceholders = [auth0Domain: "dev-18w6525q.us.auth0.com", auth0Scheme: "demo"]
+        manifestPlaceholders = [auth0Domain: "@string/auth_domain", auth0Scheme: "demo"]
     }
 
     buildTypes {
