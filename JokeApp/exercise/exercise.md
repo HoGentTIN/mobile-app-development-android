@@ -261,6 +261,89 @@ When `create` is called, it checks whether it can create this type. Then it crea
         viewModel = ViewModelProvider(this, viewModelFactory).get(AddJokeViewModel::class.java)
 ```
 
+## Test the app
+
+1. Run the app and try to insert a joke: it fails!
+2. Fix by making the `insert` and `update` functions `suspend`
+
+```Kotlin
+    @Insert
+    suspend fun insert(joke: Joke)
+
+    @Update
+    suspend fun update(joke: Joke)
+```
+
+## Extra: run database calls in IO dispatcher
+
+1. [Extra] the database calls are now suspendable, but they are still running in the main thread.
+
+Add a `viewModelJob` to `JokeViewModel`:
+```Kotlin
+    private var viewModelJob = Job()
+```
+
+2. Override `onCleared` to cancel all pending coroutines:
+
+```Kotlin
+    override fun onCleared() {
+        super.onCleared()
+        viewModelJob.cancel()
+    }
+```
+
+3. Now replace occurrences of `viewModelScope` with `uiScope`
+
+Since `uiScope` is tied to the `viewModelJob`, this will implement the cancelation of the coroutines.
+
+4. Make the database calls run in the IO thread:
+
+```Kotlin
+    //Suspend functions
+    private suspend fun getNumberOfJokesFromDatabase(): Int{
+        return withContext(Dispatchers.IO) {
+            database.numberOfJokes()
+        }
+    }
+
+    private suspend fun getAllJokes(): List<Joke>{
+        return withContext(Dispatchers.IO) {
+            database.getAllJokes()
+        }
+    }
+```
+
+5. Do the same for `AddJokeViewModel`:
+
+Add a `viewModelJob`:
+```Kotlin
+    private var viewModelJob = Job()
+```
+
+6. Override `onCleared` to cancel all pending coroutines:
+
+```Kotlin
+    override fun onCleared() {
+        super.onCleared()
+        viewModelJob.cancel()
+    }
+```
+
+7. Now replace occurrences of `viewModelScope` with `uiScope`
+
+Since `uiScope` is tied to the `viewModelJob`, this will implement the cancelation of the coroutines.
+
+8. Make the database calls run in the IO thread:
+
+```Kotlin
+    //suspend methods
+    suspend fun saveJokeToDatabase(newJoke: Joke){
+        return withContext(Dispatchers.IO){
+            database.insert(newJoke)
+        }
+    }
+```
+
 # Button states and smiley event
 
 1. Open `fragment_joke.xml`.
@@ -302,7 +385,7 @@ android:enabled="@{jokes.buttonVisible}"
             }
 ```
 
-7. To trigger the smiley, set the event value to `true` in `goodJoke()`:
+7. To trigger the smiley, set the event value to `true` in the `goodJoke` function of `JokeViewModel`:
 ```Kotlin
         _showSmileyEvent.value = true
 ```
