@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation"
+    app:startDestination="@id/homeFragment2">
+
+    <fragment
+        android:id="@+id/homeFragment2"
+        android:name="com.example.jokeapp.screens.home.HomeFragment"
+        android:label="HomeFragment"
+        tools:layout="@layout/fragment_home">
+
+        <action
+            android:id="@+id/action_homeFragment2_to_jokeFragment"
+            app:destination="@id/jokeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/jokeFragment"
+        android:name="com.example.jokeapp.screens.jokes.JokeFragment"
+        android:label="JokeFragment"
+        tools:layout="@layout/fragment_joke">
+        <action
+            android:id="@+id/action_jokeFragment_to_happyComedian"
+            app:destination="@id/happyComedian" />
+        <action
+            android:id="@+id/action_jokeFragment_to_addJokeFragment"
+            app:destination="@id/addJokeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/happyComedian"
+        android:name="com.example.jokeapp.screens.score.HappyComedianFragment"
+        android:label="HappyComedian"
+        tools:layout="@layout/fragment_happy_comedian">
+        <action
+            android:id="@+id/action_happyComedian_to_homeFragment2"
+            app:destination="@id/homeFragment2"
+            app:popUpTo="@id/jokeFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_happyComedian_to_jokeFragment"
+            app:destination="@id/jokeFragment"
+            app:popUpTo="@id/jokeFragment"
+            app:popUpToInclusive="true" />
+
+        <argument
+            android:name="numHappyJokes"
+            app:argType="integer" />
+        <argument
+            android:name="numUnhappyJokes"
+            app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/aboutFragment"
+        android:name="com.example.jokeapp.screens.utils.AboutFragment"
+        android:label="AboutFragment" />
+    <fragment
+        android:id="@+id/addJokeFragment"
+        android:name="com.example.jokeapp.screens.addJoke.AddJokeFragment"
+        android:label="AddJokeFragment" >
+        <action
+            android:id="@+id/action_addJokeFragment_to_jokeFragment"
+            app:destination="@id/jokeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginFragment2"
+        android:name="com.example.jokeapp.login.LoginFragment"
+        android:label="LoginFragment" />
+</navigation>

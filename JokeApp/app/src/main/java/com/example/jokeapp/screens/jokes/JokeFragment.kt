@@ -1,13 +1,11 @@
 package com.example.jokeapp.screens.jokes
 
-import android.app.Activity
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.Observer
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
@@ -16,11 +14,6 @@ import com.example.jokeapp.database.jokes.JokeDatabase
 import com.example.jokeapp.databinding.FragmentJokeBinding
 import kotlin.random.Random
 
-/**
- * A simple [Fragment] subclass.
- * Use the [JokeFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class JokeFragment : Fragment() {
 
     private lateinit var binding: FragmentJokeBinding
@@ -33,7 +26,7 @@ class JokeFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         //Step 1, use databinding to inflate the xml
 
@@ -57,19 +50,24 @@ class JokeFragment : Fragment() {
         //Meaning: no more resets or whatsoever
         binding.setLifecycleOwner (this)
 
-        viewModel.shouldEvaluate.observe(viewLifecycleOwner, Observer { shouldEveluate ->
-            if(shouldEveluate){
-                view?.findNavController()?.navigate(JokeFragmentDirections.actionJokeFragmentToHappyComedian(viewModel.happyJokes, viewModel.badJokes))
+        viewModel.shouldEvaluate.observe(viewLifecycleOwner) { shouldEveluate ->
+            if (shouldEveluate) {
+                view?.findNavController()?.navigate(
+                    JokeFragmentDirections.actionJokeFragmentToHappyComedian(
+                        viewModel.happyJokes,
+                        viewModel.badJokes
+                    )
+                )
                 viewModel.evaluationComplete()
             }
-        })
+        }
 
-        viewModel.showSmileyEvent.observe(viewLifecycleOwner, Observer {
-            show -> if(show){
+        viewModel.showSmileyEvent.observe(viewLifecycleOwner) { show ->
+            if (show) {
                 showHappySmiley()
                 viewModel.showImageComplete()
             }
-        })
+        }
 
         binding.addJokeButton.setOnClickListener(
             Navigation.createNavigateOnClickListener(R.id.addJokeFragment)
