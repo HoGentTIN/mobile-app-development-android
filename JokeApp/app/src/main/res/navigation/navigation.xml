@@ -23,6 +23,9 @@
         <action
             android:id="@+id/action_jokeFragment_to_happyComedian"
             app:destination="@id/happyComedian" />
+        <action
+            android:id="@+id/action_jokeFragment_to_addJokeFragment"
+            app:destination="@id/addJokeFragment" />
     </fragment>
     <fragment
         android:id="@+id/happyComedian"
@@ -51,4 +54,16 @@
         android:id="@+id/aboutFragment"
         android:name="com.example.jokeapp.screens.utils.AboutFragment"
         android:label="AboutFragment" />
+    <fragment
+        android:id="@+id/addJokeFragment"
+        android:name="com.example.jokeapp.screens.addJoke.AddJokeFragment"
+        android:label="AddJokeFragment" >
+        <action
+            android:id="@+id/action_addJokeFragment_to_jokeFragment"
+            app:destination="@id/jokeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginFragment2"
+        android:name="com.example.jokeapp.login.LoginFragment"
+        android:label="LoginFragment" />
 </navigation>

@@ -1,5 +1,6 @@
 package com.example.jokeapp.screens.jokes
 
+import android.app.Activity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -8,8 +9,10 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import com.example.jokeapp.R
+import com.example.jokeapp.database.jokes.JokeDatabase
 import com.example.jokeapp.databinding.FragmentJokeBinding
 import kotlin.random.Random
 
@@ -20,13 +23,12 @@ import kotlin.random.Random
  */
 class JokeFragment : Fragment() {
 
+    private lateinit var binding: FragmentJokeBinding
+    private lateinit var viewModel : JokeViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
     }
-
-    lateinit var binding: FragmentJokeBinding
-    lateinit var viewModel : JokeViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,7 +43,13 @@ class JokeFragment : Fragment() {
         //It needs to be special to survive e.g. config changes
         //viewModel = JokeViewModel()
 
-        viewModel = ViewModelProvider(this).get(JokeViewModel::class.java)
+        //Get an instance of the appContext to setup the database
+        val appContext = requireNotNull(this.activity).application
+        val dataSource = JokeDatabase.getInstance(appContext).jokeDatabaseDao
+
+        //use a factory to pass the database reference to the viewModel
+        val viewModelFactory = JokeViewModelFactory(dataSource, appContext)
+        viewModel = ViewModelProvider(this, viewModelFactory).get(JokeViewModel::class.java)
 
         binding.jokes = viewModel
 
@@ -49,17 +57,9 @@ class JokeFragment : Fragment() {
         //Meaning: no more resets or whatsoever
         binding.setLifecycleOwner (this)
 
-        //This is now no longer needed --> you can just call it from the XML
-        /*viewModel.currentJoke.observe(viewLifecycleOwner, Observer {
-            newJoke -> binding.jokeTextview.text = newJoke
-        })*/
-
-
         viewModel.shouldEvaluate.observe(viewLifecycleOwner, Observer { shouldEveluate ->
             if(shouldEveluate){
-
                 view?.findNavController()?.navigate(JokeFragmentDirections.actionJokeFragmentToHappyComedian(viewModel.happyJokes, viewModel.badJokes))
-
                 viewModel.evaluationComplete()
             }
         })
@@ -70,6 +70,10 @@ class JokeFragment : Fragment() {
                 viewModel.showImageComplete()
             }
         })
+
+        binding.addJokeButton.setOnClickListener(
+            Navigation.createNavigateOnClickListener(R.id.addJokeFragment)
+        )
 
         return binding.root
     }

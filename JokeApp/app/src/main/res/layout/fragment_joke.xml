@@ -54,11 +54,13 @@
             android:layout_marginBottom="@dimen/margin_bottom"
             android:text="@string/next_joke"
             android:onClick="@{()-> jokes.badJoke()}"
+            android:enabled="@{jokes.buttonVisible}"
             app:layout_constraintBottom_toTopOf="@+id/happy_button"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/joke_textview" />
+            app:layout_constraintTop_toBottomOf="@+id/joke_textview"
+            />
 
         <Button
             android:id="@+id/happy_button"
@@ -67,11 +69,35 @@
             android:layout_gravity="center_horizontal"
             android:text="@string/good_one"
             android:onClick="@{()->jokes.goodJoke()}"
+            android:enabled="@{jokes.buttonVisible}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/nextjoke_button" />
+
+        <TextView
+            android:id="@+id/jokecount_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:text="@{jokes.numberOfJokesString}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/add_joke_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="32dp"
+            android:layout_marginBottom="32dp"
+            android:clickable="true"
+            android:contentDescription="Add a joke button"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:srcCompat="@android:drawable/ic_input_add"
+            tools:ignore="SpeakableTextPresentCheck" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
