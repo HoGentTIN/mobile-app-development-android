@@ -296,6 +296,10 @@ Add a `viewModelJob` to `JokeViewModel`:
 
 Since `uiScope` is tied to the `viewModelJob`, this will implement the cancelation of the coroutines.
 
+```Kotlin
+    private val uiScope = CoroutineScope(Dispatchers.Main +  viewModelJob)
+```
+
 4. Make the database calls run in the IO thread:
 
 ```Kotlin
