@@ -1,21 +1,21 @@
 package com.example.jokeapp.screens.home
 
 import android.os.Bundle
-import android.view.*
-import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.example.jokeapp.R
 import com.example.jokeapp.databinding.FragmentHomeBinding
 
-/**
- * A simple [Fragment] subclass.
- * Use the [HomeFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class HomeFragment : Fragment() {
 
     /*
@@ -35,38 +35,40 @@ class HomeFragment : Fragment() {
             // Get all the game state information from the bundle, set it
             numberOfOncreates = savedInstanceState.getInt("onCreates", 0)
             numberOfOncreateViews = savedInstanceState.getInt("onCreateViews", 0)
-
         }
-        numberOfOncreates+=1
+        numberOfOncreates += 1
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
-        //Step 1, use databinding to inflate the xml
-        numberOfOncreateViews+=1
+        // Step 1, use databinding to inflate the xml
+        numberOfOncreateViews += 1
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
 
         setOnClickListeners()
 
         setHasOptionsMenu(true)
 
-        Toast.makeText(context, "OnCreate: ${numberOfOncreates} - OCView: ${numberOfOncreateViews}", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, "OnCreate: $numberOfOncreates - OCView: $numberOfOncreateViews", Toast.LENGTH_SHORT).show()
 
         return binding.root
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
-        inflater?.inflate(R.menu.overflow_menu, menu)
+        inflater.inflate(R.menu.overflow_menu, menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return NavigationUI.onNavDestinationSelected(item!!,
-            requireView().findNavController())
-                || super.onOptionsItemSelected(item)
+        return NavigationUI.onNavDestinationSelected(
+            item,
+            requireView().findNavController()
+        ) ||
+            super.onOptionsItemSelected(item)
     }
 
     private fun setOnClickListeners() {
@@ -77,8 +79,8 @@ class HomeFragment : Fragment() {
          }
          */
 
-        //alternatively
-        binding.startjokesButton.setOnClickListener (
+        // alternatively
+        binding.startjokesButton.setOnClickListener(
             Navigation.createNavigateOnClickListener(R.id.action_homeFragment2_to_jokeFragment)
         )
     }
