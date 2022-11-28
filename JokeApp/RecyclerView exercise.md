@@ -63,7 +63,7 @@ Result:
 Add a constructor parameter for the Dao:
 
 ```Kotlin
-class JokeOverviewViewModel(val database: JokeDatabaseDao)
+class JokeOverviewViewModel(val database: JokeDatabaseDao):ViewModel()
 ```
 
 Get the list of jokes as `LiveData` and store it in an attribute:
