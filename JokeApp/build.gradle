@@ -6,7 +6,7 @@ buildscript {
     }
 
     ext {
-        version_navigation = '1.0.0'
+        version_navigation = '2.5.3'
     }
 
     dependencies {
