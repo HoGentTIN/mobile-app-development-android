@@ -221,7 +221,7 @@ And add it to the `joke_row_item.xml`:
 Now open up the `JokeOverviewFragment` and fix the adapter code:
 
 ```Kotlin
-val adapter = CustomAdapter()
+val adapter = JokeOverviewAdapter()
 binding.jokeList.adapter = adapter
 
 viewModel.jokes.observe(viewLifecycleOwner) {
