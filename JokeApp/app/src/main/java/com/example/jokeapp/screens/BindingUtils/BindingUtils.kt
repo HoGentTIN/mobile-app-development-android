@@ -9,20 +9,22 @@ import com.example.jokeapp.R
 import com.example.jokeapp.database.jokes.Joke
 import com.example.jokeapp.screens.jokeOverviewFromAPI.JokeApiStatus
 
-//The adapter will adapt the joke to get the data we need
+// The adapter will adapt the joke to get the data we need
 @BindingAdapter("jokeImage")
-fun ImageView.setJokeImage(item: Joke){
-    setImageResource(when (item.jokeId.mod(2)){
-        0 -> R.drawable.ic_iconmonstr_smiley_2
-        1 -> R.drawable.ic_iconmonstr_smiley_13
-        else -> R.drawable.ic_iconmonstr_smiley_1
-    })
+fun ImageView.setJokeImage(item: Joke) {
+    setImageResource(
+        when (item.jokeId.mod(2)) {
+            0 -> R.drawable.ic_iconmonstr_smiley_2
+            1 -> R.drawable.ic_iconmonstr_smiley_13
+            else -> R.drawable.ic_iconmonstr_smiley_1
+        }
+    )
 }
 
-//Adapter for imageURI
+// Adapter for imageURI
 @BindingAdapter("imageUrl")
-fun ImageView.setImage(imgUrl: String?){
-    imgUrl?.let{
+fun ImageView.setImage(imgUrl: String?) {
+    imgUrl?.let {
         val imgUri = it.toUri().buildUpon().scheme("https").build()
         Glide.with(context)
             .load(imgUri)
@@ -34,10 +36,9 @@ fun ImageView.setImage(imgUrl: String?){
       .error(R.drawable.ic_broken_image))*/
 }
 
-
-//Adapt status to an image visibility
+// Adapt status to an image visibility
 @BindingAdapter("jokeApiStatus")
-fun ImageView.bindStatus( status: JokeApiStatus?) {
+fun ImageView.bindStatus(status: JokeApiStatus?) {
     when (status) {
         JokeApiStatus.LOADING -> {
             visibility = View.VISIBLE
@@ -48,6 +49,9 @@ fun ImageView.bindStatus( status: JokeApiStatus?) {
             setImageResource(R.drawable.ic_iconmonstr_smiley_1)
         }
         JokeApiStatus.DONE -> {
+            visibility = View.GONE
+        }
+        null -> {
             visibility = View.GONE
         }
     }
