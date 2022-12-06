@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.jokeapp.database.jokes.JokeDatabaseDao
 
 class AddJokeViewModelFactory (private val dataSource: JokeDatabaseDao, private val application: Application): ViewModelProvider.Factory {
-    override fun <T: ViewModel?> create(modelClass: Class<T>): T {
+    override fun <T: ViewModel> create(modelClass: Class<T>): T {
         if(modelClass.isAssignableFrom(AddJokeViewModel::class.java)) {
             return AddJokeViewModel(dataSource, application) as T
         }

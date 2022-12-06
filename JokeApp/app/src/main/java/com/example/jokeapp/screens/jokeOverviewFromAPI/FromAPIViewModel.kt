@@ -69,7 +69,7 @@ class FromAPIViewModel(application: Application): AndroidViewModel(application) 
      * Factory for constructing FromAPIViewModel with parameter
      */
     class Factory(val app: Application) : ViewModelProvider.Factory {
-        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
             if (modelClass.isAssignableFrom(FromAPIViewModel::class.java)) {
                 @Suppress("UNCHECKED_CAST")
                 return FromAPIViewModel(app) as T

@@ -53,6 +53,9 @@ fun ImageView.bindStatus( status: JokeApiStatus?) {
         JokeApiStatus.DONE -> {
             visibility = View.GONE
         }
+        else -> {
+            visibility = View.GONE
+        }
     }
 }
 
