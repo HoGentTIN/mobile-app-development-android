@@ -90,18 +90,14 @@ Let's implement the `filterChip` function:
 
 ```Kotlin
     fun filterChip(filter: String, checked: Boolean) {
-        if (checked) {
-            _filter.value = filter
-        } else {
-            _filter.value = null
-        }
+        _filter.value = if (checked) tag else null
     }
 ```
 
 Now, we'll use `Transformations.switchMap` to listen to changes from one `LiveData` and generate a new `LiveData`:
 
 ```Kotlin
-    val jokesFiltered = Transformations.switchMap(_filter) {
+    val jokes = Transformations.switchMap(_filter) {
         when (it) {
             "<10" -> database.getUnder10JokesLive()
             "10-20" -> database.getbetween1020JokesLive()
@@ -124,4 +120,34 @@ Add the database functions:
     abstract fun getgreater20JokesLive(): LiveData<List<DatabaseJoke>>
 ```
 
-Since we're now using `jokesFiltered`, update the observer in the viewmodel to point to that instead of `jokes`.
+To verify that this really updates when the livedata updates, we can add some test code:
+
+```Kotlin
+private val _tstJokes = MutableLiveData<List<DatabaseJoke>>()
+
+init {
+    _tstJokes.value = "The quick brown fox jumps over the lazy dog".split(" ").map {
+        DatabaseJoke(0, "", "", it)
+    }
+    viewModelScope.launch {
+        while (true) {
+            val prevValues = _tstJokes.value!!
+            _tstJokes.value = prevValues.subList(1, prevValues.size) + prevValues.subList(0, 1)
+            delay(500)
+        }
+    }
+}
+```
+
+Add a key to the switchMap and the createChips call to test.
+
+Notice the way the labels are updated. This is because our ids are all 0. Let's fix that:
+
+```Kotlin
+var jokeIdCounter = 0L
+_tstJokes.value = "The quick brown fox jumps over the lazy dog".split(" ").map {
+    DatabaseJoke(jokeIdCounter++, "", "", it)
+}
+```
+
+Run the code again, and observe the difference.
