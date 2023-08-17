@@ -66,3 +66,9 @@ Add a checkbox, some more text, a row and a column to the Composables. Structure
 
 
 ## Access a resource for the background
+Add an image resource through the resource manager. Choose "Import" and make sure the image doesn't scale automatically (no density). 
+
+Put the image in a box to display it as a background.
+
+## Well done! 
+Congratulations, this is the end of the first contributions to the example app. Next week 
