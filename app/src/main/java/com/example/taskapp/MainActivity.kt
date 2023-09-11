@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -36,13 +37,13 @@ class MainActivity : ComponentActivity() {
             TaskAppTheme {
 
                 val image = painterResource(R.drawable.backgroundimage)
-                //create a box to overlap image and texts
-                Box {
+                //create a Surface to overlap image and texts
+                Surface (modifier = Modifier.fillMaxWidth()){
                     Image(
                         painter = image,
                         contentDescription = null,
-                        contentScale = ContentScale.Crop,
-                        alpha = 0.4F
+                        contentScale = ContentScale.FillWidth
+                        //alpha = 0.4F
                     ) 
                     TaskApp()
 
@@ -93,11 +94,11 @@ fun GreetingPreview() {
     TaskAppTheme {
         val image = painterResource(R.drawable.backgroundimage)
         //create a box to overlap image and texts
-        Box {
+        Surface (modifier = Modifier.fillMaxWidth()){
             Image(
                 painter = image,
                 contentDescription = null,
-                contentScale = ContentScale.Crop,
+                contentScale = ContentScale.FillWidth,
                 alpha = 0.5F
             )
             TaskApp()
