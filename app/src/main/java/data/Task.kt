@@ -2,9 +2,9 @@ package data
 
 import kotlin.random.Random
 
-data class Task (val name: String, val description: String = ""){
+data class Task (var name: String, var description: String = ""){
     companion object TaskSampler{
-        val sampleTasks = listOf(
+        val sampleTasks = mutableListOf(
             "clean the oven",
             "put the garbage out",
             "buy 2l milk",

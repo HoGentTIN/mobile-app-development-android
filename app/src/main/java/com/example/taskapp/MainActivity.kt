@@ -1,6 +1,7 @@
 package com.example.taskapp
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
@@ -29,6 +30,10 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -110,6 +115,19 @@ fun TaskApp() {
         val task = data.Task.getOne()
         Column(modifier = Modifier.padding(innerPadding)) {
             Task(name = task.name, task.description)
+
+            //under the tasks: the input fields
+            var newTaskName by remember { mutableStateOf("") }
+            var newTaskDescription by remember { mutableStateOf("") }
+
+            CreateTask(taskName = newTaskName, taskDescription = newTaskDescription,
+                onTaskNameChanged = { name -> newTaskName = name },
+                onTaskDescriptionChanged = {description -> newTaskDescription = description},
+                onTaskSaved = { //this might be useful later
+                    data.Task.sampleTasks.add(newTaskName)
+                }
+            )
+
         }
     }
 }
