@@ -36,7 +36,7 @@ fun CreateTask(taskName: String, taskDescription: String, onTaskNameChanged: (St
             onValueChange = onTaskDescriptionChanged,
             label = { Text("description") }
         )
-        Button(onClick = { onTaskSaved }) {
+        Button(onClick =  onTaskSaved ) {
             Text("Save")
         }
     }

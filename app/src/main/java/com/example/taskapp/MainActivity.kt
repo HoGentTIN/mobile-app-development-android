@@ -38,6 +38,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
@@ -72,6 +73,7 @@ class MainActivity : ComponentActivity() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TaskApp() {
+    var addingVisible by remember{mutableStateOf(false)}
     Scaffold(
         containerColor = Color.Transparent,
         topBar = {
@@ -106,7 +108,7 @@ fun TaskApp() {
             )
         },
         floatingActionButton = {
-            FloatingActionButton(onClick = {}) {
+            FloatingActionButton(onClick = {addingVisible = true}) {
                 Icon(Icons.Default.Add, contentDescription = "Add")
             }
         }
@@ -120,14 +122,16 @@ fun TaskApp() {
             var newTaskName by remember { mutableStateOf("") }
             var newTaskDescription by remember { mutableStateOf("") }
 
-            CreateTask(taskName = newTaskName, taskDescription = newTaskDescription,
-                onTaskNameChanged = { name -> newTaskName = name },
-                onTaskDescriptionChanged = {description -> newTaskDescription = description},
-                onTaskSaved = { //this might be useful later
-                    data.Task.sampleTasks.add(newTaskName)
-                }
-            )
-
+            if(addingVisible) {
+                CreateTask(taskName = newTaskName, taskDescription = newTaskDescription,
+                    onTaskNameChanged = { name -> newTaskName = name },
+                    onTaskDescriptionChanged = { description -> newTaskDescription = description },
+                    onTaskSaved = { //this might be useful later
+                        data.Task.sampleTasks.add(newTaskName)
+                        addingVisible = false
+                    }
+                )
+            }
         }
     }
 }
