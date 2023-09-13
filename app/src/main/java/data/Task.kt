@@ -16,6 +16,14 @@ data class Task (var name: String, var description: String = ""){
         val getOne: () -> Task = {Task(sampleTasks[Random.nextInt(0, sampleTasks.size)],
             if(Random.nextInt(0,1) == 0) {"lorem ipsum dolor sit"} else "consectetur adipiscing elit"
         )}
+
+        val getAll: () -> List<Task> = {
+            val list = mutableListOf<Task>()
+            for(item in sampleTasks){
+                list.add(Task(item, if(Random.nextInt(0,1) == 0) {"lorem ipsum dolor sit"} else "consectetur adipiscing elit" ))
+            }
+            list
+        }
     }
 }
 

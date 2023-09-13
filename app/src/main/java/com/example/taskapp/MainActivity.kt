@@ -6,6 +6,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
@@ -31,6 +32,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -113,12 +115,17 @@ fun TaskApp() {
             }
         }
     ) { innerPadding ->
-        //note: this requires some more attention later (state!!)
-        val task = data.Task.getOne()
-        Column(modifier = Modifier.padding(innerPadding)) {
-            Task(name = task.name, task.description)
+        //added state, but didn't use remember, this will trigger on each recompose
+        //more on lists and viewmodels will follow later!
+        val tasks = mutableStateOf(data.Task.getAll())
 
-            //under the tasks: the input fields
+        Box(modifier = Modifier){
+            Column(modifier = Modifier.padding(innerPadding)) {
+                for(item in tasks.value) {
+                    Task(name = item.name, item.description)
+                }
+            }
+            //on top of the list: the input fields
             var newTaskName by remember { mutableStateOf("") }
             var newTaskDescription by remember { mutableStateOf("") }
 
@@ -129,10 +136,14 @@ fun TaskApp() {
                     onTaskSaved = { //this might be useful later
                         data.Task.sampleTasks.add(newTaskName)
                         addingVisible = false
-                    }
+                        newTaskName = ""
+                        newTaskDescription = ""
+                    },
+                    modifier = Modifier.padding(innerPadding)
                 )
             }
         }
+
     }
 }
 
