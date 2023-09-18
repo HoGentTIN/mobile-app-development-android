@@ -1,4 +1,7 @@
 package com.example.taskapp
 
-enum class TaskOverviewScreen {
+enum class TaskOverviewScreen() {
+    Start,
+    Detail,
+    About
 }
