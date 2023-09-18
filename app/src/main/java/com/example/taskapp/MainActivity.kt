@@ -90,7 +90,7 @@ fun TaskApp() {
                 containerColor = MaterialTheme.colorScheme.primaryContainer,
                 contentColor = MaterialTheme.colorScheme.primary,
                 actions = {
-                    IconButton(onClick = { navController.navigate(TaskOverviewScreen.Start.name) }) {
+                    IconButton(onClick = { navController.popBackStack(TaskOverviewScreen.Start.name, inclusive = false) }) {
                         Icon(Icons.Filled.Check, contentDescription = "navigate to home screen")
                     }
 
