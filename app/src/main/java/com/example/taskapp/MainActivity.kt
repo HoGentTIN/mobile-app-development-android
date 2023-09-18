@@ -11,6 +11,7 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
@@ -66,6 +67,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun TaskApp() {
     var addingVisible by remember{mutableStateOf(false)}
+    val navController: NavHostController = rememberNavController()
     Scaffold(
         containerColor = Color.Transparent,
         topBar = {
@@ -84,16 +86,14 @@ fun TaskApp() {
                 containerColor = MaterialTheme.colorScheme.primaryContainer,
                 contentColor = MaterialTheme.colorScheme.primary,
                 actions = {
-                    IconButton(onClick = { /* do something */ }) {
-                        Icon(Icons.Filled.Check, contentDescription = "Localized description")
+                    IconButton(onClick = { navController.navigate(TaskOverviewScreen.Start.name) }) {
+                        Icon(Icons.Filled.Check, contentDescription = "navigate to home screen")
                     }
-                    IconButton(onClick = { /* do something */ }) {
-                        Icon(Icons.Filled.Home, contentDescription = "Localized description")
-                    }
-                    IconButton(onClick = { /* do something */ }) {
+
+                    IconButton(onClick = { navController.navigate(TaskOverviewScreen.About.name) }) {
                         Icon(
-                            Icons.Filled.Edit,
-                            contentDescription = "Localized description",
+                            Icons.Filled.Info,
+                            contentDescription = "navigate to about page",
                         )
                     }
                 }
@@ -106,7 +106,6 @@ fun TaskApp() {
         }
     ) { innerPadding ->
 
-        val navController: NavHostController = rememberNavController()
         NavHost(navController = navController,
             startDestination = TaskOverviewScreen.Start.name,
             modifier = Modifier.padding(innerPadding)){
