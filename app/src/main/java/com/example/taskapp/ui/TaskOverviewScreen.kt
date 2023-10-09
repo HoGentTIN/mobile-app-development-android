@@ -1,6 +1,7 @@
-package com.example.taskapp
+package com.example.taskapp.ui
 
 import androidx.annotation.StringRes
+import com.example.taskapp.R
 
 enum class TaskOverviewScreen(@StringRes val title: Int) {
     Start(title = R.string.app_name),

@@ -1,4 +1,4 @@
-package com.example.taskapp
+package com.example.taskapp.ui
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -13,8 +13,8 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -24,20 +24,22 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.taskapp.CreateTask
 import com.example.taskapp.data.TaskSampler
 import com.example.taskapp.model.Task
 
 @Composable
-fun TaskOverview(modifier: Modifier = Modifier, addingVisible: Boolean, onVisibilityChanged: (Boolean) -> Unit) {
+fun TaskOverview(taskOverviewViewModel: TaskOverviewViewModel = viewModel(), modifier: Modifier = Modifier, addingVisible: Boolean, onVisibilityChanged: (Boolean) -> Unit) {
 
-
+    val taskOverviewState by taskOverviewViewModel.uiState.collectAsState()
 
 //more on lists and viewmodels will follow later!
-    val tasks = remember {TaskSampler.getAll().toMutableStateList()}
+    //val tasks = remember {TaskSampler.getAll().toMutableStateList()}
 
     Box(modifier = modifier) {
         LazyColumn() {
-            items(tasks){
+            items(taskOverviewState.currentTaskList){
                 Task(it.name, it.description, modifier)
             }
 
@@ -52,7 +54,7 @@ fun TaskOverview(modifier: Modifier = Modifier, addingVisible: Boolean, onVisibi
                 onTaskNameChanged = { name -> newTaskName = name },
                 onTaskDescriptionChanged = { description -> newTaskDescription = description },
                 onTaskSaved = { //this might be useful later
-                    tasks.add(Task(newTaskName))
+                    taskOverviewViewModel.addTask(Task(newTaskName))
                     onVisibilityChanged(false)
                     newTaskName = ""
                     newTaskDescription = ""

@@ -20,7 +20,7 @@ object TaskSampler{
         )
         }
 
-        val getAll: () -> List<Task> = {
+        val getAll: () -> MutableList<Task> = {
             val list = mutableListOf<Task>()
             for(item in sampleTasks){
                 list.add(Task(item, if(Random.nextInt(0,1) == 0) {"lorem ipsum dolor sit"} else "consectetur adipiscing elit" ))
