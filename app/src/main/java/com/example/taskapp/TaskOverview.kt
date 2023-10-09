@@ -8,6 +8,8 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -34,10 +36,11 @@ fun TaskOverview(modifier: Modifier = Modifier, addingVisible: Boolean, onVisibi
     val tasks = remember {TaskSampler.getAll().toMutableStateList()}
 
     Box(modifier = modifier) {
-        Column() {
-            for (item in tasks) {
-                Task(name = item.name, description = item.description, modifier = modifier)
+        LazyColumn() {
+            items(tasks){
+                Task(it.name, it.description, modifier)
             }
+
         }
         //on top of the list: the input fields
         var newTaskName by remember { mutableStateOf("") }
