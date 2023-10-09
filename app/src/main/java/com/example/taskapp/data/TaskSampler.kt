@@ -1,9 +1,9 @@
-package data
+package com.example.taskapp.data
 
+import com.example.taskapp.model.Task
 import kotlin.random.Random
 
-data class Task (var name: String, var description: String = ""){
-    companion object TaskSampler{
+object TaskSampler{
         val sampleTasks = mutableListOf(
             "clean the oven",
             "put the garbage out",
@@ -13,9 +13,12 @@ data class Task (var name: String, var description: String = ""){
             "feed the cat",
             "feed the dog"
             )
-        val getOne: () -> Task = {Task(sampleTasks[Random.nextInt(0, sampleTasks.size)],
+        val getOne: () -> Task = {
+            Task(
+                sampleTasks[Random.nextInt(0, sampleTasks.size)],
             if(Random.nextInt(0,1) == 0) {"lorem ipsum dolor sit"} else "consectetur adipiscing elit"
-        )}
+        )
+        }
 
         val getAll: () -> List<Task> = {
             val list = mutableListOf<Task>()
@@ -24,6 +27,6 @@ data class Task (var name: String, var description: String = ""){
             }
             list
         }
-    }
+
 }
 
