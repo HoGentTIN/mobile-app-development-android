@@ -5,14 +5,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Check
-import androidx.compose.material.icons.filled.Info
-import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -38,43 +33,35 @@ import com.example.taskapp.ui.theme.TaskAppTheme
 @Composable
 fun TaskApp() {
     var addingVisible by remember { mutableStateOf(false) }
-    val navController: NavHostController = rememberNavController()
 
+    val navController: NavHostController = rememberNavController()
     val backStackEntry by navController.currentBackStackEntryAsState()
+
+    val canNavigateBack = navController.previousBackStackEntry != null
+    val navigateUp: () -> Unit = { navController.navigateUp() }
+    val goHome: () -> Unit = {
+        navController.popBackStack(
+            TaskOverviewScreen.Start.name,
+            inclusive = false,
+        )
+    }
+    val goToAbout = { navController.navigate(TaskOverviewScreen.About.name) }
+
+    val currentScreenTitle = TaskOverviewScreen.valueOf(
+        backStackEntry?.destination?.route ?: TaskOverviewScreen.Start.name,
+    ).title
+
     Scaffold(
         containerColor = Color.Transparent,
         topBar = {
             TaskAppAppBar(
-                currentScreen = TaskOverviewScreen.valueOf(
-                    backStackEntry?.destination?.route ?: TaskOverviewScreen.Start.name,
-                ),
-                canNavigateBack = navController.previousBackStackEntry != null,
-                navigateUp = { navController.navigateUp() },
-
+                canNavigateBack = canNavigateBack,
+                navigateUp = navigateUp,
+                currentScreenTitle = currentScreenTitle,
             )
         },
         bottomBar = {
-            BottomAppBar(
-                containerColor = MaterialTheme.colorScheme.primaryContainer,
-                contentColor = MaterialTheme.colorScheme.primary,
-                actions = {
-                    IconButton(onClick = {
-                        navController.popBackStack(
-                            TaskOverviewScreen.Start.name,
-                            inclusive = false,
-                        )
-                    }) {
-                        Icon(Icons.Filled.Check, contentDescription = "navigate to home screen")
-                    }
-
-                    IconButton(onClick = { navController.navigate(TaskOverviewScreen.About.name) }) {
-                        Icon(
-                            Icons.Filled.Info,
-                            contentDescription = "navigate to about page",
-                        )
-                    }
-                },
-            )
+            TaskBottomAppBar(goHome, goToAbout)
         },
         floatingActionButton = {
             FloatingActionButton(onClick = { addingVisible = true }) {

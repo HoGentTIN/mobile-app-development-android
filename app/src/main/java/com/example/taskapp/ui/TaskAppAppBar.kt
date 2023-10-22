@@ -15,9 +15,9 @@ import androidx.compose.ui.res.stringResource
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TaskAppAppBar(
-    currentScreen: TaskOverviewScreen,
     canNavigateBack: Boolean,
     navigateUp: () -> Unit = {},
+    currentScreenTitle: Int,
 ) {
     TopAppBar(
         colors = TopAppBarDefaults.smallTopAppBarColors(
@@ -26,7 +26,7 @@ fun TaskAppAppBar(
         ),
 
         title = {
-            Text(stringResource(id = currentScreen.title))
+            Text(stringResource(id = currentScreenTitle))
         },
         navigationIcon = {
             if (canNavigateBack) {
