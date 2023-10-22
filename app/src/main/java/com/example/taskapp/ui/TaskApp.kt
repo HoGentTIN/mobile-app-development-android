@@ -14,7 +14,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -32,7 +32,7 @@ import com.example.taskapp.ui.theme.TaskAppTheme
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TaskApp() {
-    var addingVisible by remember { mutableStateOf(false) }
+    var addingVisible by rememberSaveable { mutableStateOf(false) }
 
     val navController: NavHostController = rememberNavController()
     val backStackEntry by navController.currentBackStackEntryAsState()

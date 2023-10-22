@@ -13,10 +13,28 @@ class TaskOverviewViewModel : ViewModel() {
     private val _uiState = MutableStateFlow(TaskOverviewState(TaskSampler.getAll()))
     val uiState: StateFlow<TaskOverviewState> = _uiState.asStateFlow()
 
-    fun addTask(task: Task) {
+    fun addTask() {
         _uiState.update {
                 currentState ->
-            currentState.copy(currentTaskList = currentState.currentTaskList + task)
+            currentState.copy(
+                currentTaskList = currentState.currentTaskList +
+                    Task(currentState.newTaskName, currentState.newTaskDescription),
+                // clean up previous values
+                newTaskName = "",
+                newTaskDescription = "",
+            )
+        }
+    }
+
+    fun setNewTaskName(newTaskName: String) {
+        _uiState.update {
+            it.copy(newTaskName = newTaskName)
+        }
+    }
+
+    fun setNewTaskDescription(newTaskDescription: String) {
+        _uiState.update {
+            it.copy(newTaskDescription = newTaskDescription)
         }
     }
 }
