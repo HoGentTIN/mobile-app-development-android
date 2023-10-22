@@ -11,7 +11,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.taskapp.CreateTask
 import com.example.taskapp.model.Task
 
 @Composable
@@ -26,7 +25,7 @@ fun TaskOverview(
     Box(modifier = modifier) {
         LazyColumn() {
             items(taskOverviewState.currentTaskList) {
-                TaskItem(modifier, it.name, it.description)
+                TaskItem(name = it.name, description = it.description)
             }
         }
         // on top of the list: the input fields
@@ -45,7 +44,6 @@ fun TaskOverview(
                     newTaskName = ""
                     newTaskDescription = ""
                 },
-                modifier = modifier,
             )
         }
     }
