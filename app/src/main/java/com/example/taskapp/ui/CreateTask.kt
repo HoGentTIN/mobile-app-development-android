@@ -1,4 +1,4 @@
-package com.example.taskapp
+package com.example.taskapp.ui
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
