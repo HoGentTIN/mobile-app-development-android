@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -19,12 +19,12 @@ class MainActivity : ComponentActivity() {
             TaskAppTheme {
                 val image = painterResource(R.drawable.backgroundimage)
                 // create a Surface to overlap image and texts
-                Surface(modifier = Modifier.fillMaxWidth()) {
+                Surface {
                     Image(
                         painter = image,
                         contentDescription = null,
-                        contentScale = ContentScale.FillWidth,
-                        // alpha = 0.4F
+                        contentScale = ContentScale.FillBounds,
+                        modifier = Modifier.fillMaxSize(),
                     )
                     TaskApp()
                 }
