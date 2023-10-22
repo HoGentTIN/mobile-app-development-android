@@ -1,91 +1,52 @@
 package com.example.taskapp.ui
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.IntrinsicSize
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Checkbox
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.runtime.toMutableStateList
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.taskapp.CreateTask
-import com.example.taskapp.data.TaskSampler
 import com.example.taskapp.model.Task
 
 @Composable
-fun TaskOverview(taskOverviewViewModel: TaskOverviewViewModel = viewModel(), modifier: Modifier = Modifier, addingVisible: Boolean, onVisibilityChanged: (Boolean) -> Unit) {
-
+fun TaskOverview(
+    addingVisible: Boolean,
+    onVisibilityChanged: (Boolean) -> Unit,
+    modifier: Modifier = Modifier,
+    taskOverviewViewModel: TaskOverviewViewModel = viewModel(),
+) {
     val taskOverviewState by taskOverviewViewModel.uiState.collectAsState()
-
-//more on lists and viewmodels will follow later!
-    //val tasks = remember {TaskSampler.getAll().toMutableStateList()}
 
     Box(modifier = modifier) {
         LazyColumn() {
-            items(taskOverviewState.currentTaskList){
-                Task(it.name, it.description, modifier)
+            items(taskOverviewState.currentTaskList) {
+                TaskItem(modifier, it.name, it.description)
             }
-
         }
-        //on top of the list: the input fields
+        // on top of the list: the input fields
         var newTaskName by remember { mutableStateOf("") }
         var newTaskDescription by remember { mutableStateOf("") }
 
         if (addingVisible) {
             CreateTask(
-                taskName = newTaskName, taskDescription = newTaskDescription,
+                taskName = newTaskName,
+                taskDescription = newTaskDescription,
                 onTaskNameChanged = { name -> newTaskName = name },
                 onTaskDescriptionChanged = { description -> newTaskDescription = description },
-                onTaskSaved = { //this might be useful later
+                onTaskSaved = { // this might be useful later
                     taskOverviewViewModel.addTask(Task(newTaskName))
                     onVisibilityChanged(false)
                     newTaskName = ""
                     newTaskDescription = ""
                 },
-                modifier = modifier
+                modifier = modifier,
             )
         }
-    }
-}
-
-@Composable
-fun Task(name: String = "", description: String = "", modifier: Modifier = Modifier) {
-    Row (horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = modifier
-            .height(IntrinsicSize.Min)
-            .fillMaxWidth()
-    ) {
-        Column(
-            modifier = Modifier.padding(8.dp)
-        ) {
-            Text(
-                text = "$name",
-                fontSize = 24.sp
-            )
-            Text(text = description,
-                fontSize = 14.sp,
-                fontFamily = FontFamily.Monospace
-            )
-
-        }
-        Checkbox(checked = false, onCheckedChange = {})
     }
 }
