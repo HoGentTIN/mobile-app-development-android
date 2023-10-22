@@ -1,6 +1,5 @@
 package com.example.taskapp.ui
 
-import androidx.compose.runtime.toMutableStateList
 import androidx.lifecycle.ViewModel
 import com.example.taskapp.data.TaskSampler
 import com.example.taskapp.model.Task
@@ -10,22 +9,14 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 
 class TaskOverviewViewModel : ViewModel() {
-    fun addTask(task: Task) {
-        taskList.add(task)
-        _uiState.update {
-                currentState ->
-            currentState.copy(currentTaskList = taskList.toMutableStateList())
-        }
-    }
-
-    private var taskList: MutableList<Task> = mutableListOf()
-
     // use StateFlow (Flow: emits current state + any updates)
-    private val _uiState = MutableStateFlow(TaskOverviewState(taskList.toMutableStateList()))
+    private val _uiState = MutableStateFlow(TaskOverviewState(TaskSampler.getAll()))
     val uiState: StateFlow<TaskOverviewState> = _uiState.asStateFlow()
 
-    init {
-        taskList = TaskSampler.getAll()
-        _uiState.value = TaskOverviewState(taskList.toMutableStateList())
+    fun addTask(task: Task) {
+        _uiState.update {
+                currentState ->
+            currentState.copy(currentTaskList = currentState.currentTaskList + task)
+        }
     }
 }
