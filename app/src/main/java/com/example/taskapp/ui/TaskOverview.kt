@@ -35,6 +35,7 @@ fun TaskOverview(
                     taskOverviewViewModel.addTask()
                     onVisibilityChanged(false)
                 },
+                { onVisibilityChanged(false) },
             )
         }
     }
