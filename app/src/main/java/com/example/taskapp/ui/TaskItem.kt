@@ -31,11 +31,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.example.taskapp.R
 import com.example.taskapp.ui.theme.TaskAppTheme
 
@@ -55,17 +53,18 @@ fun TaskItem(
             } else {
                 MaterialTheme.colorScheme.secondaryContainer
             },
+            label = "colorAnimation",
         )
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
-//            verticalAlignment = Alignment.Top,
             modifier = modifier
                 .animateContentSize(
                     animationSpec = spring(
                         dampingRatio = Spring.DampingRatioNoBouncy,
                         stiffness = Spring.StiffnessMedium,
                     ),
-                ).height(IntrinsicSize.Min)
+                )
+                .height(IntrinsicSize.Min)
                 .fillMaxWidth()
                 .background(color),
         ) {
@@ -81,7 +80,6 @@ fun TaskItem(
                     )
                     Text(
                         text = name,
-                        //                    fontSize = 24.sp,
                         style = MaterialTheme.typography.headlineLarge,
                         textDecoration = if (done) TextDecoration.LineThrough else TextDecoration.None,
                     )
@@ -89,8 +87,7 @@ fun TaskItem(
                 if (expanded) {
                     Text(
                         text = description,
-                        fontSize = 14.sp,
-                        fontFamily = FontFamily.Monospace,
+                        style = MaterialTheme.typography.bodyMedium,
                     )
                 }
             }
@@ -99,7 +96,6 @@ fun TaskItem(
                 onClick = { expanded = !expanded },
                 modifier = Modifier.align(Alignment.Top),
             )
-//            Checkbox(checked = false, onCheckedChange = {})
         }
     }
 }
