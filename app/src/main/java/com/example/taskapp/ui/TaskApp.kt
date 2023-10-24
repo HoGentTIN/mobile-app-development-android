@@ -31,10 +31,9 @@ import com.example.taskapp.ui.theme.TaskAppTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TaskApp() {
+fun TaskApp(navController: NavHostController = rememberNavController()) {
     var addingVisible by rememberSaveable { mutableStateOf(false) }
 
-    val navController: NavHostController = rememberNavController()
     val backStackEntry by navController.currentBackStackEntryAsState()
 
     val canNavigateBack = navController.previousBackStackEntry != null
