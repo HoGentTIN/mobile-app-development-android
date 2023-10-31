@@ -7,4 +7,6 @@ data class TaskOverviewState(
     val currentTaskList: List<Task>,
     val newTaskName: String = "",
     val newTaskDescription: String = "",
+    val scrollActionIdx: Int = 0,
+    val scrollToItemIndex: Int = 0,
 )

@@ -22,6 +22,9 @@ class TaskOverviewViewModel : ViewModel() {
                 // clean up previous values
                 newTaskName = "",
                 newTaskDescription = "",
+                // whenever this changes, scrollToItemIndex should be scrolled into view
+                scrollActionIdx = currentState.scrollActionIdx.plus(1),
+                scrollToItemIndex = currentState.currentTaskList.size,
             )
         }
     }

@@ -31,9 +31,11 @@ fun TaskOverview(
         }
         val coroutineScope = rememberCoroutineScope()
 
-        LaunchedEffect(taskOverviewState.currentTaskList.size) {
-            coroutineScope.launch {
-                lazyListState.animateScrollToItem(taskOverviewState.currentTaskList.size - 1)
+        LaunchedEffect(taskOverviewState.scrollActionIdx) {
+            if (taskOverviewState.scrollActionIdx != 0) {
+                coroutineScope.launch {
+                    lazyListState.animateScrollToItem(taskOverviewState.scrollToItemIndex)
+                }
             }
         }
 
