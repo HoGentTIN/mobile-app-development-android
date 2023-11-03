@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -22,22 +23,16 @@ fun TaskOverview(
 ) {
     val taskOverviewState by taskOverviewViewModel.uiState.collectAsState()
 
-    Box(modifier = modifier) {
-        val lazyListState = rememberLazyListState()
-        LazyColumn(state = lazyListState) {
-            items(taskOverviewState.currentTaskList) {
-                TaskItem(name = it.name, description = it.description)
-            }
-        }
-        val coroutineScope = rememberCoroutineScope()
+    //use the ApiState
+    val taskApiState = taskOverviewViewModel.taskApiState
 
-        LaunchedEffect(taskOverviewState.scrollActionIdx) {
-            if (taskOverviewState.scrollActionIdx != 0) {
-                coroutineScope.launch {
-                    lazyListState.animateScrollToItem(taskOverviewState.scrollToItemIndex)
-                }
-            }
+    Box(modifier = modifier) {
+        when(taskApiState){
+            is TaskApiState.Loading -> Text("Loading...")
+            is TaskApiState.Error -> Text("Couldn't load...")
+            is TaskApiState.Success -> TaskListComponent(taskOverviewState = taskOverviewState)
         }
+        
 
         if (addingVisible) {
             CreateTask(
@@ -53,4 +48,25 @@ fun TaskOverview(
             )
         }
     }
+}
+
+
+@Composable
+fun TaskListComponent(modifier: Modifier = Modifier, taskOverviewState: TaskOverviewState) {
+    val lazyListState = rememberLazyListState()
+    LazyColumn(state = lazyListState) {
+        items(taskOverviewState.currentTaskList) {
+            TaskItem(name = it.name, description = it.description)
+        }
+    }
+    val coroutineScope = rememberCoroutineScope()
+
+    LaunchedEffect(taskOverviewState.scrollActionIdx) {
+        if (taskOverviewState.scrollActionIdx != 0) {
+            coroutineScope.launch {
+                lazyListState.animateScrollToItem(taskOverviewState.scrollToItemIndex)
+            }
+        }
+    }
+    
 }

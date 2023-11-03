@@ -10,3 +10,10 @@ data class TaskOverviewState(
     val scrollActionIdx: Int = 0,
     val scrollToItemIndex: Int = 0,
 )
+
+//the sealed interface has only three possible values
+sealed interface TaskApiState{
+    data class Success(val tasks: List<Task>) : TaskApiState
+    object Error: TaskApiState
+    object Loading : TaskApiState
+}
