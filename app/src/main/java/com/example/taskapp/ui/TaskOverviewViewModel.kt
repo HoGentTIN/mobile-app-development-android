@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.taskapp.data.ApiTasksRepository
 import com.example.taskapp.data.TaskSampler
 import com.example.taskapp.model.Task
 import com.example.taskapp.network.TaskApi
@@ -61,11 +62,13 @@ class TaskOverviewViewModel : ViewModel() {
     private fun getApiTasks(){
         viewModelScope.launch {
             try{
-                val listResult = TaskApi.retrofitService.getTasks()
+                //use the repository
+                val tasksRepository = ApiTasksRepository()
+                val listResult = tasksRepository.getTasks()
                 _uiState.update {
-                    it.copy(currentTaskList = listResult.asDomainObjects())
+                    it.copy(currentTaskList = listResult)
                 }
-                taskApiState = TaskApiState.Success(listResult.asDomainObjects())
+                taskApiState = TaskApiState.Success(listResult)
             }
             catch (e: IOException){
                 //show a toast? save a log on firebase? ...
