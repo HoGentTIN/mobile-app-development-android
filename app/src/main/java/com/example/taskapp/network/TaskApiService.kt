@@ -7,20 +7,13 @@ import okhttp3.MediaType.Companion.toMediaType
 import retrofit2.Retrofit
 import retrofit2.http.GET
 
-private const val BASE_URL = "http://10.0.2.2:3000"
-private val retrofit = Retrofit.Builder()
-    .addConverterFactory(
-        Json.asConverterFactory("application/json".toMediaType())
-    )
-    .baseUrl(BASE_URL)
-    .build()
+
 
 //create the actual function implementations (expensive!)
-object TaskApi{
-    val retrofitService : TaskApiService by lazy {
-        retrofit.create(TaskApiService::class.java)
-    }
-}
+//no longer needed --> moved to the AppContainer
+//object TaskApi{
+//
+//}
 
 
 //define what the API looks like
