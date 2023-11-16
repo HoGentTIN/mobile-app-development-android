@@ -2,6 +2,7 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("org.jetbrains.kotlin.plugin.serialization") version "1.8.10"
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -66,6 +67,17 @@ dependencies {
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:1.0.0")
     implementation("com.squareup.okhttp3:okhttp:4.11.0")
+    //room
+    val room_version = "2.6.0"
+    implementation("androidx.room:room-runtime:$room_version")
+    // optional - Kotlin Extensions and Coroutines support for Room
+    implementation("androidx.room:room-ktx:$room_version")
+    // To use Kotlin Symbol Processing (KSP)
+    ksp("androidx.room:room-compiler:$room_version")
+    // optional - Test helpers
+    testImplementation("androidx.room:room-testing:$room_version")
+    annotationProcessor("androidx.room:room-compiler:$room_version")
+
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1")
     testImplementation("junit:junit:4.13.2")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.1")
