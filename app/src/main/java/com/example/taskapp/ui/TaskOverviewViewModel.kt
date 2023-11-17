@@ -4,11 +4,15 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.initializer
+import androidx.lifecycle.viewmodel.viewModelFactory
+import com.example.taskapp.TasksApplication
 import com.example.taskapp.data.TaskSampler
+import com.example.taskapp.data.TasksRepository
 import com.example.taskapp.model.Task
-import com.example.taskapp.network.TaskApi
-import com.example.taskapp.network.asDomainObjects
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -16,7 +20,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.io.IOException
 
-class TaskOverviewViewModel : ViewModel() {
+class TaskOverviewViewModel(private val tasksRepository: TasksRepository) : ViewModel() {
     // use StateFlow (Flow: emits current state + any updates)
     private val _uiState = MutableStateFlow(TaskOverviewState(TaskSampler.getAll()))
     val uiState: StateFlow<TaskOverviewState> = _uiState.asStateFlow()
@@ -61,11 +65,13 @@ class TaskOverviewViewModel : ViewModel() {
     private fun getApiTasks(){
         viewModelScope.launch {
             try{
-                val listResult = TaskApi.retrofitService.getTasks()
+                //use the repository
+                //val tasksRepository = ApiTasksRepository() //repo is now injected
+                val listResult = tasksRepository.getTasks()
                 _uiState.update {
-                    it.copy(currentTaskList = listResult.asDomainObjects())
+                    it.copy(currentTaskList = listResult)
                 }
-                taskApiState = TaskApiState.Success(listResult.asDomainObjects())
+                taskApiState = TaskApiState.Success(listResult)
             }
             catch (e: IOException){
                 //show a toast? save a log on firebase? ...
@@ -73,6 +79,18 @@ class TaskOverviewViewModel : ViewModel() {
                 taskApiState = TaskApiState.Error
             }
 
+        }
+    }
+
+    //object to tell the android framework how to handle the parameter of the viewmodel
+    companion object {
+        val Factory: ViewModelProvider.Factory = viewModelFactory {
+            initializer {
+                val application = (this[APPLICATION_KEY] as TasksApplication)
+                val tasksRepository = application.container.tasksRepository
+                TaskOverviewViewModel(tasksRepository = tasksRepository
+                )
+            }
         }
     }
 }

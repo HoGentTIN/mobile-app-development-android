@@ -19,7 +19,7 @@ fun TaskOverview(
     addingVisible: Boolean,
     onVisibilityChanged: (Boolean) -> Unit,
     modifier: Modifier = Modifier,
-    taskOverviewViewModel: TaskOverviewViewModel = viewModel(),
+    taskOverviewViewModel: TaskOverviewViewModel = viewModel(factory = TaskOverviewViewModel.Factory),
 ) {
     val taskOverviewState by taskOverviewViewModel.uiState.collectAsState()
 
