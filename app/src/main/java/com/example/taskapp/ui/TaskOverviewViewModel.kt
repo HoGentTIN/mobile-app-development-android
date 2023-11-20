@@ -13,16 +13,33 @@ import com.example.taskapp.TasksApplication
 import com.example.taskapp.data.TaskSampler
 import com.example.taskapp.data.TasksRepository
 import com.example.taskapp.model.Task
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.io.IOException
 
 class TaskOverviewViewModel(private val tasksRepository: TasksRepository) : ViewModel() {
     // use StateFlow (Flow: emits current state + any updates)
-    private val _uiState = MutableStateFlow(TaskOverviewState(TaskSampler.getAll()))
+    /*
+    * Note: uiState is a cold flow. Changes don't come in from above unless a
+    * refresh is called...
+    * */
+    private val _uiState = MutableStateFlow(TaskOverviewState(/*TaskSampler.getAll()*/))
+
+    /*
+    * Note: uiListState is a hot flow (.stateIn makes it so) --> it updates given a scope (viewmodelscope)
+    * when no updates are required (lifecycle) the subscription is stopped after a timeout
+    * */
+    lateinit var uiListState : StateFlow<TaskListState>
+
+
+
     val uiState: StateFlow<TaskOverviewState> = _uiState.asStateFlow()
 
     // keeping the state of the api request
@@ -30,24 +47,36 @@ class TaskOverviewViewModel(private val tasksRepository: TasksRepository) : View
         private set
 
     init {
-        getApiTasks()
+        //initializes the uiListState
+        getRepoTasks()
     }
 
 
     fun addTask() {
+
+        //saving the new task (to db? to network? --> doesn't matter)
+        viewModelScope.launch { saveTask(Task(_uiState.value.newTaskName, _uiState.value.newTaskDescription)) }
+
+        //reset the input fields
         _uiState.update {
                 currentState ->
             currentState.copy(
-                currentTaskList = currentState.currentTaskList +
-                    Task(currentState.newTaskName, currentState.newTaskDescription),
+                /*currentTaskList = currentState.currentTaskList +
+                    Task(currentState.newTaskName, currentState.newTaskDescription),*/
                 // clean up previous values
                 newTaskName = "",
                 newTaskDescription = "",
                 // whenever this changes, scrollToItemIndex should be scrolled into view
                 scrollActionIdx = currentState.scrollActionIdx.plus(1),
-                scrollToItemIndex = currentState.currentTaskList.size,
+                scrollToItemIndex = uiListState.value.taskList.size,
             )
         }
+    }
+    private fun validateInput(): Boolean{
+        return with(_uiState){
+            value.newTaskName.length > 0 && value.newTaskDescription.length > 0
+        }
+
     }
 
     fun setNewTaskName(newTaskName: String) {
@@ -62,25 +91,30 @@ class TaskOverviewViewModel(private val tasksRepository: TasksRepository) : View
         }
     }
 
-    private fun getApiTasks(){
-        viewModelScope.launch {
-            try{
-                //use the repository
-                //val tasksRepository = ApiTasksRepository() //repo is now injected
-                val listResult = tasksRepository.getTasks()
-                _uiState.update {
-                    it.copy(currentTaskList = listResult)
-                }
-                taskApiState = TaskApiState.Success(listResult)
+    //this
+    private fun getRepoTasks(){
+        try {
+            uiListState = tasksRepository.getTasks().map { TaskListState(it) }
+                .stateIn(
+                    scope = viewModelScope,
+                    started = SharingStarted.WhileSubscribed(5_000L),
+                    initialValue = TaskListState()
+                )
+            taskApiState = TaskApiState.Success
+
             }
             catch (e: IOException){
                 //show a toast? save a log on firebase? ...
                 //set the error state
                 taskApiState = TaskApiState.Error
             }
-
-        }
     }
+
+    private suspend fun saveTask(task: Task){
+        if(validateInput())
+            tasksRepository.insertTask(task)
+    }
+
 
     //object to tell the android framework how to handle the parameter of the viewmodel
     companion object {

@@ -1,5 +1,7 @@
 package com.example.taskapp.data
 
+import android.content.Context
+import com.example.taskapp.data.database.TaskDb
 import com.example.taskapp.network.TaskApiService
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import kotlinx.serialization.json.Json
@@ -11,7 +13,7 @@ interface AppContainer {
 }
 
 //container that takes care of dependencies
-class DefaultAppContainer(): AppContainer{
+class DefaultAppContainer(private val context: Context): AppContainer{
 
     private val baseUrl = "http://10.0.2.2:3000"
     private val retrofit = Retrofit.Builder()
@@ -25,9 +27,15 @@ class DefaultAppContainer(): AppContainer{
         retrofit.create(TaskApiService::class.java)
     }
 
-
+    /*
     override val tasksRepository: TasksRepository by lazy {
         ApiTasksRepository(retrofitService)
     }
+    */
+    override val tasksRepository: TasksRepository by lazy {
+        OfflineTasksRepository(TaskDb.getDatabase(context = context).taskDao())
+    }
+
+
 
 }

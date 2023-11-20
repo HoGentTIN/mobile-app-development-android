@@ -22,6 +22,7 @@ fun TaskOverview(
     taskOverviewViewModel: TaskOverviewViewModel = viewModel(factory = TaskOverviewViewModel.Factory),
 ) {
     val taskOverviewState by taskOverviewViewModel.uiState.collectAsState()
+    val taskListState by taskOverviewViewModel.uiListState.collectAsState()
 
     //use the ApiState
     val taskApiState = taskOverviewViewModel.taskApiState
@@ -30,7 +31,7 @@ fun TaskOverview(
         when(taskApiState){
             is TaskApiState.Loading -> Text("Loading...")
             is TaskApiState.Error -> Text("Couldn't load...")
-            is TaskApiState.Success -> TaskListComponent(taskOverviewState = taskOverviewState)
+            is TaskApiState.Success -> TaskListComponent(taskOverviewState = taskOverviewState, taskListState = taskListState)
         }
         
 
@@ -52,10 +53,10 @@ fun TaskOverview(
 
 
 @Composable
-fun TaskListComponent(modifier: Modifier = Modifier, taskOverviewState: TaskOverviewState) {
+fun TaskListComponent(modifier: Modifier = Modifier, taskOverviewState: TaskOverviewState, taskListState: TaskListState) {
     val lazyListState = rememberLazyListState()
     LazyColumn(state = lazyListState) {
-        items(taskOverviewState.currentTaskList) {
+        items(taskListState.taskList) {
             TaskItem(name = it.name, description = it.description)
         }
     }
