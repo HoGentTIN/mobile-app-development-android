@@ -15,6 +15,7 @@ import com.example.taskapp.ui.theme.TaskAppTheme
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContent {
             TaskAppTheme {
                 val image = painterResource(R.drawable.backgroundimage)

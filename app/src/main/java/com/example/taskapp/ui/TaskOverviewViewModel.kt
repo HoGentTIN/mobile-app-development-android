@@ -94,6 +94,7 @@ class TaskOverviewViewModel(private val tasksRepository: TasksRepository) : View
     //this
     private fun getRepoTasks(){
         try {
+            viewModelScope.launch { tasksRepository.refresh() }
             uiListState = tasksRepository.getTasks().map { TaskListState(it) }
                 .stateIn(
                     scope = viewModelScope,

@@ -33,7 +33,7 @@ class DefaultAppContainer(private val context: Context): AppContainer{
     }
     */
     override val tasksRepository: TasksRepository by lazy {
-        OfflineTasksRepository(TaskDb.getDatabase(context = context).taskDao())
+        CachingTasksRepository(TaskDb.getDatabase(context = context).taskDao(), retrofitService)
     }
 
 
