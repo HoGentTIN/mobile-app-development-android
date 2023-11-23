@@ -102,7 +102,6 @@ class TaskOverviewViewModel(private val tasksRepository: TasksRepository) : View
                     initialValue = TaskListState()
                 )
             taskApiState = TaskApiState.Success
-
             }
             catch (e: IOException){
                 //show a toast? save a log on firebase? ...
