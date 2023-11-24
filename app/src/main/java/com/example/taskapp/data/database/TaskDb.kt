@@ -21,6 +21,7 @@ abstract class TaskDb : RoomDatabase() {
             // if the Instance is not null, return it, otherwise create a new database instance.
             return Instance ?: synchronized(this) {
                 Room.databaseBuilder(context, TaskDb::class.java, "task_database")
+                    .fallbackToDestructiveMigration()
                     .build()
                     .also { Instance = it }
             }

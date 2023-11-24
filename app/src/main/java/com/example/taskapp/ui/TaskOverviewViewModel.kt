@@ -31,6 +31,7 @@ class TaskOverviewViewModel(private val tasksRepository: TasksRepository) : View
     * refresh is called...
     * */
     private val _uiState = MutableStateFlow(TaskOverviewState(/*TaskSampler.getAll()*/))
+    val uiState: StateFlow<TaskOverviewState> = _uiState.asStateFlow()
 
     /*
     * Note: uiListState is a hot flow (.stateIn makes it so) --> it updates given a scope (viewmodelscope)
@@ -40,7 +41,6 @@ class TaskOverviewViewModel(private val tasksRepository: TasksRepository) : View
 
 
 
-    val uiState: StateFlow<TaskOverviewState> = _uiState.asStateFlow()
 
     // keeping the state of the api request
     var taskApiState: TaskApiState by mutableStateOf(TaskApiState.Loading)
@@ -95,6 +95,7 @@ class TaskOverviewViewModel(private val tasksRepository: TasksRepository) : View
     private fun getRepoTasks(){
         try {
             viewModelScope.launch { tasksRepository.refresh() }
+
             uiListState = tasksRepository.getTasks().map { TaskListState(it) }
                 .stateIn(
                     scope = viewModelScope,

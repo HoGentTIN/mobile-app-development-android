@@ -33,7 +33,7 @@ interface TasksRepository {
 
 class CachingTasksRepository(private val taskDao: TaskDao, private val taskApiService: TaskApiService): TasksRepository{
 
-    //this repo conaints logic to refresh the tasks (remote)
+    //this repo contains logic to refresh the tasks (remote)
     //sometimes that logic is written in a 'usecase'
     override fun getTasks(): Flow<List<Task>> {
         //checkes the array of items comming in
