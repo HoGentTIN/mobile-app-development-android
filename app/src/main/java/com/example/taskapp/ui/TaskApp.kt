@@ -11,6 +11,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.windowsizeclass.WindowSizeClass
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -31,7 +33,9 @@ import com.example.taskapp.ui.theme.TaskAppTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TaskApp(navController: NavHostController = rememberNavController()) {
+fun TaskApp(windowSize: WindowWidthSizeClass,
+            navController: NavHostController = rememberNavController()
+    ) {
     var addingVisible by rememberSaveable { mutableStateOf(false) }
 
     val backStackEntry by navController.currentBackStackEntryAsState()
@@ -49,6 +53,17 @@ fun TaskApp(navController: NavHostController = rememberNavController()) {
     val currentScreenTitle = TaskOverviewScreen.valueOf(
         backStackEntry?.destination?.route ?: TaskOverviewScreen.Start.name,
     ).title
+
+    when (windowSize) {
+        WindowWidthSizeClass.Compact -> {
+        }
+        WindowWidthSizeClass.Medium -> {
+        }
+        WindowWidthSizeClass.Expanded -> {
+        }
+        else -> {
+        }
+    }
 
     Scaffold(
         containerColor = Color.Transparent,
@@ -103,7 +118,7 @@ fun TaskAppPreview() {
                 contentScale = ContentScale.FillWidth,
                 alpha = 0.5F,
             )
-            TaskApp()
+            TaskApp(windowSize = WindowWidthSizeClass.Compact)
         }
     }
 }
