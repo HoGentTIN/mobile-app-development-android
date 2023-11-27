@@ -1,10 +1,11 @@
-package com.example.taskapp.ui
+package com.example.taskapp.ui.overviewScreen
 
 import com.example.taskapp.model.Task
 
 // the data class just holds the (immutable) values of the state
 data class TaskOverviewState(
     //val currentTaskList: List<Task>,
+    val isAddingVisible: Boolean = false,
     val newTaskName: String = "",
     val newTaskDescription: String = "",
     val scrollActionIdx: Int = 0,

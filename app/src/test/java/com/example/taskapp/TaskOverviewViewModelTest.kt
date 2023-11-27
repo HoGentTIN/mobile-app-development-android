@@ -1,7 +1,7 @@
 package com.example.taskapp
 
 import com.example.taskapp.fake.FakeApiTasksRepository
-import com.example.taskapp.ui.TaskOverviewViewModel
+import com.example.taskapp.ui.overviewScreen.TaskOverviewViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.test.TestDispatcher
 import kotlinx.coroutines.test.UnconfinedTestDispatcher

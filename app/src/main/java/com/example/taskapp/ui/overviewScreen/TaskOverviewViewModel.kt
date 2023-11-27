@@ -1,5 +1,6 @@
-package com.example.taskapp.ui
+package com.example.taskapp.ui.overviewScreen
 
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -10,10 +11,8 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.taskapp.TasksApplication
-import com.example.taskapp.data.TaskSampler
 import com.example.taskapp.data.TasksRepository
 import com.example.taskapp.model.Task
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -49,6 +48,7 @@ class TaskOverviewViewModel(private val tasksRepository: TasksRepository) : View
     init {
         //initializes the uiListState
         getRepoTasks()
+        Log.i("VM", "INIT: ")
     }
 
 
@@ -116,15 +116,25 @@ class TaskOverviewViewModel(private val tasksRepository: TasksRepository) : View
             tasksRepository.insertTask(task)
     }
 
+    fun onVisibilityChanged() {
+        _uiState.update {
+            it.copy(isAddingVisible = !_uiState.value.isAddingVisible)
+        }
+    }
+
 
     //object to tell the android framework how to handle the parameter of the viewmodel
     companion object {
+        private var Instance : TaskOverviewViewModel? = null
         val Factory: ViewModelProvider.Factory = viewModelFactory {
             initializer {
-                val application = (this[APPLICATION_KEY] as TasksApplication)
-                val tasksRepository = application.container.tasksRepository
-                TaskOverviewViewModel(tasksRepository = tasksRepository
-                )
+                if(Instance == null){
+                    val application = (this[APPLICATION_KEY] as TasksApplication)
+                    val tasksRepository = application.container.tasksRepository
+                    Instance = TaskOverviewViewModel(tasksRepository = tasksRepository)
+                }
+                Instance!!
+
             }
         }
     }

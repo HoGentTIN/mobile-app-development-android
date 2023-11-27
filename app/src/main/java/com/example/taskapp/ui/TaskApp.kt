@@ -1,42 +1,49 @@
 package com.example.taskapp.ui
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.PermanentDrawerSheet
+import androidx.compose.material3.PermanentNavigationDrawer
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.taskapp.R
+import com.example.taskapp.ui.components.NavigationDrawerContent
+import com.example.taskapp.ui.navigation.TaskOverviewScreen
+import com.example.taskapp.ui.navigation.navComponent
+import com.example.taskapp.ui.overviewScreen.TaskOverviewViewModel
 import com.example.taskapp.ui.theme.TaskAppTheme
+import com.example.taskapp.ui.util.TaskNavigationType
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TaskApp(windowSize: WindowWidthSizeClass,
             navController: NavHostController = rememberNavController()
     ) {
-    var addingVisible by rememberSaveable { mutableStateOf(false) }
 
     val backStackEntry by navController.currentBackStackEntryAsState()
 
@@ -54,55 +61,91 @@ fun TaskApp(windowSize: WindowWidthSizeClass,
         backStackEntry?.destination?.route ?: TaskOverviewScreen.Start.name,
     ).title
 
+    val navigationType : TaskNavigationType
     when (windowSize) {
         WindowWidthSizeClass.Compact -> {
+            navigationType = TaskNavigationType.BOTTOM_NAVIGATION
         }
         WindowWidthSizeClass.Medium -> {
+            navigationType = TaskNavigationType.NAVIGATION_RAIL
         }
         WindowWidthSizeClass.Expanded -> {
+            navigationType = TaskNavigationType.PERMANENT_NAVIGATION_DRAWER
         }
         else -> {
+            navigationType = TaskNavigationType.BOTTOM_NAVIGATION
+        }
+    }
+    //Only use scaffold in compact mode
+    if(navigationType == TaskNavigationType.PERMANENT_NAVIGATION_DRAWER){
+        PermanentNavigationDrawer(drawerContent = {
+            PermanentDrawerSheet(Modifier.width(dimensionResource(R.dimen.drawer_width))) {
+
+                NavigationDrawerContent(
+                    selectedDestination = navController.currentDestination,
+                    onTabPressed = {node: String -> navController.navigate(node)},
+                    modifier = Modifier
+                        .wrapContentWidth()
+                        .fillMaxHeight()
+                        .background(MaterialTheme.colorScheme.inverseOnSurface)
+                        .padding(dimensionResource(R.dimen.drawer_padding_content))
+                )
+            }
+        }){
+
+            Scaffold(
+                containerColor = Color.Transparent,
+                topBar = {
+                    TaskAppAppBar(
+                        canNavigateBack = canNavigateBack,
+                        navigateUp = navigateUp,
+                        currentScreenTitle = currentScreenTitle,
+                    )
+                },
+                bottomBar = {
+                            //no bottomBar here
+                    //TaskBottomAppBar(goHome, goToAbout)
+                },
+                floatingActionButton = {
+                    //todo: fix the visibility behaviour
+                    val vm: TaskOverviewViewModel = viewModel(factory = TaskOverviewViewModel.Factory)
+                    FloatingActionButton(onClick = { vm.onVisibilityChanged()}) {
+                        Icon(Icons.Default.Add, contentDescription = "Add")
+                    }
+                },
+                //modifier = Modifier.padding(dimensionResource(id = R.dimen.drawer_width), 0.dp, 0.dp, 0.dp )
+            ) { innerPadding ->
+
+                navComponent(navController, modifier = Modifier.padding(innerPadding))
+            }
+        }
+    }
+    else {
+        Scaffold(
+            containerColor = Color.Transparent,
+            topBar = {
+                TaskAppAppBar(
+                    canNavigateBack = canNavigateBack,
+                    navigateUp = navigateUp,
+                    currentScreenTitle = currentScreenTitle,
+                )
+            },
+            bottomBar = {
+                TaskBottomAppBar(goHome, goToAbout)
+            },
+            floatingActionButton = {
+                FloatingActionButton(onClick = { /*addingVisible = true*/ }) {
+                    Icon(Icons.Default.Add, contentDescription = "Add")
+                }
+            },
+        ) { innerPadding ->
+
+            navComponent(navController, modifier = Modifier.padding(innerPadding))
         }
     }
 
-    Scaffold(
-        containerColor = Color.Transparent,
-        topBar = {
-            TaskAppAppBar(
-                canNavigateBack = canNavigateBack,
-                navigateUp = navigateUp,
-                currentScreenTitle = currentScreenTitle,
-            )
-        },
-        bottomBar = {
-            TaskBottomAppBar(goHome, goToAbout)
-        },
-        floatingActionButton = {
-            FloatingActionButton(onClick = { addingVisible = true }) {
-                Icon(Icons.Default.Add, contentDescription = "Add")
-            }
-        },
-    ) { innerPadding ->
 
-        NavHost(
-            navController = navController,
-            startDestination = TaskOverviewScreen.Start.name,
-            modifier = Modifier.padding(innerPadding),
-        ) {
-            composable(route = TaskOverviewScreen.Start.name) {
-                // refactor: move the task overview to a separate composable
-                // note: making the tasks clickable will be for the next lesson!
-                // it requires a viewModel 🤩
-                TaskOverview(addingVisible = addingVisible, { visible -> addingVisible = visible })
-            }
-            composable(route = TaskOverviewScreen.Detail.name) {
-                Text("Detail")
-            }
-            composable(route = TaskOverviewScreen.About.name) {
-                Text(text = "about")
-            }
-        }
-    }
+
 }
 
 @Preview(showBackground = true)
@@ -122,3 +165,5 @@ fun TaskAppPreview() {
         }
     }
 }
+
+

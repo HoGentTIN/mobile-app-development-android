@@ -5,4 +5,7 @@
     <dimen name="mediumSpacer">24dp</dimen>
     <dimen name="mediumPadding">24dp</dimen>
     <dimen name="cardCornerRadius">28dp</dimen>
+    <dimen name="drawer_width">160dp</dimen>
+    <dimen name="drawer_padding_content">8dp</dimen>
+    <dimen name="drawer_padding_header">8dp</dimen>
 </resources>

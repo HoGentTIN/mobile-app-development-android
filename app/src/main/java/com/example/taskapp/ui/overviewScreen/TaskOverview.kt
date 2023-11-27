@@ -1,4 +1,4 @@
-package com.example.taskapp.ui
+package com.example.taskapp.ui.overviewScreen
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.lazy.LazyColumn
@@ -12,12 +12,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavGraph
+import com.example.taskapp.ui.CreateTask
+import com.example.taskapp.ui.TaskItem
 import kotlinx.coroutines.launch
 
 @Composable
 fun TaskOverview(
-    addingVisible: Boolean,
-    onVisibilityChanged: (Boolean) -> Unit,
     modifier: Modifier = Modifier,
     taskOverviewViewModel: TaskOverviewViewModel = viewModel(factory = TaskOverviewViewModel.Factory),
 ) {
@@ -35,7 +36,7 @@ fun TaskOverview(
         }
         
 
-        if (addingVisible) {
+        if (taskOverviewState.isAddingVisible) {
             CreateTask(
                 taskName = taskOverviewState.newTaskName,
                 taskDescription = taskOverviewState.newTaskDescription,
@@ -43,9 +44,9 @@ fun TaskOverview(
                 onTaskDescriptionChanged = { taskOverviewViewModel.setNewTaskDescription(it) },
                 onTaskSaved = {
                     taskOverviewViewModel.addTask()
-                    onVisibilityChanged(false)
+                    taskOverviewViewModel.onVisibilityChanged()
                 },
-                { onVisibilityChanged(false) },
+                { taskOverviewViewModel.onVisibilityChanged() },
             )
         }
     }

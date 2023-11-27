@@ -49,6 +49,7 @@ class CachingTasksRepository(private val taskDao: TaskDao, private val taskApiSe
         return taskDao.getAllItems().map {
             it.asDomainTasks()
         }.onEach {
+            //todo: check when refresh is called (why duplicates??)
             if(it.isEmpty()){
                 refresh()
             }
