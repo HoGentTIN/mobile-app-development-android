@@ -5,6 +5,7 @@ import com.example.taskapp.data.database.TaskDao
 import com.example.taskapp.data.database.asDbTask
 import com.example.taskapp.data.database.asDomainTask
 import com.example.taskapp.data.database.asDomainTasks
+import com.example.taskapp.data.database.dbTask
 import com.example.taskapp.model.Task
 import com.example.taskapp.network.TaskApiService
 import com.example.taskapp.network.asDomainObjects
@@ -13,13 +14,15 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.runBlocking
+import java.net.SocketTimeoutException
 
 interface TasksRepository {
     //all items from datasource
     fun getTasks(): Flow<List<Task>>
 
     //one specific item
-    fun getTask(id: Int): Flow<Task?>
+    fun getTask(id: String): Flow<Task?>
 
     suspend fun insertTask(task: Task)
 
@@ -38,6 +41,11 @@ class CachingTasksRepository(private val taskDao: TaskDao, private val taskApiSe
     override fun getTasks(): Flow<List<Task>> {
         //checkes the array of items comming in
         //when empty --> tries to fetch from API
+        //clear the DB if inspector is broken...
+        /*runBlocking { taskDao.getAllItems().collect{
+            for(t: dbTask in it)
+                taskDao.delete(t)
+        } }*/
         return taskDao.getAllItems().map {
             it.asDomainTasks()
         }.onEach {
@@ -47,8 +55,8 @@ class CachingTasksRepository(private val taskDao: TaskDao, private val taskApiSe
         }
     }
 
-    override fun getTask(id: Int): Flow<Task?> {
-        return taskDao.getItem(id).map {
+    override fun getTask(name: String): Flow<Task?> {
+        return taskDao.getItem(name).map {
             it.asDomainTask()
         }
     }
@@ -66,14 +74,20 @@ class CachingTasksRepository(private val taskDao: TaskDao, private val taskApiSe
     }
 
     override suspend fun refresh(){
-        taskApiService.getTasksAsFlow().asDomainObjects().collect {
-            value ->
-            for(task in value) {
-                Log.i("TEST", "refresh: $value")
-                insertTask(task)
-            }
+        try {
+            taskApiService.getTasksAsFlow().asDomainObjects().collect {
+                    value ->
+                for(task in value) {
+                    Log.i("TEST", "refresh: $value")
+                    insertTask(task)
+                }
 
+            }
         }
+        catch(e: SocketTimeoutException){
+            //log something
+        }
+
     }
 }
 

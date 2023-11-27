@@ -1,16 +1,18 @@
 package com.example.taskapp.data.database
 
+import androidx.core.util.ObjectsCompat.hash
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.example.taskapp.model.Task
 
 @Entity(tableName="tasks")
 data class dbTask(
-    @PrimaryKey(autoGenerate = true)
-    val id: Int = 0,
+    @PrimaryKey
     val name: String = "",
     val description: String = "",
     val isDone : Boolean = false
+
+
 )
 
 fun dbTask.asDomainTask(): Task {
