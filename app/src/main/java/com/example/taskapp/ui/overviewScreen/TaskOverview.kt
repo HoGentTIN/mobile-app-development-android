@@ -12,9 +12,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavGraph
-import com.example.taskapp.ui.CreateTask
-import com.example.taskapp.ui.TaskItem
+import com.example.taskapp.ui.components.CreateTask
+import com.example.taskapp.ui.components.TaskItem
 import kotlinx.coroutines.launch
 
 @Composable

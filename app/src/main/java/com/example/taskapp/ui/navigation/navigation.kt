@@ -17,9 +17,6 @@ fun navComponent(navController: NavHostController, modifier: Modifier = Modifier
     ) {
 
         composable(route = TaskOverviewScreen.Start.name) {
-            // refactor: move the task overview to a separate composable
-            // note: making the tasks clickable will be for the next lesson!
-            // it requires a viewModel 🤩
             TaskOverview()
         }
         composable(route = TaskOverviewScreen.Detail.name) {

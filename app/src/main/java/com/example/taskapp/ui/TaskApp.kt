@@ -20,7 +20,6 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
@@ -33,6 +32,8 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.taskapp.R
 import com.example.taskapp.ui.components.NavigationDrawerContent
+import com.example.taskapp.ui.components.TaskAppAppBar
+import com.example.taskapp.ui.components.TaskBottomAppBar
 import com.example.taskapp.ui.navigation.TaskOverviewScreen
 import com.example.taskapp.ui.navigation.navComponent
 import com.example.taskapp.ui.overviewScreen.TaskOverviewViewModel
@@ -41,7 +42,7 @@ import com.example.taskapp.ui.util.TaskNavigationType
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TaskApp(windowSize: WindowWidthSizeClass,
+fun TaskApp(navigationType: TaskNavigationType,
             navController: NavHostController = rememberNavController()
     ) {
 
@@ -61,21 +62,8 @@ fun TaskApp(windowSize: WindowWidthSizeClass,
         backStackEntry?.destination?.route ?: TaskOverviewScreen.Start.name,
     ).title
 
-    val navigationType : TaskNavigationType
-    when (windowSize) {
-        WindowWidthSizeClass.Compact -> {
-            navigationType = TaskNavigationType.BOTTOM_NAVIGATION
-        }
-        WindowWidthSizeClass.Medium -> {
-            navigationType = TaskNavigationType.NAVIGATION_RAIL
-        }
-        WindowWidthSizeClass.Expanded -> {
-            navigationType = TaskNavigationType.PERMANENT_NAVIGATION_DRAWER
-        }
-        else -> {
-            navigationType = TaskNavigationType.BOTTOM_NAVIGATION
-        }
-    }
+
+
     //Only use scaffold in compact mode
     if(navigationType == TaskNavigationType.PERMANENT_NAVIGATION_DRAWER){
         PermanentNavigationDrawer(drawerContent = {
@@ -161,7 +149,7 @@ fun TaskAppPreview() {
                 contentScale = ContentScale.FillWidth,
                 alpha = 0.5F,
             )
-            TaskApp(windowSize = WindowWidthSizeClass.Compact)
+            TaskApp(TaskNavigationType.BOTTOM_NAVIGATION)
         }
     }
 }

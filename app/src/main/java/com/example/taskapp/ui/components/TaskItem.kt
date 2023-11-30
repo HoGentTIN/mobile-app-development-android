@@ -1,4 +1,4 @@
-package com.example.taskapp.ui
+package com.example.taskapp.ui.components
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.animateContentSize

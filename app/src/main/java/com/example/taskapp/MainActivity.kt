@@ -7,12 +7,14 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import com.example.taskapp.ui.TaskApp
 import com.example.taskapp.ui.theme.TaskAppTheme
+import com.example.taskapp.ui.util.TaskNavigationType
 import java.io.File
 
 class MainActivity : ComponentActivity() {
@@ -35,7 +37,21 @@ class MainActivity : ComponentActivity() {
                         contentScale = ContentScale.FillBounds,
                         modifier = Modifier.fillMaxSize(),
                     )
-                    TaskApp(windowSize = windowSize.widthSizeClass)
+                    when (windowSize.widthSizeClass) {
+                        WindowWidthSizeClass.Compact -> {
+                            TaskApp(TaskNavigationType.BOTTOM_NAVIGATION)
+                        }
+                        WindowWidthSizeClass.Medium -> {
+                            TaskApp(TaskNavigationType.NAVIGATION_RAIL)
+                        }
+                        WindowWidthSizeClass.Expanded -> {
+                            TaskApp(navigationType = TaskNavigationType.PERMANENT_NAVIGATION_DRAWER)
+                        }
+                        else -> {
+                            TaskApp(navigationType = TaskNavigationType.BOTTOM_NAVIGATION)
+                        }
+                    }
+
                 }
             }
         }

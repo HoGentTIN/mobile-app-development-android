@@ -1,4 +1,4 @@
-package com.example.taskapp.ui
+package com.example.taskapp.ui.components
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
