@@ -11,6 +11,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.taskapp.ui.components.CreateTask
 import com.example.taskapp.ui.components.TaskItem
@@ -21,7 +22,7 @@ fun TaskOverview(
     modifier: Modifier = Modifier,
     taskOverviewViewModel: TaskOverviewViewModel = viewModel(factory = TaskOverviewViewModel.Factory),
     isAddingVisisble: Boolean = false,
-    makeInvisible: () -> Unit
+    makeInvisible: () -> Unit = {}
 ) {
     val taskOverviewState by taskOverviewViewModel.uiState.collectAsState()
     val taskListState by taskOverviewViewModel.uiListState.collectAsState()
@@ -53,7 +54,6 @@ fun TaskOverview(
     }
 }
 
-
 @Composable
 fun TaskListComponent(modifier: Modifier = Modifier, taskOverviewState: TaskOverviewState, taskListState: TaskListState) {
     val lazyListState = rememberLazyListState()
@@ -71,5 +71,13 @@ fun TaskListComponent(modifier: Modifier = Modifier, taskOverviewState: TaskOver
             }
         }
     }
-    
+
+}
+
+
+@Preview(showBackground = true, widthDp = 1000)
+@Composable
+fun TaskOverviewPreview() {
+    TaskOverview()
+
 }

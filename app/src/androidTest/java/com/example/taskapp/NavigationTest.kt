@@ -10,6 +10,7 @@ import androidx.compose.ui.test.performTextInput
 import androidx.navigation.compose.ComposeNavigator
 import androidx.navigation.testing.TestNavHostController
 import com.example.taskapp.ui.TaskApp
+import com.example.taskapp.ui.util.TaskNavigationType
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -26,7 +27,7 @@ class NavigationTest {
         composeTestRule.setContent {
             navController = TestNavHostController(LocalContext.current)
             navController.navigatorProvider.addNavigator(ComposeNavigator())
-            TaskApp(navController = navController)
+            TaskApp(navController = navController, navigationType = TaskNavigationType.BOTTOM_NAVIGATION)
         }
     }
 

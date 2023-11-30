@@ -170,7 +170,7 @@ fun TaskApp(navigationType: TaskNavigationType,
 }
 
 
-@Preview(showBackground = true)
+@Preview(showBackground = true, widthDp = 500)
 @Composable
 fun TaskAppPreview() {
     TaskAppTheme {
