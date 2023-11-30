@@ -1,7 +1,9 @@
 package com.example.taskapp.ui
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -28,6 +30,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
@@ -37,6 +40,7 @@ import com.example.taskapp.R
 import com.example.taskapp.ui.components.NavigationDrawerContent
 import com.example.taskapp.ui.components.TaskAppAppBar
 import com.example.taskapp.ui.components.TaskBottomAppBar
+import com.example.taskapp.ui.components.TaskNavigationRail
 import com.example.taskapp.ui.navigation.TaskOverviewScreen
 import com.example.taskapp.ui.navigation.navComponent
 import com.example.taskapp.ui.overviewScreen.TaskOverviewViewModel
@@ -107,7 +111,7 @@ fun TaskApp(navigationType: TaskNavigationType,
             }
         }
     }
-    else {
+    else if(navigationType == TaskNavigationType.BOTTOM_NAVIGATION) {
         Scaffold(
             containerColor = Color.Transparent,
             topBar = {
@@ -118,6 +122,7 @@ fun TaskApp(navigationType: TaskNavigationType,
                 )
             },
             bottomBar = {
+
                 TaskBottomAppBar(goHome, goToAbout)
             },
             floatingActionButton = {
@@ -130,10 +135,40 @@ fun TaskApp(navigationType: TaskNavigationType,
             navComponent(navController, modifier = Modifier.padding(innerPadding))
         }
     }
+    else{
+        Row {
+            AnimatedVisibility(visible = navigationType == TaskNavigationType.NAVIGATION_RAIL) {
+                val navigationRailContentDescription = stringResource(R.string.navigation_rail)
+                TaskNavigationRail(
+                    selectedDestination = navController.currentDestination,
+                    onTabPressed = { node: String -> navController.navigate(node) },
+                )
+            }
+            Scaffold(
+                containerColor = Color.Transparent,
+                topBar = {
+                    TaskAppAppBar(
+                        canNavigateBack = canNavigateBack,
+                        navigateUp = navigateUp,
+                        currentScreenTitle = currentScreenTitle,
+                    )
+                },
+                floatingActionButton = {
+                    FloatingActionButton(onClick = { isAddNewVisible = !isAddNewVisible }) {
+                        Icon(Icons.Default.Add, contentDescription = "Add")
+                    }
+                },
+            ) { innerPadding ->
+
+                navComponent(navController, modifier = Modifier.padding(innerPadding))
+            }
+        }
+    }
 
 
 
 }
+
 
 @Preview(showBackground = true)
 @Composable
