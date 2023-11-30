@@ -9,7 +9,10 @@ import androidx.navigation.compose.composable
 import com.example.taskapp.ui.overviewScreen.TaskOverview
 
 @Composable
-fun navComponent(navController: NavHostController, modifier: Modifier = Modifier) {
+fun navComponent(navController: NavHostController,
+                 modifier: Modifier = Modifier,
+                 fabActionVisible: Boolean = false,
+                 fabResetAction : () -> Unit = {}) {
     NavHost(
         navController = navController,
         startDestination = TaskOverviewScreen.Start.name,
@@ -17,7 +20,7 @@ fun navComponent(navController: NavHostController, modifier: Modifier = Modifier
     ) {
 
         composable(route = TaskOverviewScreen.Start.name) {
-            TaskOverview()
+            TaskOverview(isAddingVisisble = fabActionVisible, makeInvisible = fabResetAction)
         }
         composable(route = TaskOverviewScreen.Detail.name) {
             Text("Detail")

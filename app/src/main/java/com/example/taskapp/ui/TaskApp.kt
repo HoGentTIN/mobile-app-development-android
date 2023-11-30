@@ -20,6 +20,9 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
@@ -62,7 +65,7 @@ fun TaskApp(navigationType: TaskNavigationType,
         backStackEntry?.destination?.route ?: TaskOverviewScreen.Start.name,
     ).title
 
-
+    var isAddNewVisible by remember{mutableStateOf(false)}
 
     //Only use scaffold in compact mode
     if(navigationType == TaskNavigationType.PERMANENT_NAVIGATION_DRAWER){
@@ -90,21 +93,17 @@ fun TaskApp(navigationType: TaskNavigationType,
                         currentScreenTitle = currentScreenTitle,
                     )
                 },
-                bottomBar = {
-                            //no bottomBar here
-                    //TaskBottomAppBar(goHome, goToAbout)
-                },
                 floatingActionButton = {
-                    //todo: fix the visibility behaviour
-                    val vm: TaskOverviewViewModel = viewModel(factory = TaskOverviewViewModel.Factory)
-                    FloatingActionButton(onClick = { vm.onVisibilityChanged()}) {
+
+                    FloatingActionButton(onClick = { isAddNewVisible = !isAddNewVisible}) {
                         Icon(Icons.Default.Add, contentDescription = "Add")
                     }
                 },
                 //modifier = Modifier.padding(dimensionResource(id = R.dimen.drawer_width), 0.dp, 0.dp, 0.dp )
             ) { innerPadding ->
 
-                navComponent(navController, modifier = Modifier.padding(innerPadding))
+                navComponent(navController = navController, modifier = Modifier.padding(innerPadding),
+                    fabActionVisible = isAddNewVisible, fabResetAction = {isAddNewVisible = false})
             }
         }
     }
@@ -122,7 +121,7 @@ fun TaskApp(navigationType: TaskNavigationType,
                 TaskBottomAppBar(goHome, goToAbout)
             },
             floatingActionButton = {
-                FloatingActionButton(onClick = { /*addingVisible = true*/ }) {
+                FloatingActionButton(onClick = { isAddNewVisible = !isAddNewVisible }) {
                     Icon(Icons.Default.Add, contentDescription = "Add")
                 }
             },

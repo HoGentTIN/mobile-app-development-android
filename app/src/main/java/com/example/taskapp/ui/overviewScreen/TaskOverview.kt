@@ -20,6 +20,8 @@ import kotlinx.coroutines.launch
 fun TaskOverview(
     modifier: Modifier = Modifier,
     taskOverviewViewModel: TaskOverviewViewModel = viewModel(factory = TaskOverviewViewModel.Factory),
+    isAddingVisisble: Boolean = false,
+    makeInvisible: () -> Unit
 ) {
     val taskOverviewState by taskOverviewViewModel.uiState.collectAsState()
     val taskListState by taskOverviewViewModel.uiListState.collectAsState()
@@ -35,7 +37,7 @@ fun TaskOverview(
         }
         
 
-        if (taskOverviewState.isAddingVisible) {
+        if (isAddingVisisble) {
             CreateTask(
                 taskName = taskOverviewState.newTaskName,
                 taskDescription = taskOverviewState.newTaskDescription,
@@ -43,9 +45,9 @@ fun TaskOverview(
                 onTaskDescriptionChanged = { taskOverviewViewModel.setNewTaskDescription(it) },
                 onTaskSaved = {
                     taskOverviewViewModel.addTask()
-                    taskOverviewViewModel.onVisibilityChanged()
+                    makeInvisible()
                 },
-                { taskOverviewViewModel.onVisibilityChanged() },
+                onDismissRequest = { makeInvisible() },
             )
         }
     }
