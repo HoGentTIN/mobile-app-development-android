@@ -63,7 +63,7 @@ fun TaskApp(navigationType: TaskNavigationType,
             inclusive = false,
         )
     }
-    val goToAbout = { navController.navigate(TaskOverviewScreen.About.name) }
+    val goToAbout = { navController.navigate(TaskOverviewScreen.About.name)  {launchSingleTop = true} }
 
     val currentScreenTitle = TaskOverviewScreen.valueOf(
         backStackEntry?.destination?.route ?: TaskOverviewScreen.Start.name,

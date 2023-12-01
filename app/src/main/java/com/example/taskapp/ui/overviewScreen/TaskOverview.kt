@@ -1,5 +1,6 @@
 package com.example.taskapp.ui.overviewScreen
 
+import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -24,6 +25,7 @@ fun TaskOverview(
     isAddingVisisble: Boolean = false,
     makeInvisible: () -> Unit = {}
 ) {
+    Log.i("vm inspection", "TaskOverview composition")
     val taskOverviewState by taskOverviewViewModel.uiState.collectAsState()
     val taskListState by taskOverviewViewModel.uiListState.collectAsState()
 

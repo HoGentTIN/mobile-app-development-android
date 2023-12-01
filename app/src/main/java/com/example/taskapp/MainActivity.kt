@@ -1,6 +1,7 @@
 package com.example.taskapp
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
@@ -25,6 +26,7 @@ class MainActivity : ComponentActivity() {
         //if it becomes to large, the OS has issues handling it well...
         val dexOutputDir: File = codeCacheDir
         dexOutputDir.setReadOnly()*/
+        Log.i("vm inspection", "Main activity onCreate")
         setContent {
             TaskAppTheme {
                 val image = painterResource(R.drawable.backgroundimage)

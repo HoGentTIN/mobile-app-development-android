@@ -48,7 +48,7 @@ class TaskOverviewViewModel(private val tasksRepository: TasksRepository) : View
     init {
         //initializes the uiListState
         getRepoTasks()
-        Log.i("VM", "INIT: ")
+        Log.i("vm inspection", "TaskOverviewViewModel init")
     }
 
 
