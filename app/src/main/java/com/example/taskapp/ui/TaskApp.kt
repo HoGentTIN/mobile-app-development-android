@@ -131,7 +131,6 @@ fun TaskApp(navigationType: TaskNavigationType,
                 }
             },
         ) { innerPadding ->
-
             navComponent(navController, modifier = Modifier.padding(innerPadding))
         }
     }

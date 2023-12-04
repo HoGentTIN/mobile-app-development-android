@@ -6,16 +6,17 @@ import kotlinx.coroutines.flow.map
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class ApiTask(val name: String, val desc: String) {
+data class ApiTask(
+    val name: String,
+    val desc: String) {
 }
 
 //extension function for an ApiTask List to convert is to a Domain Task List
 fun Flow<List<ApiTask>>.asDomainObjects(): Flow<List<Task>> {
-    var domainList = this.map {
+    return map {
         it.asDomainObjects()
 
     }
-    return domainList
 }
 
 fun List<ApiTask>.asDomainObjects(): List<Task>{
