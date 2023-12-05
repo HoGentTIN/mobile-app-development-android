@@ -10,8 +10,8 @@ import org.junit.Test
 class ApiTaskRepositoryTest {
     @Test
     fun apiTaskRepository_getTasks_verifyTasksList() =
-        runTest{
-        val repository = ApiTasksRepository(FakeTasksApiService())
-        assertEquals(FakeDataSource.tasks, repository.getTasks())
-    }
+        runTest {
+            val repository = ApiTasksRepository(FakeTasksApiService())
+            assertEquals(FakeDataSource.tasks, repository.getTasks())
+        }
 }

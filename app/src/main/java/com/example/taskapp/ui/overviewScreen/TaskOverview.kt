@@ -23,22 +23,21 @@ fun TaskOverview(
     modifier: Modifier = Modifier,
     taskOverviewViewModel: TaskOverviewViewModel = viewModel(factory = TaskOverviewViewModel.Factory),
     isAddingVisisble: Boolean = false,
-    makeInvisible: () -> Unit = {}
+    makeInvisible: () -> Unit = {},
 ) {
     Log.i("vm inspection", "TaskOverview composition")
     val taskOverviewState by taskOverviewViewModel.uiState.collectAsState()
     val taskListState by taskOverviewViewModel.uiListState.collectAsState()
 
-    //use the ApiState
+    // use the ApiState
     val taskApiState = taskOverviewViewModel.taskApiState
 
     Box(modifier = modifier) {
-        when(taskApiState){
+        when (taskApiState) {
             is TaskApiState.Loading -> Text("Loading...")
             is TaskApiState.Error -> Text("Couldn't load...")
             is TaskApiState.Success -> TaskListComponent(taskOverviewState = taskOverviewState, taskListState = taskListState)
         }
-        
 
         if (isAddingVisisble) {
             CreateTask(
@@ -73,13 +72,10 @@ fun TaskListComponent(modifier: Modifier = Modifier, taskOverviewState: TaskOver
             }
         }
     }
-
 }
-
 
 @Preview(showBackground = true, widthDp = 1000)
 @Composable
 fun TaskOverviewPreview() {
     TaskOverview()
-
 }

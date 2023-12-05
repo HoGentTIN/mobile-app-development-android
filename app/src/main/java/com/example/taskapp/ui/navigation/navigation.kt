@@ -11,16 +11,17 @@ import com.example.taskapp.ui.aboutScreen.AboutScreen
 import com.example.taskapp.ui.overviewScreen.TaskOverview
 
 @Composable
-fun navComponent(navController: NavHostController,
-                 modifier: Modifier = Modifier,
-                 fabActionVisible: Boolean = false,
-                 fabResetAction : () -> Unit = {}) {
+fun navComponent(
+    navController: NavHostController,
+    modifier: Modifier = Modifier,
+    fabActionVisible: Boolean = false,
+    fabResetAction: () -> Unit = {},
+) {
     NavHost(
         navController = navController,
         startDestination = TaskOverviewScreen.Start.name,
         modifier = modifier,
     ) {
-
         composable(route = TaskOverviewScreen.Start.name) {
             Log.i("vm inspection", "Nav to TaskOverview")
             TaskOverview(isAddingVisisble = fabActionVisible, makeInvisible = fabResetAction)

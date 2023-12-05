@@ -16,7 +16,6 @@ import androidx.compose.ui.res.painterResource
 import com.example.taskapp.ui.TaskApp
 import com.example.taskapp.ui.theme.TaskAppTheme
 import com.example.taskapp.ui.util.TaskNavigationType
-import java.io.File
 
 class MainActivity : ComponentActivity() {
     @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
@@ -53,7 +52,6 @@ class MainActivity : ComponentActivity() {
                             TaskApp(navigationType = TaskNavigationType.BOTTOM_NAVIGATION)
                         }
                     }
-
                 }
             }
         }

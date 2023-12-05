@@ -10,5 +10,6 @@ object FakeDataSource {
 
     val tasks = listOf(
         ApiTask(nameOne, descriptionOne),
-        ApiTask(nameTwo, descriptionTwo))
+        ApiTask(nameTwo, descriptionTwo),
+    )
 }

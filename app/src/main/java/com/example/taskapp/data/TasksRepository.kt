@@ -5,7 +5,6 @@ import com.example.taskapp.data.database.TaskDao
 import com.example.taskapp.data.database.asDbTask
 import com.example.taskapp.data.database.asDomainTask
 import com.example.taskapp.data.database.asDomainTasks
-import com.example.taskapp.data.database.dbTask
 import com.example.taskapp.model.Task
 import com.example.taskapp.network.TaskApiService
 import com.example.taskapp.network.asDomainObjects
@@ -14,14 +13,13 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.runBlocking
 import java.net.SocketTimeoutException
 
 interface TasksRepository {
-    //all items from datasource
+    // all items from datasource
     fun getTasks(): Flow<List<Task>>
 
-    //one specific item
+    // one specific item
     fun getTask(id: String): Flow<Task?>
 
     suspend fun insertTask(task: Task)
@@ -31,17 +29,16 @@ interface TasksRepository {
     suspend fun updateTask(task: Task)
 
     suspend fun refresh()
-
 }
 
-class CachingTasksRepository(private val taskDao: TaskDao, private val taskApiService: TaskApiService): TasksRepository{
+class CachingTasksRepository(private val taskDao: TaskDao, private val taskApiService: TaskApiService) : TasksRepository {
 
-    //this repo contains logic to refresh the tasks (remote)
-    //sometimes that logic is written in a 'usecase'
+    // this repo contains logic to refresh the tasks (remote)
+    // sometimes that logic is written in a 'usecase'
     override fun getTasks(): Flow<List<Task>> {
-        //checkes the array of items comming in
-        //when empty --> tries to fetch from API
-        //clear the DB if inspector is broken...
+        // checkes the array of items comming in
+        // when empty --> tries to fetch from API
+        // clear the DB if inspector is broken...
         /*runBlocking { taskDao.getAllItems().collect{
             for(t: dbTask in it)
                 taskDao.delete(t)
@@ -49,8 +46,8 @@ class CachingTasksRepository(private val taskDao: TaskDao, private val taskApiSe
         return taskDao.getAllItems().map {
             it.asDomainTasks()
         }.onEach {
-            //todo: check when refresh is called (why duplicates??)
-            if(it.isEmpty()){
+            // todo: check when refresh is called (why duplicates??)
+            if (it.isEmpty()) {
                 refresh()
             }
         }
@@ -74,21 +71,18 @@ class CachingTasksRepository(private val taskDao: TaskDao, private val taskApiSe
         taskDao.update(task.asDbTask())
     }
 
-    override suspend fun refresh(){
+    override suspend fun refresh() {
         try {
             taskApiService.getTasksAsFlow().asDomainObjects().collect {
                     value ->
-                for(task in value) {
+                for (task in value) {
                     Log.i("TEST", "refresh: $value")
                     insertTask(task)
                 }
-
             }
+        } catch (e: SocketTimeoutException) {
+            // log something
         }
-        catch(e: SocketTimeoutException){
-            //log something
-        }
-
     }
 }
 

@@ -12,18 +12,18 @@ interface AppContainer {
     val tasksRepository: TasksRepository
 }
 
-//container that takes care of dependencies
-class DefaultAppContainer(private val context: Context): AppContainer{
+// container that takes care of dependencies
+class DefaultAppContainer(private val context: Context) : AppContainer {
 
     private val baseUrl = "http://10.0.2.2:3000"
     private val retrofit = Retrofit.Builder()
         .addConverterFactory(
-            Json.asConverterFactory("application/json".toMediaType())
+            Json.asConverterFactory("application/json".toMediaType()),
         )
         .baseUrl(baseUrl)
         .build()
 
-    private val retrofitService : TaskApiService by lazy {
+    private val retrofitService: TaskApiService by lazy {
         retrofit.create(TaskApiService::class.java)
     }
 
@@ -35,7 +35,4 @@ class DefaultAppContainer(private val context: Context): AppContainer{
     override val tasksRepository: TasksRepository by lazy {
         CachingTasksRepository(TaskDb.getDatabase(context = context).taskDao(), retrofitService)
     }
-
-
-
 }

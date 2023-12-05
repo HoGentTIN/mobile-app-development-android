@@ -19,7 +19,6 @@ import androidx.compose.material3.PermanentDrawerSheet
 import androidx.compose.material3.PermanentNavigationDrawer
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
-import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -32,7 +31,6 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
@@ -43,16 +41,15 @@ import com.example.taskapp.ui.components.TaskBottomAppBar
 import com.example.taskapp.ui.components.TaskNavigationRail
 import com.example.taskapp.ui.navigation.TaskOverviewScreen
 import com.example.taskapp.ui.navigation.navComponent
-import com.example.taskapp.ui.overviewScreen.TaskOverviewViewModel
 import com.example.taskapp.ui.theme.TaskAppTheme
 import com.example.taskapp.ui.util.TaskNavigationType
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TaskApp(navigationType: TaskNavigationType,
-            navController: NavHostController = rememberNavController()
-    ) {
-
+fun TaskApp(
+    navigationType: TaskNavigationType,
+    navController: NavHostController = rememberNavController(),
+) {
     val backStackEntry by navController.currentBackStackEntryAsState()
 
     val canNavigateBack = navController.previousBackStackEntry != null
@@ -63,31 +60,29 @@ fun TaskApp(navigationType: TaskNavigationType,
             inclusive = false,
         )
     }
-    val goToAbout = { navController.navigate(TaskOverviewScreen.About.name)  {launchSingleTop = true} }
+    val goToAbout = { navController.navigate(TaskOverviewScreen.About.name) { launchSingleTop = true } }
 
     val currentScreenTitle = TaskOverviewScreen.valueOf(
         backStackEntry?.destination?.route ?: TaskOverviewScreen.Start.name,
     ).title
 
-    var isAddNewVisible by remember{mutableStateOf(false)}
+    var isAddNewVisible by remember { mutableStateOf(false) }
 
-    //Only use scaffold in compact mode
-    if(navigationType == TaskNavigationType.PERMANENT_NAVIGATION_DRAWER){
+    // Only use scaffold in compact mode
+    if (navigationType == TaskNavigationType.PERMANENT_NAVIGATION_DRAWER) {
         PermanentNavigationDrawer(drawerContent = {
             PermanentDrawerSheet(Modifier.width(dimensionResource(R.dimen.drawer_width))) {
-
                 NavigationDrawerContent(
                     selectedDestination = navController.currentDestination,
-                    onTabPressed = {node: String -> navController.navigate(node)},
+                    onTabPressed = { node: String -> navController.navigate(node) },
                     modifier = Modifier
                         .wrapContentWidth()
                         .fillMaxHeight()
                         .background(MaterialTheme.colorScheme.inverseOnSurface)
-                        .padding(dimensionResource(R.dimen.drawer_padding_content))
+                        .padding(dimensionResource(R.dimen.drawer_padding_content)),
                 )
             }
-        }){
-
+        }) {
             Scaffold(
                 containerColor = Color.Transparent,
                 topBar = {
@@ -98,20 +93,22 @@ fun TaskApp(navigationType: TaskNavigationType,
                     )
                 },
                 floatingActionButton = {
-
-                    FloatingActionButton(onClick = { isAddNewVisible = !isAddNewVisible}) {
+                    FloatingActionButton(onClick = { isAddNewVisible = !isAddNewVisible }) {
                         Icon(Icons.Default.Add, contentDescription = "Add")
                     }
                 },
-                //modifier = Modifier.padding(dimensionResource(id = R.dimen.drawer_width), 0.dp, 0.dp, 0.dp )
+                // modifier = Modifier.padding(dimensionResource(id = R.dimen.drawer_width), 0.dp, 0.dp, 0.dp )
             ) { innerPadding ->
 
-                navComponent(navController = navController, modifier = Modifier.padding(innerPadding),
-                    fabActionVisible = isAddNewVisible, fabResetAction = {isAddNewVisible = false})
+                navComponent(
+                    navController = navController,
+                    modifier = Modifier.padding(innerPadding),
+                    fabActionVisible = isAddNewVisible,
+                    fabResetAction = { isAddNewVisible = false },
+                )
             }
         }
-    }
-    else if(navigationType == TaskNavigationType.BOTTOM_NAVIGATION) {
+    } else if (navigationType == TaskNavigationType.BOTTOM_NAVIGATION) {
         Scaffold(
             containerColor = Color.Transparent,
             topBar = {
@@ -122,7 +119,6 @@ fun TaskApp(navigationType: TaskNavigationType,
                 )
             },
             bottomBar = {
-
                 TaskBottomAppBar(goHome, goToAbout)
             },
             floatingActionButton = {
@@ -133,8 +129,7 @@ fun TaskApp(navigationType: TaskNavigationType,
         ) { innerPadding ->
             navComponent(navController, modifier = Modifier.padding(innerPadding))
         }
-    }
-    else{
+    } else {
         Row {
             AnimatedVisibility(visible = navigationType == TaskNavigationType.NAVIGATION_RAIL) {
                 val navigationRailContentDescription = stringResource(R.string.navigation_rail)
@@ -163,11 +158,7 @@ fun TaskApp(navigationType: TaskNavigationType,
             }
         }
     }
-
-
-
 }
-
 
 @Preview(showBackground = true, widthDp = 500)
 @Composable
@@ -186,5 +177,3 @@ fun TaskAppPreview() {
         }
     }
 }
-
-

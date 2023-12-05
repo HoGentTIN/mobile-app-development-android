@@ -36,28 +36,23 @@ class TaskOverviewViewModel(private val tasksRepository: TasksRepository) : View
     * Note: uiListState is a hot flow (.stateIn makes it so) --> it updates given a scope (viewmodelscope)
     * when no updates are required (lifecycle) the subscription is stopped after a timeout
     * */
-    lateinit var uiListState : StateFlow<TaskListState>
-
-
-
+    lateinit var uiListState: StateFlow<TaskListState>
 
     // keeping the state of the api request
     var taskApiState: TaskApiState by mutableStateOf(TaskApiState.Loading)
         private set
 
     init {
-        //initializes the uiListState
+        // initializes the uiListState
         getRepoTasks()
         Log.i("vm inspection", "TaskOverviewViewModel init")
     }
 
-
     fun addTask() {
-
-        //saving the new task (to db? to network? --> doesn't matter)
+        // saving the new task (to db? to network? --> doesn't matter)
         viewModelScope.launch { saveTask(Task(_uiState.value.newTaskName, _uiState.value.newTaskDescription)) }
 
-        //reset the input fields
+        // reset the input fields
         _uiState.update {
                 currentState ->
             currentState.copy(
@@ -72,11 +67,10 @@ class TaskOverviewViewModel(private val tasksRepository: TasksRepository) : View
             )
         }
     }
-    private fun validateInput(): Boolean{
-        return with(_uiState){
+    private fun validateInput(): Boolean {
+        return with(_uiState) {
             value.newTaskName.length > 0 && value.newTaskDescription.length > 0
         }
-
     }
 
     fun setNewTaskName(newTaskName: String) {
@@ -91,8 +85,8 @@ class TaskOverviewViewModel(private val tasksRepository: TasksRepository) : View
         }
     }
 
-    //this
-    private fun getRepoTasks(){
+    // this
+    private fun getRepoTasks() {
         try {
             viewModelScope.launch { tasksRepository.refresh() }
 
@@ -100,20 +94,20 @@ class TaskOverviewViewModel(private val tasksRepository: TasksRepository) : View
                 .stateIn(
                     scope = viewModelScope,
                     started = SharingStarted.WhileSubscribed(5_000L),
-                    initialValue = TaskListState()
+                    initialValue = TaskListState(),
                 )
             taskApiState = TaskApiState.Success
-            }
-            catch (e: IOException){
-                //show a toast? save a log on firebase? ...
-                //set the error state
-                taskApiState = TaskApiState.Error
-            }
+        } catch (e: IOException) {
+            // show a toast? save a log on firebase? ...
+            // set the error state
+            taskApiState = TaskApiState.Error
+        }
     }
 
-    private suspend fun saveTask(task: Task){
-        if(validateInput())
+    private suspend fun saveTask(task: Task) {
+        if (validateInput()) {
             tasksRepository.insertTask(task)
+        }
     }
 
     fun onVisibilityChanged() {
@@ -122,22 +116,18 @@ class TaskOverviewViewModel(private val tasksRepository: TasksRepository) : View
         }
     }
 
-
-    //object to tell the android framework how to handle the parameter of the viewmodel
+    // object to tell the android framework how to handle the parameter of the viewmodel
     companion object {
-        private var Instance : TaskOverviewViewModel? = null
+        private var Instance: TaskOverviewViewModel? = null
         val Factory: ViewModelProvider.Factory = viewModelFactory {
             initializer {
-                if(Instance == null){
+                if (Instance == null) {
                     val application = (this[APPLICATION_KEY] as TasksApplication)
                     val tasksRepository = application.container.tasksRepository
                     Instance = TaskOverviewViewModel(tasksRepository = tasksRepository)
                 }
                 Instance!!
-
             }
         }
     }
 }
-
-
