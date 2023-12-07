@@ -40,7 +40,7 @@ fun CreateTask(
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier
-                    .padding(dimensionResource(R.dimen.mediumPadding)),
+                    .padding(dimensionResource(R.dimen.largePadding)),
             ) {
                 OutlinedTextField(
                     value = taskName,

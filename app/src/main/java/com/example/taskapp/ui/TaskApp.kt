@@ -1,5 +1,6 @@
 package com.example.taskapp.ui
 
+import androidx.activity.OnBackPressedDispatcher
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -52,15 +53,14 @@ fun TaskApp(
 ) {
     val backStackEntry by navController.currentBackStackEntryAsState()
 
-    val canNavigateBack = navController.previousBackStackEntry != null
-    val navigateUp: () -> Unit = { navController.navigateUp() }
     val goHome: () -> Unit = {
         navController.popBackStack(
             TaskOverviewScreen.Start.name,
             inclusive = false,
         )
     }
-    val goToAbout = { navController.navigate(TaskOverviewScreen.About.name) { launchSingleTop = true } }
+    val goToAbout = { navController.navigate(TaskOverviewScreen.About.name) { launchSingleTop = false } }
+    val goToDetail = { navController.navigate(TaskOverviewScreen.Detail.name) { launchSingleTop = true } }
 
     val currentScreenTitle = TaskOverviewScreen.valueOf(
         backStackEntry?.destination?.route ?: TaskOverviewScreen.Start.name,
@@ -87,8 +87,6 @@ fun TaskApp(
                 containerColor = Color.Transparent,
                 topBar = {
                     TaskAppAppBar(
-                        canNavigateBack = canNavigateBack,
-                        navigateUp = navigateUp,
                         currentScreenTitle = currentScreenTitle,
                     )
                 },
@@ -113,13 +111,11 @@ fun TaskApp(
             containerColor = Color.Transparent,
             topBar = {
                 TaskAppAppBar(
-                    canNavigateBack = canNavigateBack,
-                    navigateUp = navigateUp,
                     currentScreenTitle = currentScreenTitle,
                 )
             },
             bottomBar = {
-                TaskBottomAppBar(goHome, goToAbout)
+                TaskBottomAppBar(goHome, goToAbout, goToDetail)
             },
             floatingActionButton = {
                 FloatingActionButton(onClick = { isAddNewVisible = !isAddNewVisible }) {
@@ -142,8 +138,6 @@ fun TaskApp(
                 containerColor = Color.Transparent,
                 topBar = {
                     TaskAppAppBar(
-                        canNavigateBack = canNavigateBack,
-                        navigateUp = navigateUp,
                         currentScreenTitle = currentScreenTitle,
                     )
                 },

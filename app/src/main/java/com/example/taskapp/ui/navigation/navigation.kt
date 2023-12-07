@@ -8,6 +8,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.taskapp.ui.aboutScreen.AboutScreen
+import com.example.taskapp.ui.detail.DetailScreen
 import com.example.taskapp.ui.overviewScreen.TaskOverview
 
 @Composable
@@ -28,7 +29,7 @@ fun navComponent(
         }
         composable(route = TaskOverviewScreen.Detail.name) {
             Log.i("vm inspection", "Nav to detail")
-            Text("Detail")
+            DetailScreen()
         }
         composable(route = TaskOverviewScreen.About.name) {
             Log.i("vm inspection", "Nav to about")
