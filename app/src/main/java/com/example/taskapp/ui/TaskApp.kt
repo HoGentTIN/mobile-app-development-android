@@ -59,8 +59,10 @@ fun TaskApp(
             inclusive = false,
         )
     }
-    val goToAbout = { navController.navigate(TaskOverviewScreen.About.name) { launchSingleTop = false } }
+
     val goToDetail = { navController.navigate(TaskOverviewScreen.Detail.name) { launchSingleTop = true } }
+    val goToAbout = { navController.navigate(TaskOverviewScreen.About.name)  {launchSingleTop = true} }
+    val goToCamera = { navController.navigate(TaskOverviewScreen.Camera.name) {launchSingleTop = true} }
 
     val currentScreenTitle = TaskOverviewScreen.valueOf(
         backStackEntry?.destination?.route ?: TaskOverviewScreen.Start.name,
@@ -115,7 +117,9 @@ fun TaskApp(
                 )
             },
             bottomBar = {
-                TaskBottomAppBar(goHome, goToAbout, goToDetail)
+
+                TaskBottomAppBar(goHome, goToAbout, goToCamera, goToDetail)
+
             },
             floatingActionButton = {
                 FloatingActionButton(onClick = { isAddNewVisible = !isAddNewVisible }) {

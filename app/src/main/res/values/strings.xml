@@ -4,6 +4,7 @@
     <string name="about_title">About</string>
     <string name="expand_button_content_description">Expand task item</string>
     <string name="navigation_rail">Navigate between items here</string>
+
     <string name="detail_enter_name">Enter name:</string>
     <string name="detail_enter_occupation">Enter occupation:</string>
     <string name="detail_enter_living_location">Enter living location:</string>
@@ -15,4 +16,6 @@
     <string name="detail_name_label">Name: %1$s</string>
     <string name="detail_occupation_label">Occupation: %1$s</string>
     <string name="detail_living_location_label">Living location: %1$s</string>
+    <string name="camera_title">Camera</string>
+
 </resources>

@@ -1,6 +1,7 @@
 package com.example.taskapp.ui.components
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Camera
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.ManageAccounts
@@ -11,7 +12,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 
 @Composable
-fun TaskBottomAppBar(goHome: () -> Unit, goToAbout: () -> Unit, goToDetail: () -> Unit) {
+fun TaskBottomAppBar(goHome: () -> Unit, goToAbout: () -> Unit, goToCamera: () -> Unit, goToDetail: () -> Unit) {
+
     BottomAppBar(
         containerColor = MaterialTheme.colorScheme.primaryContainer,
         contentColor = MaterialTheme.colorScheme.primary,
@@ -26,12 +28,21 @@ fun TaskBottomAppBar(goHome: () -> Unit, goToAbout: () -> Unit, goToDetail: () -
                     contentDescription = "navigate to about page",
                 )
             }
+
             IconButton(onClick = goToDetail) {
                 Icon(
                     Icons.Filled.ManageAccounts,
                     contentDescription = "navigate to detail page",
                 )
             }
+
+            IconButton(onClick = goToCamera) {
+                Icon(
+                    Icons.Filled.Camera,
+                    contentDescription = "navigate to camera page",
+                )
+            }
+
         },
     )
 }
