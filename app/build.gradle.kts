@@ -79,6 +79,17 @@ dependencies {
     // To use Kotlin Symbol Processing (KSP)
     ksp("androidx.room:room-compiler:$room_version")
 
+    //camera
+
+    val camerax_version = "1.3.0"
+    implementation( "androidx.camera:camera-core:${camerax_version}")
+    implementation( "androidx.camera:camera-camera2:${camerax_version}")
+    implementation( "androidx.camera:camera-lifecycle:${camerax_version}")
+    implementation( "androidx.camera:camera-video:${camerax_version}")
+
+    implementation( "androidx.camera:camera-view:${camerax_version}")
+    implementation( "androidx.camera:camera-extensions:${camerax_version}")
+
     // optional - Test helpers
     testImplementation("androidx.room:room-testing:$room_version")
     annotationProcessor("androidx.room:room-compiler:$room_version")
