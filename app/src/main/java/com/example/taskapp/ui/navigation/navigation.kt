@@ -7,25 +7,28 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.taskapp.ui.aboutScreen.AboutScreen
+
+import com.example.taskapp.ui.detail.DetailScreen
 import com.example.taskapp.ui.cameraScreen.CameraScreen
 import com.example.taskapp.ui.overviewScreen.TaskOverview
 
 @Composable
-fun navComponent(navController: NavHostController,
-                 modifier: Modifier = Modifier,
-                 fabActionVisible: Boolean = false,
-                 fabResetAction : () -> Unit = {}) {
+fun navComponent(
+    navController: NavHostController,
+    modifier: Modifier = Modifier,
+    fabActionVisible: Boolean = false,
+    fabResetAction: () -> Unit = {},
+) {
     NavHost(
         navController = navController,
         startDestination = TaskOverviewScreen.Start.name,
         modifier = modifier,
     ) {
-
         composable(route = TaskOverviewScreen.Start.name) {
             TaskOverview(isAddingVisisble = fabActionVisible, makeInvisible = fabResetAction)
         }
         composable(route = TaskOverviewScreen.Detail.name) {
-            Text("Detail")
+            DetailScreen()
         }
         composable(route = TaskOverviewScreen.About.name) {
             AboutScreen()

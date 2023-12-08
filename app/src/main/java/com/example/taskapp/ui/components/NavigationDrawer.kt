@@ -20,7 +20,7 @@ import com.example.taskapp.ui.navigation.TaskOverviewScreen
 fun NavigationDrawerContent(
     selectedDestination: NavDestination?,
     onTabPressed: ((String) -> Unit),
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Column(modifier = modifier) {
         for (navItem in TaskOverviewScreen.values()) {
@@ -29,20 +29,19 @@ fun NavigationDrawerContent(
                 label = {
                     Text(
                         text = navItem.name,
-                        modifier = Modifier.padding(horizontal = dimensionResource(R.dimen.drawer_padding_header))
+                        modifier = Modifier.padding(horizontal = dimensionResource(R.dimen.drawer_padding_header)),
                     )
                 },
                 icon = {
-
                     Icon(
                         imageVector = navItem.icon,
-                        contentDescription = navItem.name
+                        contentDescription = navItem.name,
                     )
                 },
                 colors = NavigationDrawerItemDefaults.colors(
-                    unselectedContainerColor = Color.Transparent
+                    unselectedContainerColor = Color.Transparent,
                 ),
-                onClick = { onTabPressed(navItem.name) }
+                onClick = { onTabPressed(navItem.name) },
             )
         }
     }

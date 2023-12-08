@@ -15,7 +15,6 @@ import org.junit.runner.Description
 
 class TaskOverviewViewModelTest {
 
-
     private val someTaskName = "some task name"
 
     @get:Rule
@@ -24,18 +23,16 @@ class TaskOverviewViewModelTest {
     @Test
     fun settingNameChangesState() {
         val viewModel = TaskOverviewViewModel(
-            tasksRepository = FakeApiTasksRepository()
+            tasksRepository = FakeApiTasksRepository(),
         )
         viewModel.setNewTaskName(someTaskName)
         Assert.assertEquals(viewModel.uiState.value.newTaskName, someTaskName)
-
     }
-
 }
 
 class TestDispatcherRule(
-    val testDispatcher: TestDispatcher = UnconfinedTestDispatcher()
-): TestWatcher(){
+    val testDispatcher: TestDispatcher = UnconfinedTestDispatcher(),
+) : TestWatcher() {
     override fun starting(description: Description) {
         Dispatchers.setMain(testDispatcher)
     }

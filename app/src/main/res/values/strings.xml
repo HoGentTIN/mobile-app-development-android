@@ -4,5 +4,18 @@
     <string name="about_title">About</string>
     <string name="expand_button_content_description">Expand task item</string>
     <string name="navigation_rail">Navigate between items here</string>
+
+    <string name="detail_enter_name">Enter name:</string>
+    <string name="detail_enter_occupation">Enter occupation:</string>
+    <string name="detail_enter_living_location">Enter living location:</string>
+    <string name="detail_enter_loves_android">Do you love Android development?</string>
+    <string name="detail_option_loves_android">Yes, I love Android!</string>
+    <string name="detail_option_dislikes_android">Ask me after the exams</string>
+    <string name="detail_loves_android">Status: of course I love Android development!</string>
+    <string name="detail_value_required_error">Non empty value required</string>
+    <string name="detail_name_label">Name: %1$s</string>
+    <string name="detail_occupation_label">Occupation: %1$s</string>
+    <string name="detail_living_location_label">Living location: %1$s</string>
     <string name="camera_title">Camera</string>
+
 </resources>

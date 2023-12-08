@@ -8,9 +8,8 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavDestination
 import com.example.taskapp.ui.navigation.TaskOverviewScreen
 
-
 @Composable
-fun TaskNavigationRail(selectedDestination: NavDestination?, onTabPressed: (String) -> Unit, modifier : Modifier = Modifier) {
+fun TaskNavigationRail(selectedDestination: NavDestination?, onTabPressed: (String) -> Unit, modifier: Modifier = Modifier) {
     NavigationRail(modifier = modifier) {
         for (navItem in TaskOverviewScreen.values()) {
             NavigationRailItem(
@@ -19,9 +18,9 @@ fun TaskNavigationRail(selectedDestination: NavDestination?, onTabPressed: (Stri
                 icon = {
                     Icon(
                         imageVector = navItem.icon,
-                        contentDescription = navItem.name
+                        contentDescription = navItem.name,
                     )
-                }
+                },
             )
         }
     }

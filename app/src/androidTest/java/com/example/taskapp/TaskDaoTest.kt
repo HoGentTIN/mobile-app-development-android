@@ -18,7 +18,6 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import java.io.IOException
 
-
 @RunWith(AndroidJUnit4::class)
 class TaskDaoTest {
     private lateinit var taskDao: TaskDao
@@ -27,8 +26,7 @@ class TaskDaoTest {
     private var task1 = Task("first", "some text here")
     private var task2 = Task("second", "some other thing here")
 
-
-    //unility functions
+    // unility functions
     private suspend fun addOneTaskToDb() {
         taskDao.insert(task1.asDbTask())
     }
@@ -49,6 +47,7 @@ class TaskDaoTest {
             .build()
         taskDao = taskDb.taskDao()
     }
+
     @After
     @Throws(IOException::class)
     fun closeDb() {
@@ -57,11 +56,10 @@ class TaskDaoTest {
 
     @Test
     @Throws(Exception::class)
-    fun daoInert_insertTaskIntoDB() = runBlocking{
+    fun daoInert_insertTaskIntoDB() = runBlocking {
         addOneTaskToDb()
         val allItems = taskDao.getAllItems().first()
         assertEquals(allItems[0].asDomainTask(), task1)
-
     }
 
     @Test
@@ -72,5 +70,4 @@ class TaskDaoTest {
         assertEquals(allItems[0].asDomainTask(), task1)
         assertEquals(allItems[1].asDomainTask(), task2)
     }
-
 }
