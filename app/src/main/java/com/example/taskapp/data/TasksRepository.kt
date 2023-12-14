@@ -1,6 +1,9 @@
 package com.example.taskapp.data
 
+import android.content.Context
 import android.util.Log
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
 import com.example.taskapp.data.database.TaskDao
 import com.example.taskapp.data.database.asDbTask
 import com.example.taskapp.data.database.asDomainTask
@@ -9,8 +12,8 @@ import com.example.taskapp.model.Task
 import com.example.taskapp.network.TaskApiService
 import com.example.taskapp.network.asDomainObjects
 import com.example.taskapp.network.getTasksAsFlow
+import com.example.taskapp.workerUtils.WifiNotificationWorker
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import java.net.SocketTimeoutException
@@ -31,7 +34,7 @@ interface TasksRepository {
     suspend fun refresh()
 }
 
-class CachingTasksRepository(private val taskDao: TaskDao, private val taskApiService: TaskApiService) : TasksRepository {
+class CachingTasksRepository(private val taskDao: TaskDao, private val taskApiService: TaskApiService, context: Context) : TasksRepository {
 
     // this repo contains logic to refresh the tasks (remote)
     // sometimes that logic is written in a 'usecase'
@@ -71,7 +74,14 @@ class CachingTasksRepository(private val taskDao: TaskDao, private val taskApiSe
         taskDao.update(task.asDbTask())
     }
 
+    private val workManager = WorkManager.getInstance(context)
+
     override suspend fun refresh() {
+        //refresh is used to schedule the workrequest
+        val requestBuilder = OneTimeWorkRequestBuilder<WifiNotificationWorker>()
+        workManager.enqueue(requestBuilder.build())
+
+        //note the actual api request still uses coroutines
         try {
             taskApiService.getTasksAsFlow().asDomainObjects().collect {
                     value ->
@@ -86,27 +96,3 @@ class CachingTasksRepository(private val taskDao: TaskDao, private val taskApiSe
     }
 }
 
-/*
-class ApiTasksRepository(
-    private val taskApiService: TaskApiService
-): TasksRepository{
-    override fun getTasks(): List<Task>> {
-        return taskApiService.getTasks().asDomainObjects()
-    }
-
-    override fun getTask(id: Int): Flow<Task?> {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun insertTask(task: Task) {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun deleteTask(task: Task) {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun updateTask(task: Task) {
-        TODO("Not yet implemented")
-    }
-}*/

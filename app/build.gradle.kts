@@ -90,6 +90,9 @@ dependencies {
     implementation( "androidx.camera:camera-view:${camerax_version}")
     implementation( "androidx.camera:camera-extensions:${camerax_version}")
 
+    //workers
+    implementation("androidx.work:work-runtime-ktx:2.9.0")
+
     // optional - Test helpers
     testImplementation("androidx.room:room-testing:$room_version")
     annotationProcessor("androidx.room:room-compiler:$room_version")
