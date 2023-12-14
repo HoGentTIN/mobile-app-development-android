@@ -14,6 +14,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.taskapp.model.Task
 import com.example.taskapp.ui.components.CreateTask
 import com.example.taskapp.ui.components.TaskItem
 import kotlinx.coroutines.launch
@@ -76,6 +77,6 @@ fun TaskListComponent(modifier: Modifier = Modifier, taskOverviewState: TaskOver
 
 @Preview(showBackground = true, widthDp = 1000)
 @Composable
-fun TaskOverviewPreview() {
-    TaskOverview()
+fun TaskListComponentPreview() {
+    TaskListComponent(taskOverviewState = TaskOverviewState(), taskListState = TaskListState(listOf(Task("previewtask", "description"))))
 }
