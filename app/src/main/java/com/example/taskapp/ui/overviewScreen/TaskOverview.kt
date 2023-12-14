@@ -2,6 +2,7 @@ package com.example.taskapp.ui.overviewScreen
 
 import android.util.Log
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -32,26 +33,35 @@ fun TaskOverview(
 
     // use the ApiState
     val taskApiState = taskOverviewViewModel.taskApiState
-
-    Box(modifier = modifier) {
-        when (taskApiState) {
-            is TaskApiState.Loading -> Text("Loading...")
-            is TaskApiState.Error -> Text("Couldn't load...")
-            is TaskApiState.Success -> TaskListComponent(taskOverviewState = taskOverviewState, taskListState = taskListState)
+    
+    //use the workerstate
+    val workerState by taskOverviewViewModel.wifiWorkerState.collectAsState()
+    Column {
+        when(workerState.workerInfo?.state){
+            null -> Text("state unknown")
+            else -> Text(workerState.workerInfo?.state!!.name)
         }
 
-        if (isAddingVisisble) {
-            CreateTask(
-                taskName = taskOverviewState.newTaskName,
-                taskDescription = taskOverviewState.newTaskDescription,
-                onTaskNameChanged = { taskOverviewViewModel.setNewTaskName(it) },
-                onTaskDescriptionChanged = { taskOverviewViewModel.setNewTaskDescription(it) },
-                onTaskSaved = {
-                    taskOverviewViewModel.addTask()
-                    makeInvisible()
-                },
-                onDismissRequest = { makeInvisible() },
-            )
+        Box(modifier = modifier) {
+            when (taskApiState) {
+                is TaskApiState.Loading -> Text("Loading...")
+                is TaskApiState.Error -> Text("Couldn't load...")
+                is TaskApiState.Success -> TaskListComponent(taskOverviewState = taskOverviewState, taskListState = taskListState)
+            }
+    
+            if (isAddingVisisble) {
+                CreateTask(
+                    taskName = taskOverviewState.newTaskName,
+                    taskDescription = taskOverviewState.newTaskDescription,
+                    onTaskNameChanged = { taskOverviewViewModel.setNewTaskName(it) },
+                    onTaskDescriptionChanged = { taskOverviewViewModel.setNewTaskDescription(it) },
+                    onTaskSaved = {
+                        taskOverviewViewModel.addTask()
+                        makeInvisible()
+                    },
+                    onDismissRequest = { makeInvisible() },
+                )
+            }
         }
     }
 }

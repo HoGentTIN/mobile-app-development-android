@@ -1,5 +1,6 @@
 package com.example.taskapp.ui.overviewScreen
 
+import androidx.work.WorkInfo
 import com.example.taskapp.model.Task
 
 // the data class just holds the (immutable) values of the state
@@ -13,6 +14,8 @@ data class TaskOverviewState(
 )
 
 data class TaskListState(val taskList: List<Task> = listOf())
+
+data class WorkerState(val workerInfo: WorkInfo? = null)
 
 // the sealed interface has only three possible values
 /*Sidenote: to learn more about this TaskApiState object, you can search on LCE (Loading, Content, Error) pattern

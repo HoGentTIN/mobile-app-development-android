@@ -42,10 +42,18 @@ class TaskOverviewViewModel(private val tasksRepository: TasksRepository) : View
     var taskApiState: TaskApiState by mutableStateOf(TaskApiState.Loading)
         private set
 
+    // state of the workers, prepared here for the UI
+    //note, a better approach would use a new data class to represent the state...
+    lateinit var wifiWorkerState: StateFlow<WorkerState>
+
     init {
+
         // initializes the uiListState
         getRepoTasks()
         Log.i("vm inspection", "TaskOverviewViewModel init")
+
+
+
     }
 
     fun addTask() {
@@ -97,6 +105,12 @@ class TaskOverviewViewModel(private val tasksRepository: TasksRepository) : View
                     initialValue = TaskListState(),
                 )
             taskApiState = TaskApiState.Success
+
+            wifiWorkerState = tasksRepository.wifiWorkInfo.map { WorkerState(it)}.stateIn(
+                scope = viewModelScope,
+                started = SharingStarted.WhileSubscribed(5_000L),
+                initialValue = WorkerState(),
+            )
         } catch (e: IOException) {
             // show a toast? save a log on firebase? ...
             // set the error state

@@ -3,6 +3,7 @@ package com.example.taskapp.data
 import android.content.Context
 import android.util.Log
 import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkInfo
 import androidx.work.WorkManager
 import com.example.taskapp.data.database.TaskDao
 import com.example.taskapp.data.database.asDbTask
@@ -17,6 +18,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import java.net.SocketTimeoutException
+import java.util.UUID
 
 interface TasksRepository {
     // all items from datasource
@@ -32,6 +34,8 @@ interface TasksRepository {
     suspend fun updateTask(task: Task)
 
     suspend fun refresh()
+
+    var wifiWorkInfo: Flow<WorkInfo>
 }
 
 class CachingTasksRepository(private val taskDao: TaskDao, private val taskApiService: TaskApiService, context: Context) : TasksRepository {
@@ -74,13 +78,20 @@ class CachingTasksRepository(private val taskDao: TaskDao, private val taskApiSe
         taskDao.update(task.asDbTask())
     }
 
+    private var workID = UUID(1,2)
+    //the manager is private to the repository
     private val workManager = WorkManager.getInstance(context)
+    //the info function is public
+    override var wifiWorkInfo: Flow<WorkInfo> =
+        workManager.getWorkInfoByIdFlow(workID)
 
     override suspend fun refresh() {
         //refresh is used to schedule the workrequest
         val requestBuilder = OneTimeWorkRequestBuilder<WifiNotificationWorker>()
-        workManager.enqueue(requestBuilder.build())
-
+        val request = requestBuilder.build()
+        workManager.enqueue(request)
+        workID = request.id
+        wifiWorkInfo = workManager.getWorkInfoByIdFlow(request.id)
         //note the actual api request still uses coroutines
         try {
             taskApiService.getTasksAsFlow().asDomainObjects().collect {
