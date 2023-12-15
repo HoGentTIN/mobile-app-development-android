@@ -1,5 +1,6 @@
 package com.example.taskapp.network
 
+import android.util.Log
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import retrofit2.http.GET
@@ -19,5 +20,10 @@ interface TaskApiService {
 
 // helper function
 fun TaskApiService.getTasksAsFlow(): Flow<List<ApiTask>> = flow {
-    emit(getTasks())
+    try {
+        emit(getTasks())
+    }
+    catch(e: Exception){
+        Log.e("API", "getTasksAsFlow: "+e.stackTraceToString(), )
+    }
 }

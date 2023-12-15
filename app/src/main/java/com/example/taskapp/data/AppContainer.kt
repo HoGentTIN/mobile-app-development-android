@@ -2,10 +2,12 @@ package com.example.taskapp.data
 
 import android.content.Context
 import com.example.taskapp.data.database.TaskDb
+import com.example.taskapp.network.NetworkConnectionInterceptor
 import com.example.taskapp.network.TaskApiService
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 
 interface AppContainer {
@@ -15,12 +17,19 @@ interface AppContainer {
 // container that takes care of dependencies
 class DefaultAppContainer(private val context: Context) : AppContainer {
 
+    private val networkCheck = NetworkConnectionInterceptor(context)
+    private val client = OkHttpClient.Builder()
+        .addInterceptor(networkCheck)
+        .build()
+
+
     private val baseUrl = "http://10.0.2.2:3000"
     private val retrofit = Retrofit.Builder()
         .addConverterFactory(
             Json.asConverterFactory("application/json".toMediaType()),
         )
         .baseUrl(baseUrl)
+        .client(client)
         .build()
 
     private val retrofitService: TaskApiService by lazy {

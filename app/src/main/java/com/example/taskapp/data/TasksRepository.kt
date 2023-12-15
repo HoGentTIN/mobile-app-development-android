@@ -2,6 +2,8 @@ package com.example.taskapp.data
 
 import android.content.Context
 import android.util.Log
+import androidx.work.Constraints
+import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkInfo
 import androidx.work.WorkManager
@@ -87,11 +89,17 @@ class CachingTasksRepository(private val taskDao: TaskDao, private val taskApiSe
 
     override suspend fun refresh() {
         //refresh is used to schedule the workrequest
+
+        val constraints = Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build()
+
         val requestBuilder = OneTimeWorkRequestBuilder<WifiNotificationWorker>()
-        val request = requestBuilder.build()
+        val request = requestBuilder.setConstraints(constraints).build()
         workManager.enqueue(request)
         workID = request.id
         wifiWorkInfo = workManager.getWorkInfoByIdFlow(request.id)
+
+
+
         //note the actual api request still uses coroutines
         try {
             taskApiService.getTasksAsFlow().asDomainObjects().collect {
